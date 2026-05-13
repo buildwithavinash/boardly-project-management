@@ -1,7 +1,10 @@
+import Signup from "./pages/Signup"
 
 const App = () => {
   return (
-    <div>App</div>
+    <div>
+      <Signup/>
+    </div>
   )
 }
 
