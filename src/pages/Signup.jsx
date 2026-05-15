@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -119,6 +120,8 @@ alert("Signup successful! Please Login.")
             Signup
           </button>
         </form>
+
+        <p>Already have an account? <Link to='/login'> Login </Link></p>
       </div>
     </div>
   );
