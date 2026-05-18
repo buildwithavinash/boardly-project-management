@@ -53,15 +53,13 @@ const Signup = () => {
 
 //   reset form
 setFormData({
-    name:'', email: '', password: '', role: ''
+    name:'', email: '', password: '', role: 'admin'
 })
 
-navigate('/login')
 // redirect to login
+navigate('/login')
 alert("Signup successful! Please Login.")
   }
-
-  
 
   return (
     <div className="p-4">

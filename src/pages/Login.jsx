@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { supabase } from "../lib/supabase"
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
 
   const navigate = useNavigate();
+  const {setUser} = useAuth();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -24,32 +26,39 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    const {data, error: signInError} = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password
-    })
+    try{
+        setLoading(true);
 
-    if(signInError){
-      setError(error);
-      return;
-    }
+        const {data, error: err} = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password
+        })
 
-    console.log(data);
+        if(err) {
+    setError(err.message)
+    return
+}
+
+        console.log(data);
 
     alert("Login successfull")
+    setUser(data.user)
     navigate('/dashboard')
-    setLoading(false);
-    setError(null)
+  }catch(err) {
+    setError(err)
+  }finally{
+    setLoading(false)
   }
 
-  if(error){
-    return <p>Try again!</p>
-  }
+  
+    }
+    
 
   return (
     <div>
+
+      {error && <p>Error : {error}</p>}
 
         <h2>Login</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 items-center justify-center">
