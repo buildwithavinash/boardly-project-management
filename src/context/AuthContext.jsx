@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
-import { data } from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
@@ -23,10 +22,20 @@ export const AuthProvider = ({children}) => {
 
         return () => subscription.unsubscribe()
     }, [])
+
+    const logout = async () => {
+        const {error: logoutError} = await supabase.auth.signOut()
+
+        if(logoutError){
+            alert("Error in logging out", logoutError.message);
+        }
+
+        setUser(null)   
+    }
     
     console.log('User: ', user);
     return (
-        <AuthContext.Provider value={{user, setUser, loading}}>
+        <AuthContext.Provider value={{user, setUser, loading, logout}}>
             {children}
         </AuthContext.Provider>
     )

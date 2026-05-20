@@ -62,14 +62,14 @@ alert("Signup successful! Please Login.")
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-center">
       <div>
         {error && <p>{error}</p>}
         <h2 className="text-3xl font-semibold">Signup</h2>
 
         <form
           onSubmit={handleSubmit}
-          className="border border-slate-300 flex flex-col items-center justify-center gap-4 p-8 rounded-md mt-8"
+          className="border border-slate-300 flex flex-col items-center justify-center gap-4 p-8 rounded-md mt-8 bg-white"
         >
           <input
             type="text"
@@ -119,7 +119,7 @@ alert("Signup successful! Please Login.")
           </button>
         </form>
 
-        <p>Already have an account? <Link to='/login'> Login </Link></p>
+        <p className="mt-4">Already have an account? <Link to='/login'> Login </Link></p>
       </div>
     </div>
   );
