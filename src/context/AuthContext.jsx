@@ -3,44 +3,60 @@ import { supabase } from "../lib/supabase";
 
 export const AuthContext = createContext(null);
 
-export const AuthProvider = ({children}) => {
-    const [ user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(null);
 
-    useEffect(()=>{
-        supabase.auth.getSession().then(({data : {session} }) => {
-            setUser(session?.user ?? null);
-            setLoading(false);
-        })
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      getUserData(session);
+      setLoading(false);
+    });
 
-        // session change
+    async function getUserData(session) {
+      if (!session) return;
 
-        const {data: {subscription}} = supabase.auth.onAuthStateChange((event, session) => {
-            setUser(session?.user ?? null);
-            setLoading(false)
-        })
+      const { data: userData, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id);
+      console.log("user data", userData);
 
-        return () => subscription.unsubscribe()
-    }, [])
-
-    const logout = async () => {
-        const {error: logoutError} = await supabase.auth.signOut()
-
-        if(logoutError){
-            alert("Error in logging out", logoutError.message);
-        }
-
-        setUser(null)   
+      if (userData) setRole(userData[0].role);
     }
-    
-    console.log('User: ', user);
-    return (
-        <AuthContext.Provider value={{user, setUser, loading, logout}}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
 
-export const useAuth = () => useContext(AuthContext)
+    // session change
 
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+      getUserData(session)
+      setLoading(false);
+    });
 
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const logout = async () => {
+    const { error: logoutError } = await supabase.auth.signOut();
+
+    if (logoutError) {
+      alert("Error in logging out", logoutError.message);
+    }
+
+    setUser(null);
+  };
+
+  console.log("User: ", user);
+  console.log(role);
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading, logout, role }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
