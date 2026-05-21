@@ -1,6 +1,7 @@
 import { supabase } from "../lib/supabase"
 
 export const createProject = async (projectData) => {
+    console.log("Project data", projectData);
     const { data, error } = await supabase.from('projects').insert({...projectData})
     return { data, error }
 }

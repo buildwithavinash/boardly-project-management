@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getProjects } from "../services/ProjectService";
+import { useNavigate } from "react-router-dom";
 
 const Projects = () => {
   const { role } = useAuth();
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -28,7 +30,7 @@ const Projects = () => {
   }, []);
   return (
     <div>
-      <div>{role === "admin" && <button>Create</button>}</div>
+      <div>{role === "admin" && <button onClick={()=> navigate('/create')}>Create</button>}</div>
       {error && <p>{error.message}</p>}
       {loading && <p>Loading...</p>}
       {projects.length === 0 ? (
