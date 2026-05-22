@@ -11,6 +11,11 @@ export const getProjects = async () => {
     return { data, error }
 }
 
+export const getProjectById = async (id) => {
+    const {data, error} = await supabase.from('projects').select('*').eq('id', id)
+    return {data: data?.[0], error}
+}
+
 export const updateProject = async (id, updatedData) => {
     const { data, error } = await supabase.from('projects').update({...updatedData}).eq('id', id)
     return { data, error }

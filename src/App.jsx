@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Projects from "./pages/Projects"
 import CreateProject from "./pages/CreateProject"
+import ProjectDetail from "./pages/ProjectDetail"
 
 const App = () => {
   return (
@@ -16,6 +17,9 @@ const App = () => {
       <Route path="/create" element={<ProtectedRoute><CreateProject/></ProtectedRoute>}/>
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
       <Route path="/projects" element={<ProtectedRoute><Projects/></ProtectedRoute>}/>
+      <Route path="/projects/:id" element={<ProtectedRoute>
+        <ProjectDetail/>
+      </ProtectedRoute>} />
     </Routes>
     </div>
   )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getProjects } from "../services/ProjectService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Projects = () => {
   const { role } = useAuth();
@@ -17,6 +17,7 @@ const Projects = () => {
         const { data, error } = await getProjects();
         if (error) {
           setError(error.message);
+          return;
         }
         setProjects(data);
       } catch (err) {
@@ -36,11 +37,12 @@ const Projects = () => {
       {projects.length === 0 ? (
         <p>Empty, create a new project</p>
       ) : (
-        <div>{projects.map((proj) => (
-            <div key={proj.id}>
+        <div className="grid grid-cols-1 gap-4 mt-8">{projects.map((proj) => (
+          <Link key={proj.id} to={`/projects/${proj.id}`}>
+            <div className="border border-slate-300 rounded-md p-2">
                 <h1>{proj.name}</h1>
-                <p>{proj.description}</p>
             </div>
+            </Link>
         ))}</div>
       )}
     </div>
