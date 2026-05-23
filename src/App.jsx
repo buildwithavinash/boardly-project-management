@@ -7,6 +7,7 @@ import Projects from "./pages/Projects"
 import CreateProject from "./pages/CreateProject"
 import ProjectDetail from "./pages/ProjectDetail"
 import EditProject from "./pages/EditProject"
+import CreateTask from "./pages/CreateTask"
 
 const App = () => {
   return (
@@ -23,6 +24,9 @@ const App = () => {
       </ProtectedRoute>} />
       <Route path="/projects/:id/edit" element={<ProtectedRoute>
         <EditProject/>
+      </ProtectedRoute>} />
+      <Route path="/projects/:id/create-task" element={<ProtectedRoute>
+        <CreateTask/>
       </ProtectedRoute>} />
     </Routes>
     </div>
