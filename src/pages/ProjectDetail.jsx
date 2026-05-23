@@ -1,55 +1,90 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
-import { getProjectById } from "../services/ProjectService";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteProject, getProjectById } from "../services/ProjectService";
+import ConfirmModal from "../components/ConfirmModal";
+import { useAuth } from "../context/AuthContext";
 
 const ProjectDetail = () => {
-    const [projectData, setProjectData] = useState(null)
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const {id} = useParams();
+  const [projectData, setProjectData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const { id } = useParams();
+  const { role } = useAuth();
+  const navigate = useNavigate();
 
-    
-    useEffect(()=> {
-
-        const getData = async (id) => {
-        try{
-            setLoading(true)
-            const {data, error} = await getProjectById(id)
-            if(error){
-                setError(error.message);
-                return;
-            }
-            setProjectData(data);
-        }catch(error){
-            setError(error);
-        }finally{
-            setLoading(false)
-        }
+  const onConfirm = async () => {
+    const { error } = await deleteProject(projectData?.id);
+    if (error) {
+      setError(error.message);
+      return;
     }
+    setIsOpen(false);
+    navigate("/projects");
+  };
 
-        getData(id)
-    }, [id])
+  const onCancel = () => {
+    setIsOpen(false);
+  };
 
-    console.log("project data", projectData);
+  useEffect(() => {
+    const getData = async (id) => {
+      try {
+        setLoading(true);
+        const { data, error } = await getProjectById(id);
+        if (error) {
+          setError(error.message);
+          return;
+        }
+        setProjectData(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getData(id);
+  }, [id]);
+
+  console.log("project data", projectData);
   return (
-    <div>
+    <div className="relative">
+      {isOpen && (
+        <ConfirmModal
+          onCancel={onCancel}
+          onConfirm={onConfirm}
+          setIsOpen={setIsOpen}
+        />
+      )}
+      <div>Project Details</div>
+
+      {role === "admin" && (
+        <div className="flex gap-4">
+          <button className="border border-slate-300 rounded-md px-4 py-2 cursor-pointer">
+            Edit
+          </button>
+          <button
+            onClick={() => setIsOpen(true)}
+            className="border bg-red-200 text-red-500 rounded-md px-4 py-2 cursor-pointer"
+          >
+            Delete
+          </button>
+        </div>
+      )}
+
+      {loading && <p>Loading...</p>}
+
+      {error ? (
+        <p>{error}</p>
+      ) : (
         <div>
-            Project Details
+          <h1>{projectData?.name}</h1>
+          <p>{projectData?.description}</p>
         </div>
-
-        {loading && <p>Loading...</p>}
-
-        {error ? (
-            <p>{error}</p>
-        ) : (
-            <div>
-            <h1>{projectData?.name}</h1>
-            <p>{projectData?.description}</p>
-        </div>
-        )}
-        
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ProjectDetail
+export default ProjectDetail;
