@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import Projects from "./pages/Projects"
 import CreateProject from "./pages/CreateProject"
 import ProjectDetail from "./pages/ProjectDetail"
+import EditProject from "./pages/EditProject"
 
 const App = () => {
   return (
@@ -19,6 +20,9 @@ const App = () => {
       <Route path="/projects" element={<ProtectedRoute><Projects/></ProtectedRoute>}/>
       <Route path="/projects/:id" element={<ProtectedRoute>
         <ProjectDetail/>
+      </ProtectedRoute>} />
+      <Route path="/projects/:id/edit" element={<ProtectedRoute>
+        <EditProject/>
       </ProtectedRoute>} />
     </Routes>
     </div>

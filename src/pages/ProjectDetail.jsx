@@ -27,6 +27,10 @@ const ProjectDetail = () => {
     setIsOpen(false);
   };
 
+  const onEdit = () => {
+    navigate(`/projects/${id}/edit`)
+  }
+
   useEffect(() => {
     const getData = async (id) => {
       try {
@@ -61,7 +65,7 @@ const ProjectDetail = () => {
 
       {role === "admin" && (
         <div className="flex gap-4">
-          <button className="border border-slate-300 rounded-md px-4 py-2 cursor-pointer">
+          <button onClick={onEdit} className="border border-slate-300 rounded-md px-4 py-2 cursor-pointer">
             Edit
           </button>
           <button
