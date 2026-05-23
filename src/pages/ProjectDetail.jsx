@@ -3,9 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { deleteProject, getProjectById } from "../services/ProjectService";
 import ConfirmModal from "../components/ConfirmModal";
 import { useAuth } from "../context/AuthContext";
+import { getTasks } from "../services/taskService";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -36,11 +38,18 @@ const ProjectDetail = () => {
       try {
         setLoading(true);
         const { data, error } = await getProjectById(id);
+        const {data: tasks, error: taskError} = await getTasks(id)
         if (error) {
           setError(error.message);
           return;
         }
+        if(taskError){
+          setError(taskError.message);
+          return;
+        }
+
         setProjectData(data);
+        setTasks(tasks)
       } catch (error) {
         setError(error);
       } finally {
@@ -50,6 +59,7 @@ const ProjectDetail = () => {
 
     getData(id);
   }, [id]);
+
 
   console.log("project data", projectData);
   return (
@@ -77,6 +87,9 @@ const ProjectDetail = () => {
         </div>
       )}
 
+      {role === "admin" && (
+        <button onClick={() => navigate(`/projects/${id}/create-task`)}>Add Task</button>
+      )}
       {loading && <p>Loading...</p>}
 
       {error ? (
@@ -85,6 +98,16 @@ const ProjectDetail = () => {
         <div>
           <h1>{projectData?.name}</h1>
           <p>{projectData?.description}</p>
+          <div>
+            {tasks.map(task => (
+              <div key={task.id}>
+              <h2>{task.title}</h2>
+              <p>{task.description}</p>
+              <span>{task.status}</span>
+              <span>{task.priority}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

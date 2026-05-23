@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
-import { getProjectById, updateProject } from "../services/ProjectService";
+import { getProjectById, updateProject } from "../services/projectService";
 
 const EditProject = () => {
     const [editProject, setEditProject] = useState(null)
