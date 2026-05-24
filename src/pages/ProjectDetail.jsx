@@ -98,7 +98,8 @@ const ProjectDetail = () => {
         <div>
           <h1>{projectData?.name}</h1>
           <p>{projectData?.description}</p>
-          <div>
+          <div className="border rounded-md p-2">
+            <h3>Tasks</h3>
             {tasks.map(task => (
               <div key={task.id}>
               <h2>{task.title}</h2>
