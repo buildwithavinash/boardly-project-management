@@ -10,6 +10,11 @@ export const getTasks = async (projectId) => {
     return {data, error}
 }
 
+export const getTasksByUser = async (userId) => {
+    const {data, error} = await supabase.from('tasks').select("*").eq('assigned_to', userId);
+    return {data, error}
+}
+
 export const deleteTask = async (taskId) => {
     const {data, error} = await supabase.from('tasks').delete().eq('id', taskId)
     return {data, error}
@@ -17,5 +22,11 @@ export const deleteTask = async (taskId) => {
 
 export const updateTask = async (id, updatedData) => {
     const {data, error} = await supabase.from('tasks').update({...updatedData}).eq('id', id);
+    return {data, error}
+}
+
+// member
+export const toggleTaskStatus = async (id, taskStatus) => {
+    const {data, error} = await supabase.from('tasks').update({status: taskStatus}).eq('id', id)
     return {data, error}
 }
