@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { deleteProject, getProjectById } from "../services/ProjectService";
 import ConfirmModal from "../components/ConfirmModal";
 import { useAuth } from "../context/AuthContext";
-import { getTasks } from "../services/taskService";
+import { getTasks, updateTask } from "../services/taskService";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
@@ -12,7 +12,7 @@ const ProjectDetail = () => {
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const { id } = useParams();
-  const { role } = useAuth();
+  const { user, role } = useAuth();
   const navigate = useNavigate();
 
   const onConfirm = async () => {
@@ -30,26 +30,26 @@ const ProjectDetail = () => {
   };
 
   const onEdit = () => {
-    navigate(`/projects/${id}/edit`)
-  }
+    navigate(`/projects/${id}/edit`);
+  };
 
   useEffect(() => {
     const getData = async (id) => {
       try {
         setLoading(true);
         const { data, error } = await getProjectById(id);
-        const {data: tasks, error: taskError} = await getTasks(id)
+        const { data: tasks, error: taskError } = await getTasks(id);
         if (error) {
           setError(error.message);
           return;
         }
-        if(taskError){
+        if (taskError) {
           setError(taskError.message);
           return;
         }
 
         setProjectData(data);
-        setTasks(tasks)
+        setTasks(tasks);
       } catch (error) {
         setError(error);
       } finally {
@@ -60,6 +60,15 @@ const ProjectDetail = () => {
     getData(id);
   }, [id]);
 
+  const handleStatusChange = async (taskId, newStatus) => {
+    const { error } = await updateTask(taskId, { status: newStatus });
+    if (error) return;
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === taskId ? { ...task, status: newStatus } : task,
+      ),
+    );
+  };
 
   console.log("project data", projectData);
   return (
@@ -75,7 +84,10 @@ const ProjectDetail = () => {
 
       {role === "admin" && (
         <div className="flex gap-4">
-          <button onClick={onEdit} className="border border-slate-300 rounded-md px-4 py-2 cursor-pointer">
+          <button
+            onClick={onEdit}
+            className="border border-slate-300 rounded-md px-4 py-2 cursor-pointer"
+          >
             Edit
           </button>
           <button
@@ -88,7 +100,9 @@ const ProjectDetail = () => {
       )}
 
       {role === "admin" && (
-        <button onClick={() => navigate(`/projects/${id}/create-task`)}>Add Task</button>
+        <button onClick={() => navigate(`/projects/${id}/create-task`)}>
+          Add Task
+        </button>
       )}
       {loading && <p>Loading...</p>}
 
@@ -100,12 +114,26 @@ const ProjectDetail = () => {
           <p>{projectData?.description}</p>
           <div className="border rounded-md p-2">
             <h3>Tasks</h3>
-            {tasks.map(task => (
+            {tasks.map((task) => (
               <div key={task.id}>
-              <h2>{task.title}</h2>
-              <p>{task.description}</p>
-              <span>{task.status}</span>
-              <span>{task.priority}</span>
+                <h2>{task.title}</h2>
+                <p>{task.description}</p>
+                <span>{task.priority}</span>
+
+                {task.assigned_to === user.id ? (
+                  <select
+                    value={task.status}
+                    onChange={(e) =>
+                      handleStatusChange(task.id, e.target.value)
+                    }
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="inProgress">In Progress</option>
+                    <option value="done">Done</option>
+                  </select>
+                ) : (
+                  <span>{task.status}</span>
+                )}
               </div>
             ))}
           </div>
