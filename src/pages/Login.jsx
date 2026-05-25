@@ -56,19 +56,21 @@ const Login = () => {
     
 
   return (
+    <div className="text-center h-full w-full flex justify-center items-center">
+
     <div>
 
+        <h2 className="text-3xl text-slate-800 font-semibold">Login</h2>
+        <form onSubmit={handleSubmit} className="border border-slate-300 flex flex-col items-center justify-center gap-4 p-8 rounded-md mt-8 bg-card shadow-2xs">
       {error && <p>Error : {error}</p>}
-
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 items-center justify-center">
-            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="border border-slate-300 rounded-md px-4 py-2"/>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" className="border border-slate-300 rounded-md px-4 py-2"/>
-            <button disabled={laoding} type="submit" className="bg-black text-white px-4 py-2 rounded-md">Login</button>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="border border-slate-300 px-4 py-2 rounded-md focus:border-border focus:outline-none transition-all duration-150"/>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" className="border border-slate-300 px-4 py-2 rounded-md focus:border-border focus:outline-none transition-all duration-150"/>
+            <button disabled={laoding} type="submit" className="bg-primary text-white font-semibold cursor-pointer hover:opacity-80 transition-all duration-200 px-4 py-2 rounded-md">Login</button>
         </form>
 
-        <p>Create new account <Link to='/signup'> Signup </Link></p>
+        <p className="mt-4">Don't have an account? <Link to='/signup' className="text-primary underline"> Signup </Link></p>
     </div>
+        </div>
   )
 }
 
