@@ -8,10 +8,12 @@ import CreateProject from "./pages/CreateProject"
 import ProjectDetail from "./pages/ProjectDetail"
 import EditProject from "./pages/EditProject"
 import CreateTask from "./pages/CreateTask"
+import Navbar from "./components/Navbar"
 
 const App = () => {
   return (
     <div className="bg-slate-50 h-screen w-full p-2">
+      <Navbar/>
     <Routes>
       <Route path="/" element={<Signup/>}/>
       <Route path="/signup" element={<Signup/>}/>

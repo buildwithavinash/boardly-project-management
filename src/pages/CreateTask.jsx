@@ -66,6 +66,7 @@ const CreateTask = () => {
   return (
     <div>
        {error && <p>{error}</p>}
+       {loading && <p>Loading...</p>}
         <form onSubmit={handleSubmit} className="border border-slate-300 p-2 flex flex-col gap-4">
             <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Title" className="border border-slate-300 px-4 py-2 rounded-md"/>
             <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" className="border border-slate-300 px-4 py-2 rounded-md"/>
