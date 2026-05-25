@@ -81,7 +81,7 @@ const ProjectDetail = () => {
         />
       )}
       <div>Project Details</div>
-
+      
       {role === "admin" && (
         <div className="flex gap-4">
           <button

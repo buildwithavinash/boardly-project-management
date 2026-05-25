@@ -18,7 +18,7 @@ const App = () => {
     return <p>Loading...</p>
   }
   return (
-    <div className="bg-slate-50 h-screen w-full p-2">
+    <div className="bg-background h-screen w-full p-2">
       <Navbar/>
     <Routes>
       <Route path="/" element={

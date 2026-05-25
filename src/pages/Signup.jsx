@@ -62,14 +62,14 @@ alert("Signup successful! Please Login.")
   }
 
   return (
-    <div className="p-4 text-center">
-      <div>
+    <div className="p-4 py-20 text-center h-full w-full">
+      <div className="">
         {error && <p>{error}</p>}
-        <h2 className="text-3xl font-semibold">Signup</h2>
+        <h2 className="text-3xl font-semibold text-slate-800">Create your account</h2>
 
         <form
           onSubmit={handleSubmit}
-          className="border border-slate-300 flex flex-col items-center justify-center gap-4 p-8 rounded-md mt-8 bg-white"
+          className="border border-slate-300 flex flex-col items-center justify-center gap-4 p-8 rounded-md mt-8 bg-card shadow-2xs"
         >
           <input
             type="text"
@@ -77,14 +77,14 @@ alert("Signup successful! Please Login.")
             value={formData.name}
             onChange={handleChange}
             placeholder="Name"
-            className="border border-slate-300 px-4 py-2 rounded-md"
+            className="border border-slate-300 px-4 py-2 rounded-md focus:border-border focus:outline-none transition-all duration-150"
           />
 
           <input
             type="email"
             name="email"
             value={formData.email}
-            placeholder="you@example.com"
+            placeholder="Email"
             onChange={handleChange}
             className="border border-slate-300 px-4 py-2 rounded-md"
           />
@@ -113,13 +113,13 @@ alert("Signup successful! Please Login.")
           <button
             type="submit"
             disabled={loading}
-            className="bg-black text-white px-4 py-2 rounded-md"
+            className="bg-primary text-white font-semibold cursor-pointer hover:opacity-80 transition-all duration-200 px-4 py-2 rounded-md"
           >
             Signup
           </button>
         </form>
 
-        <p className="mt-4">Already have an account? <Link to='/login'> Login </Link></p>
+        <p className="mt-4">Already have an account? <Link to='/login' className="text-primary underline"> Login </Link></p>
       </div>
     </div>
   );

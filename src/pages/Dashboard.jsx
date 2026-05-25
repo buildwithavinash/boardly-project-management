@@ -4,7 +4,7 @@ import { getProjects } from "../services/projectService";
 import { getTasksByUser, toggleTaskStatus } from "../services/taskService";
 
 const Dashboard = () => {
-  const {user, logout, role} = useAuth();
+  const {user, role} = useAuth();
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -58,13 +58,16 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-      Dashboard: {user?.email}
-      Role: {role}
-      <button onClick={logout} className="border p-2">Logout</button>
+    <div className="bg-background min-h-screen w-full">
 
 {loading && (<p>Loading...</p>)}
 {error && (<p>{error}</p>)}
+
+{/* stats */}
+
+{/* admin */}
+    
+
 {/* admin */}
     {
       role === 'admin' && (
