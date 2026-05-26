@@ -24,6 +24,8 @@ export const AuthProvider = ({ children }) => {
         .eq("id", session.user.id);
       console.log("user data", userData);
 
+      if(error) return
+
       if (userData) setRole(userData[0].role);
     }
 

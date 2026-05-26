@@ -58,13 +58,12 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="bg-background min-h-screen w-full">
+    <div className="bg-background min-h-screen w-full py-12">
 
 {loading && (<p>Loading...</p>)}
 {error && (<p>{error}</p>)}
 
 {/* stats */}
-
 {/* admin */}
     
 
@@ -86,16 +85,16 @@ const Dashboard = () => {
       role === 'member' && (
         <div className="grid grid-cols-1 gap-4 p-1">
           {tasks?.map(task => (
-            <div key={task.id} className="border border-slate-300 rounded-md p-1">
-              <h3>
+            <div key={task.id} className="border border-slate-300 rounded-md px-2 py-1 relative shadow-md">
+              <h3 className="text-xl font-semibold text-primary">
               {task.title}
               </h3>
-              <select name="status" value={task.status} onChange={(e)=>{handleStatusChange(task.id, e.target.value)}}>
+              <select name="status" value={task.status} onChange={(e)=>{handleStatusChange(task.id, e.target.value)}} className="border rounded-full px-4 py-1 text-xs border-slate-300 absolute right-2 top-2">
                 <option value="pending">pending</option>
                 <option value="inProgress">in progress</option>
                 <option value="done">done</option>
               </select>
-              <p>
+              <p className="text-slate-600">
                 {task.description}
               </p>
             </div>
