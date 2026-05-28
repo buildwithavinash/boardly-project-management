@@ -10,6 +10,11 @@ export const getTasks = async (projectId) => {
     return {data, error}
 }
 
+export const getAllTasks = async () => {
+    const {data, error} = await supabase.from('tasks').select('*').order('created_at', {ascending: false});
+    return {data, error}
+}
+
 export const getTasksByUser = async (userId) => {
     const {data, error} = await supabase.from('tasks').select("*").eq('assigned_to', userId);
     return {data, error}

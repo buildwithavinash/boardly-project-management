@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
+  const [userInfo, setUserInfo] = useState(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -26,7 +27,11 @@ export const AuthProvider = ({ children }) => {
 
       if(error) return
 
-      if (userData) setRole(userData[0].role);
+      if (userData) {
+        setRole(userData[0].role);
+        setUserInfo(userData[0])
+      } 
+
     }
 
     // session change
@@ -53,9 +58,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   console.log("User: ", user);
+  console.log("User data: ", userInfo);
   console.log(role);
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, logout, role }}>
+    <AuthContext.Provider value={{ user, setUser, loading, logout, role, userInfo }}>
       {children}
     </AuthContext.Provider>
   );

@@ -11,6 +11,7 @@ import CreateTask from "./pages/CreateTask"
 import Navbar from "./components/Navbar"
 import { useAuth } from "./context/AuthContext"
 import BottomNav from "./components/BottomNav"
+import Profile from "./pages/Profile"
 
 const App = () => {
   const {user, loading} = useAuth();
@@ -20,7 +21,7 @@ const App = () => {
   }
   return (
     <div className="bg-background h-screen w-full p-2">
-      
+    <Navbar/>
     <Routes>
       <Route path="/" element={
         user ? <Navigate to='/dashboard' /> : <Signup/>
@@ -43,6 +44,9 @@ const App = () => {
       <Route path="/projects/:id/create-task" element={<ProtectedRoute>
         <CreateTask/>
       </ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute>
+        <Profile/>
+      </ProtectedRoute>}/>
     </Routes>
     <BottomNav/>
     </div>
