@@ -21,7 +21,6 @@ const App = () => {
   }
   return (
     <div className="bg-background h-screen w-full p-2">
-    <Navbar/>
     <Routes>
       <Route path="/" element={
         user ? <Navigate to='/dashboard' /> : <Signup/>
