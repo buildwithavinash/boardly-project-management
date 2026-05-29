@@ -3,8 +3,10 @@ import { getProjects } from "../services/ProjectService";
 import { getAllTasks } from "../services/taskService";
 import { FaTasks } from "react-icons/fa";
 import { GoProjectRoadmap } from "react-icons/go";
-import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
-import { MdPendingActions } from "react-icons/md";
+import { IoCheckmarkDoneCircleOutline, IoFolderOpen } from "react-icons/io5";
+import { MdChevronRight, MdPendingActions } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { IoIosArrowRoundForward } from "react-icons/io";
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -43,6 +45,18 @@ const Dashboard = () => {
     },
   ];
 
+  const priorityConfig = {
+    high: { color: 'bg-red-100 text-red-600', label: 'High' },
+    medium: { color: 'bg-yellow-100 text-yellow-600', label: 'Medium' },
+    low: { color: 'bg-green-100 text-green-600', label: 'Low' },
+}
+
+const statusConfig = {
+    pending: { color: 'bg-orange-100 text-orange-600', label: 'Pending' },
+    inProgress: { color: 'bg-blue-100 text-blue-600', label: 'In Progress' },
+    done: { color: 'bg-green-100 text-green-600', label: 'Done' },
+}
+
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
@@ -80,7 +94,7 @@ const Dashboard = () => {
     fetchTasks();
   }, []);
   return (
-    <div className="py-12">
+    <div className="py-12 pb-24 bg-background">
       {/* <div className="text-center font-semibold text-primary text-2xl">Dashboard</div> */}
 
       <div>
@@ -98,6 +112,53 @@ const Dashboard = () => {
         </div>
         ))}
         
+      </div>
+
+      {/* recent projects */}
+      <div className="border border-slate-300 px-2 py-3 rounded-lg mt-4">
+        <div className="flex justify-between">
+        <h2>Recent Projects</h2>
+        <Link to='/projects' className="flex justify-between items-center px-2 py-0.5 text-xs rounded-lg gap-2 border border-slate-300">See all <IoIosArrowRoundForward/></Link>
+        </div>
+
+        <div className="flex flex-col gap-2 mt-4">
+          {projects.slice(0, 3).map(proj => (
+            <Link to={`/projects/${proj.id}`} key={proj.id} className="border p-1 border-slate-300 rounded-md">
+            <div className="flex justify-between">
+              <div className="flex gap-2">
+                <IoFolderOpen className="mt-1"/>
+
+                <div className="leading-tight">
+                <h3>{proj.name}</h3>
+                <p>{proj.description}</p>
+              </div>
+              </div>
+
+              <MdChevronRight className="self-center"/>
+            </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* recent tasks */}
+      <div className="border border-slate-300 px-2 py-3 rounded-lg mt-4">
+          <h3>
+            Recent Tasks
+          </h3>
+     
+
+        <div className="flex flex-col gap-2 mt-4">
+          {tasks.slice(0, 6).map(task => (
+            <div key={task.id} className="border p-1 border-slate-300 rounded-md">
+              <h3>{task.title}</h3>
+              <div>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityConfig[task.priority]?.color}`}>{priorityConfig[task.priority]?.label}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusConfig[task.status]?.color}`}>{statusConfig[task.status]?.label}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
