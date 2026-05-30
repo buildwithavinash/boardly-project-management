@@ -30,12 +30,12 @@ const Projects = () => {
     fetchProjects();
   }, []);
   return (
-    <div className="max-w-4xl mx-auto px-2 py-12 pb-20 md:pb-6">
+    <div className="max-w-4xl mx-auto px-2 py-4 pb-20 md:pb-6">
       {/* header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1>Projects</h1>
-          <p>{projects.length} projects total</p>
+          {/* <h1>Projects</h1> */}
+          <h3 className="text-2xl font-medium">Your Projects <span className="text-sm"> ({projects.length}) </span></h3>
         </div>
 
         {role === 'admin' && (
@@ -68,7 +68,7 @@ const Projects = () => {
 
       {/* projects list */}
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 mt-4">
             {projects.map(proj => (
                 <Link key={proj.id} to={`/projects/${proj.id}`}>
                     <div className=" border border-slate-300 rounded-2xl p-4">

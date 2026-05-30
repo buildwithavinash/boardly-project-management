@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { createProject } from "../services/ProjectService";
 import { useNavigate } from "react-router-dom";
+import {  IoIosArrowRoundBack } from "react-icons/io";
 
 const CreateProject = () => {
   const [loading, setLoading] = useState(false);
@@ -49,33 +50,35 @@ const CreateProject = () => {
   return (
     <div className="">
       <div>
-        <button onClick={() => navigate("/projects")}>All projects</button>
+        <button onClick={() => navigate("/projects")} className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-1 cursor-pointer hover:opacity-80 transition-all duration-200"><IoIosArrowRoundBack/> Projects</button>
       </div>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+     
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4 justify-center">
         <input
           type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
           placeholder="Project Name"
-          className="border border-slate-300 px-4 py-2 rounded-md"
+          className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
         />
         <textarea
           name="description"
           value={formData.description}
           onChange={handleChange}
           placeholder="Project Description"
-          className="border border-slate-300 px-4 py-2 rounded-md"
+          className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
         />
 
         <button
           type="submit"
-          className="bg-black text-white px-4 py-2 rounded-md self-center cursor-pointer"
+          disabled={loading}
+          className="bg-primary text-white font-medium px-4 py-2 rounded-md self-center cursor-pointer hover:opacity-80 transition-all duration-200"
         >
-          Create
+         {loading ? 'Creating...' : 'Create'}
         </button>
+
+         {error && <p className="mt-4">{error}</p>}
       </form>
     </div>
   );

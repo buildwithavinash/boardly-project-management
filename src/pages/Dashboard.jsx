@@ -94,7 +94,7 @@ const statusConfig = {
     fetchTasks();
   }, []);
   return (
-    <div className="py-12 pb-24 bg-background">
+    <div className="py-4 pb-24 bg-background">
       {/* <div className="text-center font-semibold text-primary text-2xl">Dashboard</div> */}
 
       <div>
