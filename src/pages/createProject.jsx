@@ -48,7 +48,7 @@ const CreateProject = () => {
   };
 
   return (
-    <div className="">
+    <div className="py-4 pb-24 bg-background">
       <div>
         <button onClick={() => navigate("/projects")} className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-1 cursor-pointer hover:opacity-80 transition-all duration-200"><IoIosArrowRoundBack/> Projects</button>
       </div>
