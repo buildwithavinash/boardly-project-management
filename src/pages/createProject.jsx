@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { createProject } from "../services/ProjectService";
 import { useNavigate } from "react-router-dom";
 import {  IoIosArrowRoundBack } from "react-icons/io";
+import { useProjects } from "../context/ProjectsContext";
 
 const CreateProject = () => {
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ const CreateProject = () => {
   });
 
   const { user } = useAuth();
+  const {setProjects} = useProjects();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -32,13 +34,14 @@ const CreateProject = () => {
         created_by: user.id,
       };
 
-      const { error } = await createProject(projectData);
+      const { data,error } = await createProject(projectData);
 
       if (error) {
         setError(error.message);
         return;
       }
 
+      setProjects(prev => [...prev, data[0]]) //for context update
       navigate("/projects");
     } catch (error) {
       setError(error);

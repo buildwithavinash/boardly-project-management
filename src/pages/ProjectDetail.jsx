@@ -7,6 +7,7 @@ import { getTasks, updateTask } from "../services/taskService";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
+import { supabase } from "../lib/supabase";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
@@ -19,6 +20,15 @@ const ProjectDetail = () => {
   const navigate = useNavigate();
 
   const onConfirm = async () => {
+    // first delete all the tasks, before deleting the projects..
+    const {error: taskError } = await supabase.from('tasks').delete().eq('project_id', projectData.id)
+
+    if(taskError){
+      setError(taskError.message)
+      return
+    }
+
+    // deleting the project
     const { error } = await deleteProject(projectData?.id);
     if (error) {
       setError(error.message);
@@ -37,6 +47,7 @@ const ProjectDetail = () => {
   };
 
   useEffect(() => {
+    // get the project
     const getData = async (id) => {
       try {
         setLoading(true);
