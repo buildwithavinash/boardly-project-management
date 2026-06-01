@@ -10,6 +10,8 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearhQuery] = useState('');
+  const [currentFilter, setCurrentFilter] = useState('all');
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -30,6 +32,22 @@ const Projects = () => {
 
     fetchProjects();
   }, []);
+
+  const filteredProjects = projects.filter(proj => {
+    return proj.name.toLowerCase().includes(searchQuery.trim().toLowerCase())
+  }).sort((a, b) => {
+    if(currentFilter === 'atoz'){
+      return a.name.localeCompare(b.name);
+    }
+    if(currentFilter === 'ztoa'){
+      return b.name.localeCompare(a.name);
+    }
+    if(currentFilter === 'date_created'){
+      return new Date(b.created_at) - new Date(a.created_at)
+    }
+
+    return 0
+  })
   return (
     <Container>
     <div className="">
@@ -47,6 +65,18 @@ const Projects = () => {
         )}
       </div>
 
+      {/* search and filters */}
+      <div className="flex gap-1 mt-2">
+        <input type="search" name="" value={searchQuery} onChange={(e)=>setSearhQuery(e.target.value)} placeholder="Search by name" className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-1 rounded-md flex-1 min-w-0"/>
+
+        <select name="" value={currentFilter} onChange={(e)=>setCurrentFilter(e.target.value)} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-2 py-1 rounded-md shrink-0">
+          <option value="all">All</option>
+          <option value="atoz">A-Z</option>
+          <option value="ztoa">Z-A</option>
+          <option value="date_created">Date created</option>
+        </select>
+      </div>
+
       {/* states */}
       {loading && <p>Loading...</p>}
       {error && (
@@ -56,7 +86,7 @@ const Projects = () => {
       )}
 
       {/* empty state */} 
-      {!loading && projects.length === 0 && (
+      {!loading && filteredProjects.length === 0 && (
         <div>
           <h3>No projects yet.</h3>
           <p>Create your first project to get started</p>
@@ -71,7 +101,7 @@ const Projects = () => {
       {/* projects list */}
 
       <div className="flex flex-col gap-3 mt-4">
-            {projects.map(proj => (
+            {filteredProjects.map(proj => (
                 <Link key={proj.id} to={`/projects/${proj.id}`}>
                     <div className=" border border-slate-300 rounded-2xl p-4">
                         <div className="flex items-center gap-3">
