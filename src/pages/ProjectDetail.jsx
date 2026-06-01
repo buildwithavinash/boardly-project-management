@@ -16,6 +16,7 @@ const ProjectDetail = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState("all");
   const { id } = useParams();
   const { user, role } = useAuth();
   const navigate = useNavigate();
@@ -100,6 +101,19 @@ const ProjectDetail = () => {
     done: { color: "bg-green-100 text-green-600", label: "Done" },
   };
 
+  const filteredTasks = tasks.filter((task) => {
+    if (currentFilter === "pending") {
+      return task.status === "pending";
+    }
+    if (currentFilter === "inProgress") {
+      return task.status === "inProgress";
+    }
+    if (currentFilter === "done") {
+      return task.status === "done";
+    }
+
+    return true;
+  });
   console.log("project data", projectData);
   return (
     <Container>
@@ -149,22 +163,6 @@ const ProjectDetail = () => {
 
             {/* progress bar */}
             <div></div>
-
-            {/* filters */}
-            <div className="flex gap-2 justify-between">
-              <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">
-                All
-              </button>
-              <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">
-                Pending
-              </button>
-              <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">
-                In Progress
-              </button>
-              <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">
-                Completed
-              </button>
-            </div>
           </div>
         )}
 
@@ -185,6 +183,34 @@ const ProjectDetail = () => {
             )}
           </div>
 
+          {/* filters */}
+          <div className="flex gap-2 justify-center mt-4">
+            <button
+              onClick={() => setCurrentFilter("all")}
+              className={`border border-slate-300  text-xs px-2 py-0.5 rounded-md ${currentFilter === "all" ? "bg-blue-50 text-blue-500 scale-90" : "bg-slate-100 text-slate-800"} transition-all duration-150`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setCurrentFilter("pending")}
+              className={`border border-slate-300  text-xs px-2 py-0.5 rounded-md ${currentFilter === "pending" ? "bg-blue-50 text-blue-500 scale-90" : "bg-slate-100 text-slate-800"} transition-all duration-150`}
+            >
+              Pending
+            </button>
+            <button
+              onClick={() => setCurrentFilter("inProgress")}
+              className={`border border-slate-300  text-xs px-2 py-0.5 rounded-md ${currentFilter === "inProgress" ? "bg-blue-50 text-blue-500 scale-90" : "bg-slate-100 text-slate-800"} transition-all duration-150`}
+            >
+              In Progress
+            </button>
+            <button
+              onClick={() => setCurrentFilter("done")}
+              className={`border border-slate-300  text-xs px-2 py-0.5 rounded-md ${currentFilter === "done" ? "bg-blue-50 text-blue-500 scale-90" : "bg-slate-100 text-slate-800"} transition-all duration-150`}
+            >
+              Completed
+            </button>
+          </div>
+
           {!loading && tasks.length === 0 && (
             <p className="text-center text-slate-700 mt-4">
               Nothing here yet
@@ -192,14 +218,15 @@ const ProjectDetail = () => {
               Add a task to get this project moving.
             </p>
           )}
-          <div className="mt-4">
-            {tasks.map((task) => (
+
+          <div className="mt-4 flex flex-col gap-2">
+            {filteredTasks.map((task) => (
               <div
                 key={task.id}
                 className="relative border border-slate-300 p-2 rounded-lg"
               >
                 <div className="leading-tight">
-                  <h2 className="text-xl font-semibold">{task.title}</h2>
+                  <h2 className="font-semibold">{task.title}</h2>
                   {/* <p className="text-slate-800">{task.description}</p> */}
                 </div>
 
@@ -231,16 +258,25 @@ const ProjectDetail = () => {
                 </div>
 
                 <div className="flex justify-between items-center mt-2">
-                  <p>Due date</p>
+                  <p className="text-sm">
+                    {task.due_date
+                      ? new Date(task.due_date).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                        })
+                      : "No due date"}
+                  </p>
                   <p>assigned members</p>
                 </div>
 
-                <button
-                  onClick={() => navigate(`/task/${task.id}/edit`)}
-                  className="absolute top-2 right-3"
-                >
-                  Edit
-                </button>
+                {role === "admin" && (
+                  <button
+                    onClick={() => navigate(`/task/${task.id}/edit`)}
+                    className="absolute top-2 right-3"
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
             ))}
           </div>

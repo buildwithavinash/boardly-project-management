@@ -42,7 +42,7 @@ const CreateProject = () => {
         return;
       }
 
-      setProjects(prev => [...prev, data[0]]) //for context update
+      setProjects(prev => [...prev, data]) //for context update
       navigate("/projects");
     } catch (error) {
       setError(error);
