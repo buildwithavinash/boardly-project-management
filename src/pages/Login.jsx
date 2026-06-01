@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { supabase } from "../lib/supabase"
 import { useAuth } from "../context/AuthContext";
+import Container from "../components/Container";
 
 const Login = () => {
 
@@ -56,6 +57,8 @@ const Login = () => {
     
 
   return (
+    <Container>
+   
     <div className="text-center h-full w-full flex justify-center items-center">
 
     <div>
@@ -71,6 +74,9 @@ const Login = () => {
         <p className="mt-4">Don't have an account? <Link to='/signup' className="text-primary underline"> Signup </Link></p>
     </div>
         </div>
+
+        
+</Container>
   )
 }
 

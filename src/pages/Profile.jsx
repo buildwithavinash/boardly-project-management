@@ -50,23 +50,7 @@ const Profile = () => {
         </div>
         </div>
 
-        <div>
-            <h3>Overview</h3>
-            <div className="flex flex-col">
-
-            <div className="flex justify-between">
-            <p>Projects</p>
-            <p className="">{projects.length}</p>
-            </div>
-
-            <div className="flex justify-between">
-                <p>Tasks</p>
-            <p className="">{}</p>
-            </div>
-
-
-        </div>
-        </div>
+        
         
 
         <div className="text-center">

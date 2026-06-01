@@ -4,6 +4,7 @@ import { createProject } from "../services/ProjectService";
 import { useNavigate } from "react-router-dom";
 import {  IoIosArrowRoundBack } from "react-icons/io";
 import { useProjects } from "../context/ProjectsContext";
+import Container from "../components/Container";
 
 const CreateProject = () => {
   const [loading, setLoading] = useState(false);
@@ -51,7 +52,10 @@ const CreateProject = () => {
   };
 
   return (
-    <div className="py-4 pb-24 bg-background">
+    <Container>
+
+  
+    <div className="">
       <div>
         <button onClick={() => navigate("/projects")} className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-1 cursor-pointer hover:opacity-80 transition-all duration-200"><IoIosArrowRoundBack/> Projects</button>
       </div>
@@ -84,6 +88,7 @@ const CreateProject = () => {
          {error && <p className="mt-4">{error}</p>}
       </form>
     </div>
+      </Container>
   );
 };
 

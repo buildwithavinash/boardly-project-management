@@ -3,6 +3,7 @@ import { getMembers } from "../services/profileService";
 import { createTask } from "../services/taskService";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import Container from "../components/Container";
 
 const CreateTask = () => {
     const {id} = useParams();
@@ -65,7 +66,10 @@ const CreateTask = () => {
         navigate(`/projects/${id}`)
     }
   return (
-    <div className="py-4 pb-24 bg-background">
+    <Container>
+
+ 
+    <div className="">
 
         <div>
             <div>
@@ -115,6 +119,7 @@ const CreateTask = () => {
             </button>
         </form>
     </div>
+       </Container>
   )
 }
 

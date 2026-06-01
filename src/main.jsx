@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { ProjectsProvider } from './context/ProjectsContext.jsx'
+import { TasksProvider } from './context/TasksContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -12,7 +13,9 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
     <AuthProvider>
     <ProjectsProvider>
+    <TasksProvider>
     <App />
+    </TasksProvider>
     </ProjectsProvider>
     </AuthProvider>
   </BrowserRouter>

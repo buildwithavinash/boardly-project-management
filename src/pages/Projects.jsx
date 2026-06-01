@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getProjects } from "../services/ProjectService";
 import { Link, useNavigate } from "react-router-dom";
+import Container from "../components/Container";
 
 const Projects = () => {
   const { role } = useAuth();
@@ -30,7 +31,8 @@ const Projects = () => {
     fetchProjects();
   }, []);
   return (
-    <div className="max-w-4xl mx-auto px-2 py-4 pb-20 md:pb-6">
+    <Container>
+    <div className="">
       {/* header */}
       <div className="flex justify-between items-center">
         <div>
@@ -88,6 +90,7 @@ const Projects = () => {
         </div>
 
     </div>
+    </Container>
   );
 };
 

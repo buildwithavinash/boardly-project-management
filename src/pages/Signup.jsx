@@ -2,6 +2,7 @@ import { useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Container from "../components/Container";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -62,7 +63,10 @@ alert("Signup successful! Please Login.")
   }
 
   return (
-    <div className="p-4 py-20 text-center h-full w-full">
+    <Container>
+
+ 
+    <div className="">
       <div className="">
         {error && <p>{error}</p>}
         <h2 className="text-3xl font-semibold text-slate-800">Create your account</h2>
@@ -122,6 +126,7 @@ alert("Signup successful! Please Login.")
         <p className="mt-4">Already have an account? <Link to='/login' className="text-primary underline"> Login </Link></p>
       </div>
     </div>
+       </Container>
   );
 };
 

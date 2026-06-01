@@ -8,6 +8,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { supabase } from "../lib/supabase";
+import Container from "../components/Container";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
@@ -98,6 +99,7 @@ const ProjectDetail = () => {
 
   console.log("project data", projectData);
   return (
+    <Container>
     <div className="relative px-2 py-4">
       {isOpen && (
         <ConfirmModal
@@ -227,6 +229,7 @@ Add a task to get this project moving.</p>}
       {/* error */}
       {error && <p>{error}</p>}
     </div>
+    </Container>
   );
 };
 

@@ -7,6 +7,7 @@ import { IoCheckmarkDoneCircleOutline, IoFolderOpen } from "react-icons/io5";
 import { MdChevronRight, MdPendingActions } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import Container from "../components/Container";
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -94,7 +95,10 @@ const statusConfig = {
     fetchTasks();
   }, []);
   return (
-    <div className="py-4 pb-24 bg-background">
+    <Container>
+
+    
+    <div className="">
       {/* <div className="text-center font-semibold text-primary text-2xl">Dashboard</div> */}
 
       <div>
@@ -161,6 +165,7 @@ const statusConfig = {
         </div>
       </div>
     </div>
+    </Container>
   );
 };
 
