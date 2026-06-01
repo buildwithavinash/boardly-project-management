@@ -12,6 +12,7 @@ import CreateTask from "./pages/CreateTask"
 import { useAuth } from "./context/AuthContext"
 import BottomNav from "./components/BottomNav"
 import Profile from "./pages/Profile"
+import EditTask from './pages/EditTask'
 
 const App = () => {
   const {user, loading} = useAuth();
@@ -43,6 +44,9 @@ const App = () => {
       <Route path="/projects/:id/create-task" element={<ProtectedRoute>
         <CreateTask/>
       </ProtectedRoute>} />
+      <Route path='/task/:id/edit' element={<ProtectedRoute>
+        <EditTask/>
+      </ProtectedRoute>}/>
       <Route path="/profile" element={<ProtectedRoute>
         <Profile/>
       </ProtectedRoute>}/>

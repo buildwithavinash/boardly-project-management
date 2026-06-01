@@ -22,11 +22,14 @@ const ProjectDetail = () => {
 
   const onConfirm = async () => {
     // first delete all the tasks, before deleting the projects..
-    const {error: taskError } = await supabase.from('tasks').delete().eq('project_id', projectData.id)
+    const { error: taskError } = await supabase
+      .from("tasks")
+      .delete()
+      .eq("project_id", projectData.id);
 
-    if(taskError){
-      setError(taskError.message)
-      return
+    if (taskError) {
+      setError(taskError.message);
+      return;
     }
 
     // deleting the project
@@ -100,135 +103,152 @@ const ProjectDetail = () => {
   console.log("project data", projectData);
   return (
     <Container>
-    <div className="relative px-2 py-4">
-      {isOpen && (
-        <ConfirmModal
-          onCancel={onCancel}
-          onConfirm={onConfirm}
-          setIsOpen={setIsOpen}
-        />
-      )}
-      <div className="flex justify-between items-center">
-        <button
-          onClick={() => navigate("/projects")}
-          className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-1 cursor-pointer hover:opacity-80 transition-all duration-200"
-        >
-          <IoIosArrowRoundBack /> Projects
-        </button>
+      <div className="relative px-2 py-4">
+        {isOpen && (
+          <ConfirmModal
+            onCancel={onCancel}
+            onConfirm={onConfirm}
+            setIsOpen={setIsOpen}
+          />
+        )}
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => navigate("/projects")}
+            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-1 cursor-pointer hover:opacity-80 transition-all duration-200"
+          >
+            <IoIosArrowRoundBack /> Projects
+          </button>
 
-        {role === "admin" && (
-        <div className="flex items-center justify-between gap-2">
-          <button
-            onClick={onEdit}
-            className="border border-slate-300 rounded-md px-3 py-2 cursor-pointer"
-          >
-            <CiEdit/>
-          </button>
-          <button
-            onClick={() => setIsOpen(true)}
-            className="border bg-red-200 text-red-500 rounded-md px-3 py-2 cursor-pointer"
-          >
-            <MdOutlineDelete/>
-          </button>
+          {role === "admin" && (
+            <div className="flex items-center justify-between gap-2">
+              <button
+                onClick={onEdit}
+                className="border border-slate-300 rounded-md px-3 py-2 cursor-pointer"
+              >
+                <CiEdit />
+              </button>
+              <button
+                onClick={() => setIsOpen(true)}
+                className="border bg-red-200 text-red-500 rounded-md px-3 py-2 cursor-pointer"
+              >
+                <MdOutlineDelete />
+              </button>
+            </div>
+          )}
         </div>
-      )}
-      </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="mt-6">
-          <h1 className="text-3xl font-semibold mb-0.5 text-slate-900">
-            {projectData?.name}
-          </h1>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="mt-6">
+            <h1 className="text-3xl font-semibold mb-0.5 text-slate-900">
+              {projectData?.name}
+            </h1>
 
-          <p className="text-slate-800">{projectData?.description}</p>
+            <p className="text-slate-800">{projectData?.description}</p>
 
-          {/* progress bar */}
-          <div></div>
+            {/* progress bar */}
+            <div></div>
 
-          {/* filters */}
-          <div className="flex gap-2 justify-between">
-            <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">All</button>
-            <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">Pending</button>
-            <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">In Progress</button>
-            <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">Completed</button>
+            {/* filters */}
+            <div className="flex gap-2 justify-between">
+              <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">
+                All
+              </button>
+              <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">
+                Pending
+              </button>
+              <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">
+                In Progress
+              </button>
+              <button className="border border-slate-400 bg-slate-200 text-sm px-2 py-0.5 rounded-md">
+                Completed
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* tasks */}
+        <div className="border border-slate-300 rounded-md p-2 mt-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-center text-slate-900 font-medium text-2xl">
+              Tasks
+            </h3>
+
+            {role === "admin" && (
+              <button
+                onClick={() => navigate(`/projects/${id}/create-task`)}
+                className="bg-primary text-sm rounded-md px-2 py-1 text-white font-medium cursor-pointer"
+              >
+                Add Task
+              </button>
+            )}
+          </div>
+
+          {!loading && tasks.length === 0 && (
+            <p className="text-center text-slate-700 mt-4">
+              Nothing here yet
+              <br />
+              Add a task to get this project moving.
+            </p>
+          )}
+          <div className="mt-4">
+            {tasks.map((task) => (
+              <div
+                key={task.id}
+                className="relative border border-slate-300 p-2 rounded-lg"
+              >
+                <div className="leading-tight">
+                  <h2 className="text-xl font-semibold">{task.title}</h2>
+                  {/* <p className="text-slate-800">{task.description}</p> */}
+                </div>
+
+                <div className="mt-2 flex items-center gap-1">
+                  <span
+                    className={`border rounded-full px-2 py-0.5 text-xs ${priorityConfig[task.priority]?.color}`}
+                  >
+                    {priorityConfig[task.priority]?.label}
+                  </span>
+
+                  {task.assigned_to === user.id ? (
+                    <select
+                      value={task.status}
+                      onChange={(e) =>
+                        handleStatusChange(task.id, e.target.value)
+                      }
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="inProgress">In Progress</option>
+                      <option value="done">Done</option>
+                    </select>
+                  ) : (
+                    <span
+                      className={`border rounded-full px-2 py-0.5 text-xs ${statusConfig[task.status]?.color}`}
+                    >
+                      {statusConfig[task.status]?.label}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex justify-between items-center mt-2">
+                  <p>Due date</p>
+                  <p>assigned members</p>
+                </div>
+
+                <button
+                  onClick={() => navigate(`/task/${task.id}/edit`)}
+                  className="absolute top-2 right-3"
+                >
+                  Edit
+                </button>
+              </div>
+            ))}
           </div>
         </div>
-      )}
 
-      {/* tasks */}
-      <div className="border border-slate-300 rounded-md p-2 mt-4">
-        <div className="flex justify-between items-center">
-        <h3 className="text-center text-slate-900 font-medium text-2xl">
-          Tasks
-        </h3>
-
-        {role === "admin" && (
-          <button
-            onClick={() => navigate(`/projects/${id}/create-task`)}
-            className="bg-primary text-sm rounded-md px-2 py-1 text-white font-medium cursor-pointer"
-          >
-            Add Task
-          </button>
-        )}
-        </div>
-
-      {!loading && tasks.length === 0 && <p className="text-center text-slate-700 mt-4">Nothing here yet
-<br />
-Add a task to get this project moving.</p>}
-        <div className="mt-4">
-          {tasks.map((task) => (
-            <div
-              key={task.id}
-              className="relative border border-slate-300 p-2 rounded-lg"
-            >
-              <div className="leading-tight">
-                <h2 className="text-xl font-semibold">{task.title}</h2>
-                {/* <p className="text-slate-800">{task.description}</p> */}
-              </div>
-
-              <div className="mt-2 flex items-center gap-1">
-                <span
-                  className={`border rounded-full px-2 py-0.5 text-xs ${priorityConfig[task.priority]?.color}`}
-                >
-                  {priorityConfig[task.priority]?.label}
-                </span>
-
-                {task.assigned_to === user.id ? (
-                  <select
-                    value={task.status}
-                    onChange={(e) =>
-                      handleStatusChange(task.id, e.target.value)
-                    }
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="inProgress">In Progress</option>
-                    <option value="done">Done</option>
-                  </select>
-                ) : (
-                  <span
-                    className={`border rounded-full px-2 py-0.5 text-xs ${statusConfig[task.status]?.color}`}
-                  >
-                    {statusConfig[task.status]?.label}
-                  </span>
-                )}
-              </div>
-
-              <div className="flex justify-between items-center mt-2">
-                <p>Due date</p>
-                <p>assigned members</p>
-              </div>
-
-              <div className="absolute top-2 right-3">Edit</div>
-            </div>
-          ))}
-        </div>
+        {/* error */}
+        {error && <p>{error}</p>}
       </div>
-
-      {/* error */}
-      {error && <p>{error}</p>}
-    </div>
     </Container>
   );
 };
