@@ -13,7 +13,8 @@ const CreateTask = () => {
         status: 'pending',
         priority: 'low',
         assigned_to: '',
-        project_id: id
+        project_id: id,
+        due_date: ''
     })
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -61,7 +62,8 @@ const CreateTask = () => {
         status: 'pending',
         priority: 'low',
         assigned_to: '',
-        project_id: id
+        project_id: id,
+        due_date: ''
         })
         navigate(`/projects/${id}`)
     }
@@ -84,6 +86,11 @@ const CreateTask = () => {
             <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Task name" className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
             <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
 
+            <div>
+                <label htmlFor="due_date">Due Date: </label>
+                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} />
+               
+            </div>
             <div className="flex items-center gap-2">
             <label htmlFor="status">Status: </label>
             <select name="status" value={formData.status} onChange={handleChange} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1">
