@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import { getMembers } from "../services/profileService";
-import { createTask } from "../services/taskService";
+import { getMembers } from "../../services/profileService";
+import { createTask } from "../../services/taskService";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 const CreateTask = () => {
     const {id} = useParams();

@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import Container from '../components/Container'
+import Container from '../../components/Container'
 import { useEffect, useState } from 'react';
-import { getTaskById, updateTask } from '../services/taskService';
-import { getMembers } from '../services/profileService';
+import { getTaskById, updateTask } from '../../services/taskService';
+import { getMembers } from '../../services/profileService';
 const EditTask = () => {
     const {id} = useParams();
     const navigate = useNavigate();

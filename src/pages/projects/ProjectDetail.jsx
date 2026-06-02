@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteProject, getProjectById } from "../services/projectService";
-import ConfirmModal from "../components/ConfirmModal";
-import { useAuth } from "../context/AuthContext";
-import { getTasks, updateTask } from "../services/taskService";
+import { deleteProject, getProjectById } from "../../services/projectService";
+import ConfirmModal from "../../components/ConfirmModal";
+import { useAuth } from "../../context/AuthContext";
+import { getTasks, updateTask } from "../../services/taskService";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
-import { supabase } from "../lib/supabase";
-import Container from "../components/Container";
-import TaskCard from "../components/TaskCard";
-import TaskFilters from "../components/TaskFilters";
+import { supabase } from "../../lib/supabase";
+import Container from "../../components/Container";
+import TaskCard from "../../components/TaskCard";
+import TaskFilters from "../../components/TaskFilters";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);

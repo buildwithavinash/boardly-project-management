@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { supabase } from "../lib/supabase";
+import { supabase } from "../../lib/supabase";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 const Signup = () => {
   const [formData, setFormData] = useState({

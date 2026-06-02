@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { getProjects } from "../services/projectService";
+import { useAuth } from "../../context/AuthContext";
+import { getProjects } from "../../services/projectService";
 import { Link, useNavigate } from "react-router-dom";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 const Projects = () => {
   const { role } = useAuth();
