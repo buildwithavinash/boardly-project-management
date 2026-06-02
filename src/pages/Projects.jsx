@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { getProjects } from "../services/ProjectService";
+import { getProjects } from "../services/projectService";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../components/Container";
 

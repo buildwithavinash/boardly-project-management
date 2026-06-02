@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteProject, getProjectById } from "../services/ProjectService";
+import { deleteProject, getProjectById } from "../services/projectService";
 import ConfirmModal from "../components/ConfirmModal";
 import { useAuth } from "../context/AuthContext";
 import { getTasks, updateTask } from "../services/taskService";

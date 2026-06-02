@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProjects } from "../services/ProjectService";
+import { getProjects } from "../services/projectService";
 import { getAllTasks } from "../services/taskService";
 import { FaTasks } from "react-icons/fa";
 import { GoProjectRoadmap } from "react-icons/go";

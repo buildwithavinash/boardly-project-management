@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { createProject } from "../services/ProjectService";
+import { createProject } from "../services/projectService";
 import { useNavigate } from "react-router-dom";
 import {  IoIosArrowRoundBack } from "react-icons/io";
 import { useProjects } from "../context/ProjectsContext";
