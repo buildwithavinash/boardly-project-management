@@ -5,10 +5,12 @@ import ConfirmModal from "../components/ConfirmModal";
 import { useAuth } from "../context/AuthContext";
 import { getTasks, updateTask } from "../services/taskService";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { CiEdit } from "react-icons/ci";
+import { CiEdit, CiFilter } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { supabase } from "../lib/supabase";
 import Container from "../components/Container";
+import { BiSort } from "react-icons/bi";
+import TaskCard from "../components/TaskCard";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
@@ -17,6 +19,9 @@ const ProjectDetail = () => {
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [currentFilter, setCurrentFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [priorityFilter, setPriorityFilter] = useState('all');
+  const [openDropdown, setOpenDropdown] = useState(null);
   const { id } = useParams();
   const { user, role } = useAuth();
   const navigate = useNavigate();
@@ -102,22 +107,14 @@ const ProjectDetail = () => {
   };
 
   const filteredTasks = tasks.filter((task) => {
-    if (currentFilter === "pending") {
-      return task.status === "pending";
-    }
-    if (currentFilter === "inProgress") {
-      return task.status === "inProgress";
-    }
-    if (currentFilter === "done") {
-      return task.status === "done";
-    }
-
-    return true;
+   return (currentFilter === 'all' || task.assigned_to === user.id) &&
+    (statusFilter === 'all' || task.status === statusFilter) &&
+    (priorityFilter === 'all' || task.priority === priorityFilter)
   });
   console.log("project data", projectData);
   return (
     <Container>
-      <div className="relative px-2 py-4">
+      <div onClick={()=>setOpenDropdown(null)} className="relative">
         {isOpen && (
           <ConfirmModal
             onCancel={onCancel}
@@ -181,37 +178,68 @@ const ProjectDetail = () => {
                 Add Task
               </button>
             )}
+
+            {/* filters */}
+            <div>
+              {/* all tasks  */}
+              {/* my tasks */}
+              {
+                role === 'member' && (
+                    <select value={currentFilter} onChange={(e)=>setCurrentFilter(e.target.value)} className="">
+                <option value="all">All tasks</option>
+                <option value="mine">My tasks</option>
+              </select>
+                )
+              }
+              
+            </div>
+            {/* status */}
+            <div className="relative">
+
+              {/* trigger button */}
+              <button onClick={(e)=>{setOpenDropdown(openDropdown === 'status' ? null : 'status'); e.stopPropagation()}}><CiFilter/></button>
+
+              {/* dropdown menu */}
+              {openDropdown === 'status' && (
+                <div className="absolute top-full right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-10 min-w-36">
+                  {['all', 'pending', 'inProgress', 'done'].map(option => (
+                    <button key={option} onClick={() => {
+                      setStatusFilter(option);
+                      setOpenDropdown(null);
+                    }}
+                    className={`w-full text-left px-3 py-2 text-sm hover:bg-slate-50
+                        ${statusFilter === option ? 'text-primary font-medium' : 'text-slate-600'}`}>
+                      {option === 'all' ? 'All Status' : option}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+              {/* sort by priority */}
+              <div className="relative">
+
+              {/* trigger button */}
+              <button onClick={(e)=>{setOpenDropdown(openDropdown === 'priority' ? null : 'priority'); e.stopPropagation()}}><BiSort/></button>
+
+              {/* dropdown menu */}
+              {openDropdown === 'priority' && (
+                <div className="absolute top-full right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-10 min-w-36">
+                  {['all', 'low', 'medium', 'high'].map(option => (
+                    <button key={option} onClick={() => {
+                      setPriorityFilter(option);
+                      setOpenDropdown(null);
+                    }}
+                    className={`w-full text-left px-3 py-2 text-sm hover:bg-slate-50
+                        ${priorityFilter === option ? 'text-primary font-medium' : 'text-slate-600'}`}>
+                      {option === 'all' ? 'All' : option}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* filters */}
-          <div className="flex gap-2 justify-center mt-4">
-            <button
-              onClick={() => setCurrentFilter("all")}
-              className={`border border-slate-300  text-xs px-2 py-0.5 rounded-md ${currentFilter === "all" ? "bg-blue-50 text-blue-500 scale-90" : "bg-slate-100 text-slate-800"} transition-all duration-150`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => setCurrentFilter("pending")}
-              className={`border border-slate-300  text-xs px-2 py-0.5 rounded-md ${currentFilter === "pending" ? "bg-blue-50 text-blue-500 scale-90" : "bg-slate-100 text-slate-800"} transition-all duration-150`}
-            >
-              Pending
-            </button>
-            <button
-              onClick={() => setCurrentFilter("inProgress")}
-              className={`border border-slate-300  text-xs px-2 py-0.5 rounded-md ${currentFilter === "inProgress" ? "bg-blue-50 text-blue-500 scale-90" : "bg-slate-100 text-slate-800"} transition-all duration-150`}
-            >
-              In Progress
-            </button>
-            <button
-              onClick={() => setCurrentFilter("done")}
-              className={`border border-slate-300  text-xs px-2 py-0.5 rounded-md ${currentFilter === "done" ? "bg-blue-50 text-blue-500 scale-90" : "bg-slate-100 text-slate-800"} transition-all duration-150`}
-            >
-              Completed
-            </button>
-          </div>
-
-          {!loading && tasks.length === 0 && (
+          {!loading && filteredTasks.length === 0 && (
             <p className="text-center text-slate-700 mt-4">
               Nothing here yet
               <br />
@@ -221,63 +249,15 @@ const ProjectDetail = () => {
 
           <div className="mt-4 flex flex-col gap-2">
             {filteredTasks.map((task) => (
-              <div
-                key={task.id}
-                className="relative border border-slate-300 p-2 rounded-lg"
-              >
-                <div className="leading-tight">
-                  <h2 className="font-semibold">{task.title}</h2>
-                  {/* <p className="text-slate-800">{task.description}</p> */}
-                </div>
-
-                <div className="mt-2 flex items-center gap-1">
-                  <span
-                    className={`border rounded-full px-2 py-0.5 text-xs ${priorityConfig[task.priority]?.color}`}
-                  >
-                    {priorityConfig[task.priority]?.label}
-                  </span>
-
-                  {task.assigned_to === user.id ? (
-                    <select
-                      value={task.status}
-                      onChange={(e) =>
-                        handleStatusChange(task.id, e.target.value)
-                      }
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="inProgress">In Progress</option>
-                      <option value="done">Done</option>
-                    </select>
-                  ) : (
-                    <span
-                      className={`border rounded-full px-2 py-0.5 text-xs ${statusConfig[task.status]?.color}`}
-                    >
-                      {statusConfig[task.status]?.label}
-                    </span>
-                  )}
-                </div>
-
-                <div className="flex justify-between items-center mt-2">
-                  <p className="text-sm">
-                    {task.due_date
-                      ? new Date(task.due_date).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                        })
-                      : "No due date"}
-                  </p>
-                  <p>assigned members</p>
-                </div>
-
-                {role === "admin" && (
-                  <button
-                    onClick={() => navigate(`/task/${task.id}/edit`)}
-                    className="absolute top-2 right-3"
-                  >
-                    Edit
-                  </button>
-                )}
-              </div>
+              <TaskCard
+              task={task}
+              user={user}
+              role={role}
+              handleStatusChange={handleStatusChange}
+              priorityConfig={priorityConfig}
+              statusConfig={statusConfig}
+              navigate={navigate}
+              />
             ))}
           </div>
         </div>
