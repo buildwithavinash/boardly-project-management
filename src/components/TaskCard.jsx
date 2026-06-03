@@ -1,4 +1,6 @@
 import { SlOptionsVertical } from "react-icons/sl";
+import { capitalize, formatDate } from "../utils/formatters";
+import { LuCalendarClock } from "react-icons/lu";
 
 const TaskCard = ({
   task,
@@ -10,10 +12,10 @@ const TaskCard = ({
   navigate,
 }) => {
   return (
-    <div className="relative border border-slate-300 p-2 rounded-lg">
+    <div className="relative border border-border bg-background p-2 rounded-lg">
       <div className="leading-tight">
-        <h2 className="font-semibold">{task.title}</h2>
-        {/* <p className="text-slate-800">{task.description}</p> */}
+        <h2 className="font-semibold text-lg text-primary">{capitalize(task.title)}</h2>
+  
       </div>
 
       <div className="mt-2 flex items-center gap-1">
@@ -49,13 +51,13 @@ const TaskCard = ({
       </div>
 
       <div className="flex justify-between items-center mt-2">
-        <p className="text-sm">
+        <p className="text-xs text-slate-700 flex items-center gap-1">
+          <LuCalendarClock />
+          <span>
           {task.due_date
-            ? new Date(task.due_date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })
+            ? formatDate(task.due_date)
             : "No due date"}
+            </span>
         </p>
         <p>assigned members</p>
       </div>
@@ -63,7 +65,7 @@ const TaskCard = ({
       {role === "admin" && (
         <button
           onClick={() => navigate(`/task/${task.id}/edit`)}
-          className="text-sm absolute top-2 right-1"
+          className="text-sm text-slate-700 absolute top-2.5 right-1.5"
         >
           <SlOptionsVertical />
         </button>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { getProjects } from "../../services/projectService";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
 import ProjectFilters from "./ProjectFilters";
-import { IoCalendarNumberOutline } from "react-icons/io5";
 import ProjectsSkeleton from "../../components/loaders/ProjectsSkeleton";
+import ProjectCard from "./ProjectCard";
 
 const Projects = () => {
   const { role } = useAuth();
@@ -60,11 +60,11 @@ const Projects = () => {
       <div className="flex justify-between items-center">
         <div>
           {/* <h1>Projects</h1> */}
-          <h3 className="text-2xl font-medium">Your Projects <span className="text-sm"> ({projects.length}) </span></h3>
+          <h3 className="text-2xl font-semibold text-primary">Your Projects <span className="text-sm"> ({projects.length}) </span></h3>
         </div>
 
         {role === 'admin' && (
-          <button onClick={()=>navigate('/create')} className="bg-primary text-white px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all duration-200">
+          <button onClick={()=>navigate('/create')} className="bg-primary text-white px-3 py-2 rounded-xl font-medium text-sm flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all duration-200">
             + New
           </button>
         )}
@@ -83,7 +83,7 @@ const Projects = () => {
 
       {/* empty state */} 
       {!loading && filteredProjects.length === 0 && (
-        <div className="flex flex-col gap-4 items-center justify-center">
+        <div className="flex flex-col gap-4 items-center justify-center py-34">
           <h3>No projects yet.</h3>
           <p>Create your first project to get started</p>
           {role === 'admin' && (
@@ -98,28 +98,7 @@ const Projects = () => {
 
       <div className="flex flex-col gap-3 mt-4">
             {filteredProjects.map(proj => (
-                <Link key={proj.id} to={`/projects/${proj.id}`}>
-                    <div className=" border border-slate-300 rounded-2xl p-4">
-                        <div className="flex items-center gap-3">
-
-                            <div className="flex-1">
-                                <h3 className="font-semibold text-slate-900 text-lg line-clamp-1">{proj.name}</h3>
-                                <p className="text-sm text-slate-400 mt-0.5 line-clamp-1">{proj.description}</p>
-                            </div>
-
-                           
-                            
-                        </div>
-
-                         <div>
-                              <p className="text-xs flex items-center gap-1">
-                              <IoCalendarNumberOutline /> Due Date:  
-                               {proj.due_date ? new Date(proj.due_date).toLocaleDateString() : ' No due date'}
-                              </p>
-                              
-                            </div>
-                    </div>
-                </Link>
+                <ProjectCard key={proj.id} proj={proj}/>
             ))}
         </div>
 

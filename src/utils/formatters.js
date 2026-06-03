@@ -1,4 +1,6 @@
 export const formatDate = (dateString) => {
+    if(dateString === null) return 'No due date'
+    
     const date = new Date(dateString);
     
     const formattedDate = date.toLocaleDateString('en-GB', {

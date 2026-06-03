@@ -3,13 +3,13 @@ import { CiFilter } from "react-icons/ci";
 
 const TaskFilters = ({role, currentFilter, setCurrentFilter, openDropdown, setOpenDropdown, priorityFilter, setPriorityFilter, statusFilter, setStatusFilter}) => {
   return (
-    <>
+    <div className="flex items-center gap-2">
     {/* filters */}
-                <div>
+                <div className="">
                   {/* all tasks and my tasks  */}       
                   {
                     role === 'member' && (
-                        <select value={currentFilter} onChange={(e)=>setCurrentFilter(e.target.value)} className="">
+                        <select value={currentFilter} onChange={(e)=>setCurrentFilter(e.target.value)} className="border border-primary/30 outline-none rounded-lg text-slate-800 px-2">
                     <option value="all">All tasks</option>
                     <option value="mine">My tasks</option>
                   </select>
@@ -18,11 +18,12 @@ const TaskFilters = ({role, currentFilter, setCurrentFilter, openDropdown, setOp
                   
                 </div>
     
-                {/* status */}
-                <div className="relative">
+    <div className="flex gap-2 justify-end">
+                {/* sort by status */}
+                <div className="relative bg-slate-200 p-1 rounded-lg flex justify-between items-center">
     
                   {/* trigger button */}
-                  <button onClick={(e)=>{setOpenDropdown(openDropdown === 'status' ? null : 'status'); e.stopPropagation()}}><CiFilter/></button>
+                  <button onClick={(e)=>{setOpenDropdown(openDropdown === 'status' ? null : 'status'); e.stopPropagation()}} className="cursor-pointer"><CiFilter/></button>
     
                   {/* dropdown menu */}
                   {openDropdown === 'status' && (
@@ -41,10 +42,10 @@ const TaskFilters = ({role, currentFilter, setCurrentFilter, openDropdown, setOp
                   )}
                 </div>
                   {/* sort by priority */}
-                  <div className="relative">
+                  <div className="relative bg-slate-200 p-1 rounded-lg flex justify-between items-center cursor-pointer">
     
                   {/* trigger button */}
-                  <button onClick={(e)=>{setOpenDropdown(openDropdown === 'priority' ? null : 'priority'); e.stopPropagation()}}><BiSort/></button>
+                  <button onClick={(e)=>{setOpenDropdown(openDropdown === 'priority' ? null : 'priority'); e.stopPropagation()}} className="cursor-pointer"><BiSort/></button>
     
                   {/* dropdown menu */}
                   {openDropdown === 'priority' && (
@@ -62,7 +63,9 @@ const TaskFilters = ({role, currentFilter, setCurrentFilter, openDropdown, setOp
                     </div>
                   )}
                 </div>
-    </>
+
+    </div>
+    </div>
   )
 }
 

@@ -157,19 +157,22 @@ const ProjectDetail = () => {
           <p>Loading...</p>
         ) : (
           <div className="mt-6">
-            <h1 className="text-3xl font-semibold mb-0.5 text-slate-900">
+            <h1 className="text-3xl text-primary font-semibold mb-0.5 ">
               {capitalize(projectData?.name)}
             </h1>
 
-            <p className="text-slate-800 mb-1">{capitalize(projectData?.description)}</p>
+            <p className="text-slate-700 mb-1">{capitalize(projectData?.description)}</p>
+
+            <div className="mt-2">
 
             <div className="flex items-center gap-1 text-xs"><span><LuCalendar1 /></span>Created on: <span>{formatDate(projectData?.created_at)}</span></div>
 
             <div className="flex items-center gap-1 text-xs"><span><LuCalendarClock /></span> Due Date: <span>{formatDate(projectData?.due_date)}</span></div>
+            </div>
             {/* progress bar */}
-            <div className="mt-4 flex items-center justify-center gap-4">
+            <div className="mt-4 border border-border bg-card p-4 rounded-xl flex items-center justify-center gap-4">
   <div
-    className="relative size-10 rounded-full flex items-center justify-center"
+    className="relative size-10 rounded-full flex items-center justify-center transition-all duration-200"
     style={{
       background: `conic-gradient(
         var(--color-primary) ${progress * 3.6}deg,
@@ -185,7 +188,7 @@ const ProjectDetail = () => {
   </div>
 
   <div>
-    <p className="font-medium">Project Progress</p>
+    <p className="font-semibold text-primary">Project Progress</p>
     <p className="text-sm text-slate-500">
       {completedTasks} of {totalTasks} tasks completed
     </p>
@@ -195,9 +198,9 @@ const ProjectDetail = () => {
         )}
 
         {/* tasks */}
-        <div className="border border-slate-300 rounded-md p-2 mt-4">
+        <div className="border border-border bg-card rounded-md p-2 mt-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-center text-slate-900 font-medium text-2xl">
+            <h3 className="text-center text-primary font-medium text-2xl">
               Tasks
             </h3>
 
@@ -209,7 +212,7 @@ const ProjectDetail = () => {
                <IoIosAdd/>
               </button>
             )}
-  </div>
+
             {/* filters */}
             <TaskFilters
             role={role}
@@ -222,6 +225,8 @@ const ProjectDetail = () => {
             openDropdown={openDropdown}
             setOpenDropdown={setOpenDropdown}
             />
+  </div>
+            
           
 
           {!loading && filteredTasks.length === 0 && (

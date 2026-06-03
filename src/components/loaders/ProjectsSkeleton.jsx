@@ -1,20 +1,7 @@
 const ProjectsSkeleton = () => {
   return (
     <div className="animate-pulse mt-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <div className="h-7 w-40 bg-slate-200 rounded" />
-        </div>
-
-        <div className="h-10 w-24 bg-slate-200 rounded-xl" />
-      </div>
-
-      {/* Search & Filter */}
-      <div className="mt-4 space-y-2">
-        <div className="h-10 w-full bg-slate-200 rounded-xl" />
-        <div className="h-10 w-32 bg-slate-200 rounded-xl" />
-      </div>
+     
 
       {/* Project Cards */}
       <div className="flex flex-col gap-3 mt-4">
