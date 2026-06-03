@@ -1,17 +1,17 @@
 import { Routes, Route, Navigate } from "react-router-dom"
-import Signup from "./pages/Signup"
-import Login from "./pages/Login"
+import Signup from "./pages/auth/Signup"
+import Login from "./pages/auth/Login"
 import Dashboard from "./pages/Dashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
-import Projects from "./pages/Projects"
-import CreateProject from "./pages/CreateProject"
-import ProjectDetail from "./pages/ProjectDetail"
-import EditProject from "./pages/EditProject"
-import CreateTask from "./pages/CreateTask"
+import Projects from "./pages/projects/Projects"
+import CreateProject from "./pages/projects/CreateProject"
+import ProjectDetail from "./pages/projects/ProjectDetail"
+import EditProject from "./pages/projects/EditProject"
+import CreateTask from "./pages/tasks/CreateTask"
 import { useAuth } from "./context/AuthContext"
 import BottomNav from "./components/BottomNav"
 import Profile from "./pages/Profile"
-import EditTask from './pages/EditTask'
+import EditTask from './pages/tasks/EditTask'
 
 const App = () => {
   const {user, loading} = useAuth();

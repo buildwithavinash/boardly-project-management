@@ -34,7 +34,7 @@ export const TasksProvider = ({children}) => {
 
     console.log("tasks: ",tasks);
     return (
-        <TasksContext.Provider value={{tasks, error, loading}}>
+        <TasksContext.Provider value={{tasks, setTasks, error, loading}}>
             {children}
         </TasksContext.Provider>
     )

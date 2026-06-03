@@ -15,6 +15,7 @@ const EditTask = () => {
         description: '',
         status: 'pending',
         priority: 'low',
+        due_date: '',
         assigned_to: '',
     })
 
@@ -40,6 +41,7 @@ const EditTask = () => {
                     description: data.description,
                     status: data.status,
                     priority: data.priority,
+                    due_date: data.due_date,
                     assigned_to: data.assigned_to || '',
                 })
                 }catch(error){
@@ -80,6 +82,7 @@ const EditTask = () => {
         description: '',
         status: 'pending',
         priority: 'low',
+        due_date: '',
         assigned_to: '',
         })
     }
@@ -116,6 +119,11 @@ const EditTask = () => {
                 <option value="medium">medium</option>
                 <option value="high">high</option>
             </select>
+            </div>
+
+            <div>
+                <label htmlFor="">Due Date: </label>
+                <input type="date" name="due_date" value={formData.due_date} onChange={handleChange}/>
             </div>
 
             <div className="flex items-center gap-2">

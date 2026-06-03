@@ -4,7 +4,7 @@ import { deleteProject, getProjectById } from "../../services/projectService";
 import ConfirmModal from "../../components/ConfirmModal";
 import { useAuth } from "../../context/AuthContext";
 import { getTasks, updateTask } from "../../services/taskService";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosAdd, IoIosArrowRoundBack } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { supabase } from "../../lib/supabase";
@@ -173,9 +173,9 @@ const ProjectDetail = () => {
             {role === "admin" && (
               <button
                 onClick={() => navigate(`/projects/${id}/create-task`)}
-                className="bg-primary text-sm rounded-md px-2 py-1 text-white font-medium cursor-pointer"
+                className="bg-primary rounded-md px-2 py-2 text-white text-lg font-bold cursor-pointer"
               >
-                Add Task
+               <IoIosAdd/>
               </button>
             )}
   </div>
@@ -204,6 +204,7 @@ const ProjectDetail = () => {
           <div className="mt-4 flex flex-col gap-2">
             {filteredTasks.map((task) => (
               <TaskCard
+              key={task.id}
               task={task}
               user={user}
               role={role}

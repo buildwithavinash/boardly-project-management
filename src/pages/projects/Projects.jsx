@@ -3,6 +3,8 @@ import { useAuth } from "../../context/AuthContext";
 import { getProjects } from "../../services/projectService";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
+import ProjectFilters from "./ProjectFilters";
+import { IoCalendarNumberOutline } from "react-icons/io5";
 
 const Projects = () => {
   const { role } = useAuth();
@@ -65,17 +67,8 @@ const Projects = () => {
         )}
       </div>
 
-      {/* search and filters */}
-      <div className="flex gap-1 mt-2">
-        <input type="search" name="" value={searchQuery} onChange={(e)=>setSearhQuery(e.target.value)} placeholder="Search by name" className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-1 rounded-md flex-1 min-w-0"/>
-
-        <select name="" value={currentFilter} onChange={(e)=>setCurrentFilter(e.target.value)} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-2 py-1 rounded-md shrink-0">
-          <option value="all">All</option>
-          <option value="atoz">A-Z</option>
-          <option value="ztoa">Z-A</option>
-          <option value="date_created">Date created</option>
-        </select>
-      </div>
+      {/* search and filter */}
+      <ProjectFilters currentFilter={currentFilter} setCurrentFilter={setCurrentFilter} searchQuery={searchQuery} setSearhQuery={setSearhQuery}/>
 
       {/* states */}
       {loading && <p>Loading...</p>}
@@ -105,15 +98,23 @@ const Projects = () => {
                 <Link key={proj.id} to={`/projects/${proj.id}`}>
                     <div className=" border border-slate-300 rounded-2xl p-4">
                         <div className="flex items-center gap-3">
-                            <div className="bg-primary/10 p-2.5 rounded-xl">
-                                
-                            </div>
+
                             <div className="flex-1">
-                                <h3 className="font-semibold text-slate-900">{proj.name}</h3>
+                                <h3 className="font-semibold text-slate-900 text-lg line-clamp-1">{proj.name}</h3>
                                 <p className="text-sm text-slate-400 mt-0.5 line-clamp-1">{proj.description}</p>
                             </div>
-                            <span className="text-slate-300 text-xl">→</span>
+
+                           
+                            
                         </div>
+
+                         <div>
+                              <p className="text-xs flex items-center gap-1">
+                              <IoCalendarNumberOutline /> Due Date:  
+                               {proj.due_date ? new Date(proj.due_date).toLocaleDateString() : ' No due date'}
+                              </p>
+                              
+                            </div>
                     </div>
                 </Link>
             ))}
