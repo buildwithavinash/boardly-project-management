@@ -11,6 +11,8 @@ import { supabase } from "../../lib/supabase";
 import Container from "../../components/Container";
 import TaskCard from "../../components/TaskCard";
 import TaskFilters from "../../components/TaskFilters";
+import { capitalize, formatDate } from "../../utils/formatters";
+import { LuCalendar1, LuCalendarClock } from "react-icons/lu";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
@@ -111,7 +113,10 @@ const ProjectDetail = () => {
     (statusFilter === 'all' || task.status === statusFilter) &&
     (priorityFilter === 'all' || task.priority === priorityFilter)
   });
-  console.log("project data", projectData);
+
+  const totalTasks = tasks.length;
+  const completedTasks = tasks.filter(task => task.status === 'done').length;
+  const progress = totalTasks === 0 ? 0 : Math.round((completedTasks/totalTasks) * 100);
   return (
     <Container>
       <div onClick={()=>setOpenDropdown(null)} className="relative">
@@ -125,9 +130,9 @@ const ProjectDetail = () => {
         <div className="flex justify-between items-center">
           <button
             onClick={() => navigate("/projects")}
-            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-1 cursor-pointer hover:opacity-80 transition-all duration-200"
+            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
           >
-            <IoIosArrowRoundBack /> Projects
+            <IoIosArrowRoundBack />
           </button>
 
           {role === "admin" && (
@@ -153,13 +158,39 @@ const ProjectDetail = () => {
         ) : (
           <div className="mt-6">
             <h1 className="text-3xl font-semibold mb-0.5 text-slate-900">
-              {projectData?.name}
+              {capitalize(projectData?.name)}
             </h1>
 
-            <p className="text-slate-800">{projectData?.description}</p>
+            <p className="text-slate-800 mb-1">{capitalize(projectData?.description)}</p>
 
+            <div className="flex items-center gap-1 text-xs"><span><LuCalendar1 /></span>Created on: <span>{formatDate(projectData?.created_at)}</span></div>
+
+            <div className="flex items-center gap-1 text-xs"><span><LuCalendarClock /></span> Due Date: <span>{formatDate(projectData?.due_date)}</span></div>
             {/* progress bar */}
-            <div></div>
+            <div className="mt-4 flex items-center justify-center gap-4">
+  <div
+    className="relative size-10 rounded-full flex items-center justify-center"
+    style={{
+      background: `conic-gradient(
+        var(--color-primary) ${progress * 3.6}deg,
+        #e2e8f0 ${progress * 3.6}deg
+      )`,
+    }}
+  >
+    <div className="size-7 bg-white rounded-full flex items-center justify-center">
+      <span className="font-bold text-xs text-primary">
+        {progress}%
+      </span>
+    </div>
+  </div>
+
+  <div>
+    <p className="font-medium">Project Progress</p>
+    <p className="text-sm text-slate-500">
+      {completedTasks} of {totalTasks} tasks completed
+    </p>
+  </div>
+</div>
           </div>
         )}
 

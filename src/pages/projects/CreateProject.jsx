@@ -58,7 +58,7 @@ const CreateProject = () => {
   
     <div className="">
       <div>
-        <button onClick={() => navigate("/projects")} className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-1 cursor-pointer hover:opacity-80 transition-all duration-200"><IoIosArrowRoundBack/> Projects</button>
+        <button onClick={() => navigate("/projects")} className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"><IoIosArrowRoundBack/></button>
       </div>
      
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4 justify-center">

@@ -1,3 +1,5 @@
+import { SlOptionsVertical } from "react-icons/sl";
+
 const TaskCard = ({
   task,
   priorityConfig,
@@ -61,9 +63,9 @@ const TaskCard = ({
       {role === "admin" && (
         <button
           onClick={() => navigate(`/task/${task.id}/edit`)}
-          className="absolute top-2 right-3"
+          className="text-sm absolute top-2 right-1"
         >
-          Edit
+          <SlOptionsVertical />
         </button>
       )}
     </div>

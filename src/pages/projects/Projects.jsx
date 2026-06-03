@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
 import ProjectFilters from "./ProjectFilters";
 import { IoCalendarNumberOutline } from "react-icons/io5";
+import ProjectsSkeleton from "../../components/loaders/ProjectsSkeleton";
 
 const Projects = () => {
   const { role } = useAuth();
@@ -52,6 +53,8 @@ const Projects = () => {
   })
   return (
     <Container>
+
+     
     <div className="">
       {/* header */}
       <div className="flex justify-between items-center">
@@ -70,8 +73,8 @@ const Projects = () => {
       {/* search and filter */}
       <ProjectFilters currentFilter={currentFilter} setCurrentFilter={setCurrentFilter} searchQuery={searchQuery} setSearhQuery={setSearhQuery}/>
 
-      {/* states */}
-      {loading && <p>Loading...</p>}
+       {/* states */}
+      {loading && <ProjectsSkeleton/>}
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
           <p className="text-red-500 text-sm">{error}</p>
@@ -80,7 +83,7 @@ const Projects = () => {
 
       {/* empty state */} 
       {!loading && filteredProjects.length === 0 && (
-        <div>
+        <div className="flex flex-col gap-4 items-center justify-center">
           <h3>No projects yet.</h3>
           <p>Create your first project to get started</p>
           {role === 'admin' && (

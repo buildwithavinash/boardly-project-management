@@ -5,17 +5,20 @@ import { FaTasks } from "react-icons/fa";
 import { GoProjectRoadmap } from "react-icons/go";
 import { IoCheckmarkDoneCircleOutline, IoFolderOpen } from "react-icons/io5";
 import { MdChevronRight, MdPendingActions } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Container from "../components/Container";
 import {useAuth} from '../context/AuthContext'
+import { capitalize } from "../utils/formatters";
+import RecentCardSkeleton from "../components/loaders/RecentCardSkeleton";
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const {userInfo} = useAuth();
+  const {userInfo, role} = useAuth();
+  const navigate = useNavigate();
 
   const stats = [
     {
@@ -99,10 +102,9 @@ const Dashboard = () => {
   return (
     <Container>
       <div className="">
-        <div className="text-center font-semibold text-slate-900 text-xl">Welcome, <span className="text-2xl text-primary">{userInfo?.name}</span> </div>
+        <div className="text-center font-semibold text-slate-900 text-xl">Welcome, <span className="text-2xl text-primary">{capitalize(userInfo?.name)}</span> </div>
 
         <div>
-          {loading && <p>Loading...</p>}
           {error && <p>{error}</p>}
         </div>
 
@@ -113,7 +115,6 @@ const Dashboard = () => {
               key={stat.label}
               className={`${stat.bg} ${stat.text} rounded-2xl p-2 text-center`}
             >
-              {/* <span className="text-2xl">{stat.icon}</span> */}
               <p className="text-3xl font-bold mt-2">{stat.value}</p>
               <p className="text-sm font-medium mt-1 opacity-80">
                 {stat.label}
@@ -123,53 +124,81 @@ const Dashboard = () => {
         </div>
 
         {/* recent projects */}
-        <div className="border border-slate-300 px-2 py-3 rounded-lg mt-4">
+        <div className="bg-card border border-border px-2 py-3 rounded-lg mt-4">
           <div className="flex justify-between">
             <h2>Recent Projects</h2>
             <Link
               to="/projects"
-              className="flex justify-between items-center px-2 py-0.5 text-xs rounded-lg gap-2 border border-slate-300"
+              className="flex bg-background justify-between items-center px-2 py-0.5 text-xs rounded-lg gap-2 border border-border"
             >
               See all <IoIosArrowRoundForward />
             </Link>
           </div>
 
           <div className="flex flex-col gap-2 mt-4">
-            {projects.slice(0, 3).map((proj) => (
+            {!loading && projects.length === 0 && (
+              <div>
+          <h3>No projects yet.</h3>
+          <p>Create your first project to get started</p>
+          {role === 'admin' && (
+             <button onClick={()=>navigate('/create')} className="bg-primary text-white px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all duration-200">
+            Create Project
+          </button>
+          )}
+        </div>
+            )}
+
+            {loading ? (
+              <div className="space-y-2">
+                {Array.from({length: 5}).map((_, i) => (
+                  <RecentCardSkeleton key={i}/>
+                ))}
+              </div>
+            ) : (
+                projects.slice(0, 3).map((proj) => (
               <Link
                 to={`/projects/${proj.id}`}
                 key={proj.id}
-                className="border p-1 border-slate-300 rounded-md"
+                className="bg-background border p-1 border-slate-300 rounded-md"
               >
-                <div className="flex justify-between">
-                  <div className="flex gap-2">
-                    <IoFolderOpen className="mt-1" />
+                <div className="flex justify-between px-1 py-1">
+                  <div className="flex gap-2 items-start">
+                    <IoFolderOpen className="mt-1.5 text-primary" />
 
                     <div className="leading-tight">
-                      <h3>{proj.name}</h3>
-                      <p>{proj.description}</p>
+                      <h3 className="text-primary font-semibold text-lg">{capitalize(proj.name)}</h3>
+                      <p className="text-slate-800">{capitalize(proj.description)}</p>
                     </div>
                   </div>
 
                   <MdChevronRight className="self-center" />
                 </div>
               </Link>
-            ))}
+            ))
+            )}
+            
           </div>
         </div>
 
         {/* recent tasks */}
-        <div className="border border-slate-300 px-2 py-3 rounded-lg mt-4">
-          <h3>Recent Tasks</h3>
+        <div className="bg-card border border-border px-2 py-3 rounded-lg mt-4">
+          <h3 className="">Recent Tasks</h3>
 
           <div className="flex flex-col gap-2 mt-4">
-            {tasks.slice(0, 6).map((task) => (
+            {loading ? (
+              <div className="space-y-2">
+                {Array.from({length: 5}).map((_, i) => (
+                  <RecentCardSkeleton key={i}/>
+                ))}
+              </div>
+            ) : (
+                  tasks.slice(0, 6).map((task) => (
               <div
                 key={task.id}
-                className="border p-1 border-slate-300 rounded-md"
+                className="bg-background border px-2 py-2 border-slate-300 rounded-md"
               >
-                <h3>{task.title}</h3>
-                <div>
+                <h3 className="text-primary font-semibold text-lg">{capitalize(task.title)}</h3>
+                <div className="flex gap-1 items-center mt-1">
                   <span
                     className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityConfig[task.priority]?.color}`}
                   >
@@ -182,7 +211,9 @@ const Dashboard = () => {
                   </span>
                 </div>
               </div>
-            ))}
+            ))
+            )}
+          
           </div>
         </div>
       </div>
