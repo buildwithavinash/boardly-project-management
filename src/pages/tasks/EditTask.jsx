@@ -3,6 +3,7 @@ import Container from '../../components/Container'
 import { useEffect, useState } from 'react';
 import { getTaskById, updateTask } from '../../services/taskService';
 import { getMembers } from '../../services/profileService';
+import { IoIosArrowRoundBack } from 'react-icons/io';
 const EditTask = () => {
     const {id} = useParams();
     const navigate = useNavigate();
@@ -92,43 +93,43 @@ const EditTask = () => {
     <Container>
 
         <div>
-            <button onClick={()=>navigate(-1)}>Back</button>
+            <button onClick={() => navigate(-1)} className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"><IoIosArrowRoundBack/></button>
         </div>
     <div>
-        <h3>Edit Task</h3>
+        <h2 className="mt-4 text-3xl text-center font-medium text-primary">Edit Task</h2>
         
 
         <div>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4 justify-center">
-            <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Task name" className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
-            <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
+            <form onSubmit={handleSubmit} className="border border-border bg-card p-4 rounded-md flex flex-col gap-2 mt-4 justify-center">
+            <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Task name" className="border border-slate-300 bg-background focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
+            <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" className="border border-slate-300 bg-background focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
 
             <div className="flex items-center gap-2">
-            <label htmlFor="status">Status: </label>
-            <select name="status" value={formData.status} onChange={handleChange} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1">
-                <option value="pending">pending</option>
-                <option value="inProgress">in progress</option>
-                <option value="done">done</option>
+            <label htmlFor="status" className="font-semibold text-slate-800">Status: </label>
+            <select name="status" value={formData.status} onChange={handleChange} className="border border-slate-300 focus:border-border bg-background focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1">
+                <option value="pending">Pending</option>
+                <option value="inProgress">In progress</option>
+                <option value="done">Done</option>
             </select>
             </div>
 
             <div className="flex items-center gap-2">
-            <label htmlFor="priority">Priority: </label>
-            <select name="priority" value={formData.priority} onChange={handleChange} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1">
-                <option value="low">low</option>
-                <option value="medium">medium</option>
-                <option value="high">high</option>
+            <label htmlFor="priority" className="font-semibold text-slate-800">Priority: </label>
+            <select name="priority" value={formData.priority} onChange={handleChange} className="border border-slate-300 focus:border-border bg-background focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
             </select>
             </div>
 
-            <div>
-                <label htmlFor="">Due Date: </label>
-                <input type="date" name="due_date" value={formData.due_date} onChange={handleChange}/>
+            <div className='flex items-center gap-2'>
+                <label htmlFor="due_date" className="font-semibold text-slate-800">Due Date: </label>
+                <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className="flex-1 bg-background flex items-center justify-center border px-4 py-2 border-border rounded-md"/>
             </div>
 
             <div className="flex items-center gap-2">
-            <label htmlFor="assigned_to">Select member: </label>
-            <select name="assigned_to" value={formData.assigned_to} onChange={handleChange} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1">
+            <label htmlFor="assigned_to" className="font-semibold text-slate-800">Select member: </label>
+            <select name="assigned_to" value={formData.assigned_to} onChange={handleChange} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-1 bg-background py-2 rounded-md flex-1">
                 <option value="">Select member</option>
                 {members.map(member => (
                     <option key={member.id} value={member.id}>{member.name}</option>
@@ -138,8 +139,8 @@ const EditTask = () => {
 
                 {error && <p>{error}</p>}
             <button type="submit" disabled={loading}
-          className="bg-primary text-white font-medium px-4 py-2 rounded-md self-center cursor-pointer hover:opacity-80 transition-all duration-200">
-                {loading ? <p>Updating...</p> : <p>Update</p>}
+          className="bg-primary text-white font-medium px-4 py-2 mt-2 rounded-md cursor-pointer hover:opacity-80 transition-all duration-200">
+                {loading ? <p>Updating...</p> : <p>Update Task</p>}
             </button>
         </form>
         </div>

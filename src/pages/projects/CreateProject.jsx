@@ -61,34 +61,37 @@ const CreateProject = () => {
         <button onClick={() => navigate("/projects")} className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"><IoIosArrowRoundBack/></button>
       </div>
      
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4 justify-center">
+     <div>
+      <h2 className="mt-4 text-3xl text-center font-medium text-primary">Create New Project</h2>
+     </div>
+      <form onSubmit={handleSubmit} className="border border-border bg-card p-4 rounded-md flex flex-col gap-2 mt-4 justify-center">
         <input
           type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
           placeholder="Project Name"
-          className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
+          className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
         />
         <textarea
           name="description"
           value={formData.description}
           onChange={handleChange}
           placeholder="Project Description"
-          className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
+          className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
         />
 
         <div className="flex gap-2 items-center">
-        <label htmlFor="due_date">Due Date: </label>
+        <label htmlFor="due_date" className="text-slate-800 ">Due Date: </label>
         <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="bg-primary text-white font-medium px-4 py-2 rounded-md self-center cursor-pointer hover:opacity-80 transition-all duration-200"
+          className="bg-primary text-white font-medium px-4 py-2 rounded-md cursor-pointer hover:opacity-80 transition-all duration-200 mt-2"
         >
-         {loading ? 'Creating...' : 'Create'}
+         {loading ? 'Creating...' : 'Create Project'}
         </button>
 
          {error && <p className="mt-4">{error}</p>}

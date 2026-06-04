@@ -204,14 +204,9 @@ const ProjectDetail = () => {
               Tasks
             </h3>
 
-            {role === "admin" && (
-              <button
-                onClick={() => navigate(`/projects/${id}/create-task`)}
-                className="bg-primary rounded-md px-2 py-2 text-white text-lg font-bold cursor-pointer"
-              >
-               <IoIosAdd/>
-              </button>
-            )}
+        <div className="flex items-center gap-2">
+
+            
 
             {/* filters */}
             <TaskFilters
@@ -225,6 +220,16 @@ const ProjectDetail = () => {
             openDropdown={openDropdown}
             setOpenDropdown={setOpenDropdown}
             />
+
+            {role === "admin" && (
+              <button
+              onClick={() => navigate(`/projects/${id}/create-task`)}
+              className="bg-primary rounded-md p-1 text-white text-lg font-bold cursor-pointer"
+              >
+               <IoIosAdd/>
+              </button>
+            )}
+            </div>
   </div>
             
           
@@ -248,6 +253,7 @@ const ProjectDetail = () => {
               priorityConfig={priorityConfig}
               statusConfig={statusConfig}
               navigate={navigate}
+              onTaskDelete={setTasks}
               />
             ))}
           </div>
