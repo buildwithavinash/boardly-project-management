@@ -7,6 +7,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import { useTasks } from "../context/TasksContext";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
+import TaskDetailModal from "./TaskDetailModal";
 
 const TaskCard = ({
   task,
@@ -17,10 +18,12 @@ const TaskCard = ({
   role,
   navigate,
   onTaskDelete,
+  members = [],
 }) => {
 
   const {tasks, setTasks} = useTasks();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
 
   const handleDeleteTask = async () => {
     try {
@@ -36,11 +39,17 @@ const TaskCard = ({
       console.error("delete failed", error);
     }
   }
+
+  const assignedMember = members?.find(m => m.id === task.assigned_to);
   return (
-    <div className="relative border border-border bg-background p-2 rounded-lg">
+    <>
       {showDeleteModal && (
         <ConfirmModal onCancel={()=>setShowDeleteModal(false)} onConfirm={handleDeleteTask}/>
       )}
+      <div 
+        onClick={() => setShowDetailModal(true)}
+        className="relative border border-border bg-background p-2 rounded-lg cursor-pointer hover:shadow-md hover:bg-slate-50 transition-all"
+      >
       <div className="leading-tight">
         <h2 className="font-semibold text-lg text-primary">{capitalize(task.title)}</h2>
   
@@ -87,25 +96,43 @@ const TaskCard = ({
             : "No due date"}
             </span>
         </p>
-        <p>assigned members</p>
+        <p className="text-xs text-slate-700">Assigned to: {assignedMember ? assignedMember : 'Unassigned'}</p>
       </div>
 
       {role === "admin" && (
         <div className="absolute top-2.5 right-1.5 flex items-center gap-2">
 
         <button
-          onClick={() => navigate(`/task/${task.id}/edit`)}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/task/${task.id}/edit`);
+          }}
           className="border border-slate-300 rounded-md p-1 cursor-pointer"
           >
           <CiEdit />
         </button>
 
-        <button onClick={()=> setShowDeleteModal(true)} className="border bg-red-200 text-red-500 rounded-md p-1 cursor-pointer">
+        <button onClick={(e) => {
+          e.stopPropagation();
+          setShowDeleteModal(true);
+        }} className="border bg-red-200 text-red-500 rounded-md p-1 cursor-pointer">
           <MdOutlineDelete />
         </button>
           </div>
       )}
-    </div>
+      </div>
+
+      {/* Task Detail Modal */}
+      {showDetailModal && (
+        <TaskDetailModal
+          task={task}
+          onClose={() => setShowDetailModal(false)}
+          priorityConfig={priorityConfig}
+          statusConfig={statusConfig}
+          members={members}
+        />
+      )}
+    </>
   );
 };
 

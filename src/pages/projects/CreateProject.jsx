@@ -64,7 +64,7 @@ const CreateProject = () => {
      <div>
       <h2 className="mt-4 text-3xl text-center font-medium text-primary">Create New Project</h2>
      </div>
-      <form onSubmit={handleSubmit} className="border border-border bg-card p-4 rounded-md flex flex-col gap-2 mt-4 justify-center">
+      <form onSubmit={handleSubmit} className="border border-border bg-card p-4 rounded-md flex flex-col gap-2 mt-8 justify-center">
         <input
           type="text"
           name="name"
@@ -82,8 +82,8 @@ const CreateProject = () => {
         />
 
         <div className="flex gap-2 items-center">
-        <label htmlFor="due_date" className="text-slate-800 ">Due Date: </label>
-        <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
+        <label htmlFor="due_date" className="text-slate-800 font-semibold">Due Date: </label>
+        <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className="border border-slate-300 bg-background focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"/>
         </div>
 
         <button

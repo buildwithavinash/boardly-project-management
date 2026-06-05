@@ -4,6 +4,7 @@ import { deleteProject, getProjectById } from "../../services/projectService";
 import ConfirmModal from "../../components/ConfirmModal";
 import { useAuth } from "../../context/AuthContext";
 import { getTasks, updateTask } from "../../services/taskService";
+import { getMembers } from "../../services/profileService";
 import { IoIosAdd, IoIosArrowRoundBack } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
@@ -17,6 +18,7 @@ import { LuCalendar1, LuCalendarClock } from "react-icons/lu";
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -65,6 +67,8 @@ const ProjectDetail = () => {
         setLoading(true);
         const { data, error } = await getProjectById(id);
         const { data: tasks, error: taskError } = await getTasks(id);
+        const { data: membersData, error: membersError } = await getMembers();
+        
         if (error) {
           setError(error.message);
           return;
@@ -74,8 +78,14 @@ const ProjectDetail = () => {
           return;
         }
 
+        if(membersError){
+          setError(membersError.message);
+          return;
+        }
+
         setProjectData(data);
         setTasks(tasks);
+        setMembers(membersData || []);
       } catch (error) {
         setError(error);
       } finally {
@@ -254,6 +264,7 @@ const ProjectDetail = () => {
               statusConfig={statusConfig}
               navigate={navigate}
               onTaskDelete={setTasks}
+              members={members}
               />
             ))}
           </div>
