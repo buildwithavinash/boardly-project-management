@@ -96,7 +96,7 @@ const TaskCard = ({
             : "No due date"}
             </span>
         </p>
-        <p className="text-xs text-slate-700">Assigned to: {assignedMember ? assignedMember : 'Unassigned'}</p>
+        <p className="text-xs text-slate-700">Assigned to: {assignedMember ? capitalize(assignedMember.name) : 'Unassigned'}</p>
       </div>
 
       {role === "admin" && (

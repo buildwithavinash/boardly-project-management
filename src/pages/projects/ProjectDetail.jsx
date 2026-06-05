@@ -14,6 +14,7 @@ import TaskCard from "../../components/TaskCard";
 import TaskFilters from "../../components/TaskFilters";
 import { capitalize, formatDate } from "../../utils/formatters";
 import { LuCalendar1, LuCalendarClock } from "react-icons/lu";
+import { useToast } from "../../context/ToastContext";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
@@ -28,6 +29,7 @@ const ProjectDetail = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const { id } = useParams();
   const { user, role } = useAuth();
+  const {addToast} = useToast();
   const navigate = useNavigate();
 
   const onConfirm = async () => {
@@ -45,10 +47,14 @@ const ProjectDetail = () => {
     // deleting the project
     const { error } = await deleteProject(projectData?.id);
     if (error) {
+
       setError(error.message);
+      addToast('Failed to delete project. Please try again.', 'error');
       return;
     }
+
     setIsOpen(false);
+    addToast('Project deleted successfully!', 'success')
     navigate("/projects");
   };
 

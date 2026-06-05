@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getProjectById, updateProject } from "../../services/projectService";
 import Container from "../../components/Container";
+import { useToast } from "../../context/ToastContext";
 
 const EditProject = () => {
     const [editProject, setEditProject] = useState(null)
     const [formData, setFormData] = useState({name: '', description: ''});
     const {id} = useParams();
+    const {addToast} = useToast();
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -32,7 +34,12 @@ const EditProject = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const {error} = await updateProject(id, formData);
-        if(error) return;
+        if(error) {
+        addToast('Failed to update project. Please try again.', 'error')
+          return;  
+        } 
+
+        addToast('Project updated successfully!', 'success')
         navigate(`/projects/${id}`);
     }
 

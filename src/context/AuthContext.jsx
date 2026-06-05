@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { useToast } from "./ToastContext";
 
 export const AuthContext = createContext(null);
 
@@ -8,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
   const [userInfo, setUserInfo] = useState(null)
+  const {addToast} = useToast();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -51,9 +53,10 @@ export const AuthProvider = ({ children }) => {
     const { error: logoutError } = await supabase.auth.signOut();
 
     if (logoutError) {
-      alert("Error in logging out", logoutError.message);
+      addToast('Failed to log out.', 'error');
     }
-
+    
+    addToast('Logged out successfully!', 'success');
     setUser(null);
   };
 

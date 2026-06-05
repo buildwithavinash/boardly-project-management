@@ -12,6 +12,7 @@ import { useAuth } from "./context/AuthContext"
 import BottomNav from "./components/BottomNav"
 import Profile from "./pages/Profile"
 import EditTask from './pages/tasks/EditTask'
+import Toast from "./components/Toast"
 
 const App = () => {
   const {user, loading} = useAuth();
@@ -21,6 +22,7 @@ const App = () => {
   }
   return (
     <div className="bg-background h-screen w-full p-2">
+      <Toast/>
     <Routes>
       <Route path="/" element={
         user ? <Navigate to='/dashboard' /> : <Signup/>

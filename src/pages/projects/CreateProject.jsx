@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {  IoIosArrowRoundBack } from "react-icons/io";
 import { useProjects } from "../../context/ProjectsContext";
 import Container from "../../components/Container";
+import { useToast } from "../../context/ToastContext";
 
 const CreateProject = () => {
   const [loading, setLoading] = useState(false);
@@ -17,6 +18,7 @@ const CreateProject = () => {
 
   const { user } = useAuth();
   const {setProjects} = useProjects();
+  const {addToast} = useToast();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -40,10 +42,12 @@ const CreateProject = () => {
 
       if (error) {
         setError(error.message);
+        addToast('Failed to create project', 'error')
         return;
       }
 
       setProjects(prev => [...prev, data]) //for context update
+      addToast('Project created!', 'success')
       navigate("/projects");
     } catch (error) {
       setError(error);
@@ -55,7 +59,6 @@ const CreateProject = () => {
   return (
     <Container>
 
-  
     <div className="">
       <div>
         <button onClick={() => navigate("/projects")} className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"><IoIosArrowRoundBack/></button>

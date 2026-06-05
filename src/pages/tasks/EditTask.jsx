@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { getTaskById, updateTask } from '../../services/taskService';
 import { getMembers } from '../../services/profileService';
 import { IoIosArrowRoundBack } from 'react-icons/io';
+import { useToast } from '../../context/ToastContext';
 const EditTask = () => {
     const {id} = useParams();
     const navigate = useNavigate();
+    const {addToast} = useToast();
     const [taskToEdit, setTaskToEdit] = useState(null);
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -32,12 +34,12 @@ const EditTask = () => {
                         return
                     }
                     if(memberError){
-                         setError(error.message);
+                        setError(error.message);
                         return
                     }
                     setTaskToEdit(data);
                     setMembers(memberData);
-                     setFormData({ 
+                    setFormData({ 
                     title: data.title,
                     description: data.description,
                     status: data.status,
@@ -47,6 +49,7 @@ const EditTask = () => {
                 })
                 }catch(error){
                     setError(error)
+
                 }finally {
                     setLoading(false);
                 }
@@ -69,8 +72,10 @@ const EditTask = () => {
             const {error} = await updateTask(id, formData);
             if(error){
                 setError(error.message);
+                addToast('Failed to update task status.', 'error')
                 return
             }
+            addToast('Task status updated!', 'success')
             navigate(`/projects/${taskToEdit.project_id}`)
         }catch(error){
             setError(error);

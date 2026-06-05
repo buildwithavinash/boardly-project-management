@@ -6,11 +6,13 @@ import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { ProjectsProvider } from './context/ProjectsContext.jsx'
 import { TasksProvider } from './context/TasksContext.jsx'
+import { ToastProvider } from './context/ToastContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
 
     <BrowserRouter>
+    <ToastProvider>
     <AuthProvider>
     <ProjectsProvider>
     <TasksProvider>
@@ -18,6 +20,7 @@ createRoot(document.getElementById('root')).render(
     </TasksProvider>
     </ProjectsProvider>
     </AuthProvider>
+    </ToastProvider>
   </BrowserRouter>
   </StrictMode>
 )

@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom"
 import { supabase } from "../../lib/supabase"
 import { useAuth } from "../../context/AuthContext";
 import Container from "../../components/Container";
+import { useToast } from "../../context/ToastContext";
 
 const Login = () => {
 
   const navigate = useNavigate();
   const {setUser} = useAuth();
+  const {addToast} = useToast();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -38,12 +40,10 @@ const Login = () => {
 
         if(err) {
     setError(err.message)
+    addToast('Invalid email or password.', 'error')
     return
 }
-
-        console.log(data);
-
-    alert("Login successfull")
+addToast('Logged in successfully!', 'success');
     setUser(data.user)
     navigate('/dashboard')
   }catch(err) {

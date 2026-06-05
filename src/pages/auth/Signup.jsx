@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
+import { useToast } from "../../context/ToastContext";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const {addToast} = useToast();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,6 +36,7 @@ const Signup = () => {
     })
 
     if(error) {
+    addToast('Failed to create account. Email might already exist.', 'error');
     setError(error.message)
     setLoading(false)
     return
@@ -58,8 +61,8 @@ setFormData({
 })
 
 // redirect to login
+addToast('Account created successfully! Please log in.', 'success');
 navigate('/login')
-alert("Signup successful! Please Login.")
   }
 
   return (

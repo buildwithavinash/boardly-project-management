@@ -5,9 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Container from "../../components/Container";
 import { capitalize } from "../../utils/formatters";
+import { useToast } from "../../context/ToastContext";
 
 const CreateTask = () => {
     const {id} = useParams();
+    const {addToast} = useToast();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -56,7 +58,10 @@ const CreateTask = () => {
             assigned_to: formData.assigned_to || null
         }
         const {error} = await createTask(taskData)
-        if(error) return
+        if(error) {
+            addToast('Failed to create task. Please try again.', 'error')
+            return
+        }
         setFormData({
             title: '',
         description: '',
@@ -66,6 +71,7 @@ const CreateTask = () => {
         project_id: id,
         due_date: ''
         })
+        addToast('Task created successfully!', 'success')
         navigate(`/projects/${id}`)
     }
   return (
