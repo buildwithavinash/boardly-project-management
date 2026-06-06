@@ -29,12 +29,20 @@ const CreateProject = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name) return;
+    setError(null);
+    if (!formData.name.trim()){
+      setError('Project name is required.');
+      addToast('Project name is required.', 'error');
+      return
+    }
 
     try {
       setLoading(true);
       const projectData = {
         ...formData,
+        name: formData.name.trim(),
+        description: formData.description.trim(),
+        due_date: formData.due_date || null,
         created_by: user.id,
       };
 
@@ -50,7 +58,7 @@ const CreateProject = () => {
       addToast('Project created!', 'success')
       navigate("/projects");
     } catch (error) {
-      setError(error);
+      setError(error.message || 'Something went wrong.');
     } finally {
       setLoading(false);
     }
@@ -73,6 +81,7 @@ const CreateProject = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
+          required
           placeholder="Project Name"
           className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
         />

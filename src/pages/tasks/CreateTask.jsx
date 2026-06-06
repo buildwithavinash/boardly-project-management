@@ -51,14 +51,23 @@ const CreateTask = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('formdata: ', formData);
-
+        setError(null);
+        if(!formData.title.trim()){
+            setError('Task title is required.');
+            addToast('Task title is required.', 'error');
+            return
+        }
         const taskData = {
             ...formData,
+            title: formData.title.trim(),
+            description: formData.description.trim(),
+            due_date: formData.due_date || null,
             assigned_to: formData.assigned_to || null
         }
+
         const {error} = await createTask(taskData)
         if(error) {
+            setError(error.message)
             addToast('Failed to create task. Please try again.', 'error')
             return
         }

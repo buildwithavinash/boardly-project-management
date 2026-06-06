@@ -80,8 +80,8 @@ const TaskDetailModal = ({ task, onClose, priorityConfig, statusConfig, members 
               Assigned To:
             </h3>
             {assignedMember ? (
-              <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-md">
-                <div className="w-10 h-10 rounded-full bg-blue-300 flex items-center justify-center text-sm font-bold text-blue-900">
+              <div className="flex items-center px-2 py-1 gap-3 bg-blue-50 rounded-md">
+                <div className="w-5 h-5 rounded-full bg-blue-300 flex items-center justify-center text-sm font-bold text-blue-900">
                   {assignedMember.name?.charAt(0).toUpperCase()}
                 </div>
                 <div>
