@@ -1,7 +1,7 @@
 import { supabase } from "../lib/supabase"
 
 export const createTask = async (taskData) => {
-    const {data, error} = await supabase.from('tasks').insert(taskData)
+    const {data, error} = await supabase.from('tasks').insert(taskData).select().single();
     return {data, error}
 }
 
@@ -26,12 +26,12 @@ export const getTasksByUser = async (userId) => {
 }
 
 export const deleteTask = async (taskId) => {
-    const {data, error} = await supabase.from('tasks').delete().eq('id', taskId)
+    const {data, error} = await supabase.from('tasks').delete().eq('id', taskId).select().single();
     return {data, error}
 }
 
 export const updateTask = async (id, updatedData) => {
-    const {data, error} = await supabase.from('tasks').update({...updatedData}).eq('id', id);
+    const {data, error} = await supabase.from('tasks').update({...updatedData}).eq('id', id).select().single();
     return {data, error}
 }
 

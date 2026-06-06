@@ -1,8 +1,7 @@
 import { supabase } from "../lib/supabase"
 
 export const createProject = async (projectData) => {
-    console.log("Project data", projectData);
-    const { data, error } = await supabase.from('projects').insert({...projectData})
+    const { data, error } = await supabase.from('projects').insert({...projectData}).select().single()
     return { data, error }
 }
 
@@ -17,11 +16,11 @@ export const getProjectById = async (id) => {
 }
 
 export const updateProject = async (id, updatedData) => {
-    const { data, error } = await supabase.from('projects').update({...updatedData}).eq('id', id)
+    const { data, error } = await supabase.from('projects').update({...updatedData}).eq('id', id).select().single()
     return { data, error }
 }
 
 export const deleteProject = async (id) => {
-    const { data, error } = await supabase.from('projects').delete().eq('id', id)
+    const { data, error } = await supabase.from('projects').delete().eq('id', id).select().single();
     return { data, error }
 }
