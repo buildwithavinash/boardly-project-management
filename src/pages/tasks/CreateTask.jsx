@@ -6,10 +6,12 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import Container from "../../components/Container";
 import { capitalize } from "../../utils/formatters";
 import { useToast } from "../../context/ToastContext";
+import { useTasks } from "../../context/TasksContext";
 
 const CreateTask = () => {
     const {id} = useParams();
     const {addToast} = useToast();
+    const {setTasks} = useTasks();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -65,12 +67,14 @@ const CreateTask = () => {
             assigned_to: formData.assigned_to || null
         }
 
-        const {error} = await createTask(taskData)
+        const {data, error} = await createTask(taskData)
         if(error) {
             setError(error.message)
             addToast('Failed to create task. Please try again.', 'error')
             return
         }
+
+        setTasks(prev => [data, ...prev])
         setFormData({
             title: '',
         description: '',

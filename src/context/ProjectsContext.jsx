@@ -13,19 +13,26 @@ export const ProjectsProvider = ({children}) => {
     
       useEffect(() => {
 
-        if(!user) return;
+          if(!user){
+            setProjects([]);
+            setError(null);
+            setLoading(false);
+            return;
+          }
+        
 
         const fetchProjects = async () => {
           try {
             setLoading(true);
+            setError(null);
             const { data, error } = await getProjects();
             if (error) {
               setError(error.message);
               return;
             }
-            setProjects(data);
+            setProjects(data || []);
           } catch (err) {
-            setError(err);
+            setError(err.message || 'Failed to load projects.');
           } finally {
             setLoading(false);
           }

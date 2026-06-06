@@ -3,18 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { deleteProject, getProjectById } from "../../services/projectService";
 import ConfirmModal from "../../components/ConfirmModal";
 import { useAuth } from "../../context/AuthContext";
-import { getTasks, updateTask } from "../../services/taskService";
+import { deleteTasksByProjectId, getTasks, updateTask } from "../../services/taskService";
 import { getMembers } from "../../services/profileService";
 import { IoIosAdd, IoIosArrowRoundBack } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
-import { supabase } from "../../lib/supabase";
 import Container from "../../components/Container";
 import TaskCard from "../../components/TaskCard";
 import TaskFilters from "../../components/TaskFilters";
 import { capitalize, formatDate } from "../../utils/formatters";
 import { LuCalendar1, LuCalendarClock } from "react-icons/lu";
 import { useToast } from "../../context/ToastContext";
+import { useProjects } from "../../context/ProjectsContext";
+import { useTasks } from "../../context/TasksContext";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
@@ -24,20 +25,20 @@ const ProjectDetail = () => {
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [currentFilter, setCurrentFilter] = useState("all");
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [priorityFilter, setPriorityFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] = useState("all");
   const [openDropdown, setOpenDropdown] = useState(null);
   const { id } = useParams();
   const { user, role } = useAuth();
-  const {addToast} = useToast();
+  const { addToast } = useToast();
+  const {setProjects} = useProjects();
+  const {setTasks: setGlobalTasks} = useTasks();
   const navigate = useNavigate();
 
   const onConfirm = async () => {
+  
     // first delete all the tasks, before deleting the projects..
-    const { error: taskError } = await supabase
-      .from("tasks")
-      .delete()
-      .eq("project_id", projectData.id);
+    const { error: taskError } = await deleteTasksByProjectId(projectData.id)
 
     if (taskError) {
       setError(taskError.message);
@@ -47,14 +48,14 @@ const ProjectDetail = () => {
     // deleting the project
     const { error } = await deleteProject(projectData?.id);
     if (error) {
-
       setError(error.message);
-      addToast('Failed to delete project. Please try again.', 'error');
+      addToast("Failed to delete project. Please try again.", "error");
       return;
     }
 
     setIsOpen(false);
-    addToast('Project deleted successfully!', 'success')
+    setProjects(prev => prev.filter(project => project.id !== projectData.id))
+    addToast("Project deleted successfully!", "success");
     navigate("/projects");
   };
 
@@ -74,7 +75,7 @@ const ProjectDetail = () => {
         const { data, error } = await getProjectById(id);
         const { data: tasks, error: taskError } = await getTasks(id);
         const { data: membersData, error: membersError } = await getMembers();
-        
+
         if (error) {
           setError(error.message);
           return;
@@ -84,7 +85,7 @@ const ProjectDetail = () => {
           return;
         }
 
-        if(membersError){
+        if (membersError) {
           setError(membersError.message);
           return;
         }
@@ -103,13 +104,24 @@ const ProjectDetail = () => {
   }, [id]);
 
   const handleStatusChange = async (taskId, newStatus) => {
-    const { error } = await updateTask(taskId, { status: newStatus });
-    if (error) return;
+    const { data, error } = await updateTask(taskId, { status: newStatus });
+    if (error) {
+      addToast('Failed to update task status.', 'error');
+      return;
+    };
     setTasks((prev) =>
       prev.map((task) =>
-        task.id === taskId ? { ...task, status: newStatus } : task,
+        task.id === taskId ? data : task,
       ),
     );
+
+    setGlobalTasks((prev) =>
+      prev.map((task) =>
+        task.id === taskId ? data : task,
+      ),
+    );
+
+    addToast('Task status updated!', 'success')
   };
 
   const priorityConfig = {
@@ -125,17 +137,20 @@ const ProjectDetail = () => {
   };
 
   const filteredTasks = tasks.filter((task) => {
-   return (currentFilter === 'all' || task.assigned_to === user.id) &&
-    (statusFilter === 'all' || task.status === statusFilter) &&
-    (priorityFilter === 'all' || task.priority === priorityFilter)
+    return (
+      (currentFilter === "all" || task.assigned_to === user.id) &&
+      (statusFilter === "all" || task.status === statusFilter) &&
+      (priorityFilter === "all" || task.priority === priorityFilter)
+    );
   });
 
   const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(task => task.status === 'done').length;
-  const progress = totalTasks === 0 ? 0 : Math.round((completedTasks/totalTasks) * 100);
+  const completedTasks = tasks.filter((task) => task.status === "done").length;
+  const progress =
+    totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
   return (
     <Container>
-      <div onClick={()=>setOpenDropdown(null)} className="relative">
+      <div onClick={() => setOpenDropdown(null)} className="relative">
         {isOpen && (
           <ConfirmModal
             onCancel={onCancel}
@@ -177,39 +192,50 @@ const ProjectDetail = () => {
               {capitalize(projectData?.name)}
             </h1>
 
-            <p className="text-slate-700 mb-1">{capitalize(projectData?.description)}</p>
+            <p className="text-slate-700 mb-1">
+              {capitalize(projectData?.description)}
+            </p>
 
             <div className="mt-2">
+              <div className="flex items-center gap-1 text-xs">
+                <span>
+                  <LuCalendar1 />
+                </span>
+                Created on: <span>{formatDate(projectData?.created_at)}</span>
+              </div>
 
-            <div className="flex items-center gap-1 text-xs"><span><LuCalendar1 /></span>Created on: <span>{formatDate(projectData?.created_at)}</span></div>
-
-            <div className="flex items-center gap-1 text-xs"><span><LuCalendarClock /></span> Due Date: <span>{formatDate(projectData?.due_date)}</span></div>
+              <div className="flex items-center gap-1 text-xs">
+                <span>
+                  <LuCalendarClock />
+                </span>{" "}
+                Due Date: <span>{formatDate(projectData?.due_date)}</span>
+              </div>
             </div>
             {/* progress bar */}
             <div className="mt-4 border border-border bg-card p-4 rounded-xl flex items-center justify-center gap-4">
-  <div
-    className="relative size-10 rounded-full flex items-center justify-center transition-all duration-200"
-    style={{
-      background: `conic-gradient(
+              <div
+                className="relative size-10 rounded-full flex items-center justify-center transition-all duration-200"
+                style={{
+                  background: `conic-gradient(
         var(--color-primary) ${progress * 3.6}deg,
         #e2e8f0 ${progress * 3.6}deg
       )`,
-    }}
-  >
-    <div className="size-7 bg-white rounded-full flex items-center justify-center">
-      <span className="font-bold text-xs text-primary">
-        {progress}%
-      </span>
-    </div>
-  </div>
+                }}
+              >
+                <div className="size-7 bg-white rounded-full flex items-center justify-center">
+                  <span className="font-bold text-xs text-primary">
+                    {progress}%
+                  </span>
+                </div>
+              </div>
 
-  <div>
-    <p className="font-semibold text-primary">Project Progress</p>
-    <p className="text-sm text-slate-500">
-      {completedTasks} of {totalTasks} tasks completed
-    </p>
-  </div>
-</div>
+              <div>
+                <p className="font-semibold text-primary">Project Progress</p>
+                <p className="text-sm text-slate-500">
+                  {completedTasks} of {totalTasks} tasks completed
+                </p>
+              </div>
+            </div>
           </div>
         )}
 
@@ -220,35 +246,30 @@ const ProjectDetail = () => {
               Tasks
             </h3>
 
-        <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              {/* filters */}
+              <TaskFilters
+                role={role}
+                currentFilter={currentFilter}
+                setCurrentFilter={setCurrentFilter}
+                priorityFilter={priorityFilter}
+                setPriorityFilter={setPriorityFilter}
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+                openDropdown={openDropdown}
+                setOpenDropdown={setOpenDropdown}
+              />
 
-            
-
-            {/* filters */}
-            <TaskFilters
-            role={role}
-            currentFilter={currentFilter}
-            setCurrentFilter={setCurrentFilter}
-            priorityFilter={priorityFilter}
-            setPriorityFilter={setPriorityFilter}
-            statusFilter={statusFilter}
-            setStatusFilter={setStatusFilter}
-            openDropdown={openDropdown}
-            setOpenDropdown={setOpenDropdown}
-            />
-
-            {role === "admin" && (
-              <button
-              onClick={() => navigate(`/projects/${id}/create-task`)}
-              className="bg-primary rounded-md p-1 text-white text-lg font-bold cursor-pointer"
-              >
-               <IoIosAdd/>
-              </button>
-            )}
+              {role === "admin" && (
+                <button
+                  onClick={() => navigate(`/projects/${id}/create-task`)}
+                  className="bg-primary rounded-md p-1 text-white text-lg font-bold cursor-pointer"
+                >
+                  <IoIosAdd />
+                </button>
+              )}
             </div>
-  </div>
-            
-          
+          </div>
 
           {!loading && filteredTasks.length === 0 && (
             <p className="text-center text-slate-700 mt-4">
@@ -261,16 +282,16 @@ const ProjectDetail = () => {
           <div className="mt-4 flex flex-col gap-2">
             {filteredTasks.map((task) => (
               <TaskCard
-              key={task.id}
-              task={task}
-              user={user}
-              role={role}
-              handleStatusChange={handleStatusChange}
-              priorityConfig={priorityConfig}
-              statusConfig={statusConfig}
-              navigate={navigate}
-              onTaskDelete={setTasks}
-              members={members}
+                key={task.id}
+                task={task}
+                user={user}
+                role={role}
+                handleStatusChange={handleStatusChange}
+                priorityConfig={priorityConfig}
+                statusConfig={statusConfig}
+                navigate={navigate}
+                onTaskDelete={setTasks}
+                members={members}
               />
             ))}
           </div>

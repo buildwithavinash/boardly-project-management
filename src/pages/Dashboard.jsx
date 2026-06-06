@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { getProjects } from "../services/projectService";
-import { getAllTasks } from "../services/taskService";
 import { FaTasks } from "react-icons/fa";
 import { GoProjectRoadmap } from "react-icons/go";
 import { IoCheckmarkDoneCircleOutline, IoFolderOpen } from "react-icons/io5";
@@ -11,12 +8,14 @@ import Container from "../components/Container";
 import {useAuth} from '../context/AuthContext'
 import { capitalize } from "../utils/formatters";
 import RecentCardSkeleton from "../components/loaders/RecentCardSkeleton";
+import { useProjects } from "../context/ProjectsContext";
+import { useTasks } from "../context/TasksContext";
 
 const Dashboard = () => {
-  const [projects, setProjects] = useState([]);
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const {projects, loading: projectsLoading, error: projectsError} = useProjects();
+  const {tasks, loading: tasksLoading, error: tasksError} = useTasks();
+  const loading = projectsLoading || tasksLoading;
+  const error = projectsError || tasksError;
   const {userInfo, role} = useAuth();
   const navigate = useNavigate();
 
@@ -63,42 +62,6 @@ const Dashboard = () => {
     done: { color: "bg-green-100 text-green-600", label: "Done" },
   };
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      setLoading(true);
-      try {
-        const { data: projectData, error: projectError } = await getProjects();
-        if (projectError) {
-          setError(projectError.message);
-          return;
-        }
-        setProjects(projectData);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const fetchTasks = async () => {
-      setLoading(true);
-      try {
-        const { data: tasksData, error: tasksError } = await getAllTasks();
-        if (tasksError) {
-          setError(tasksError.message);
-          return;
-        }
-        setTasks(tasksData);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-    fetchTasks();
-  }, []);
   return (
     <Container>
       <div className="">

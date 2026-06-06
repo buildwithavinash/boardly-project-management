@@ -19,21 +19,27 @@ export const AuthProvider = ({ children }) => {
     });
 
     async function getUserData(session) {
-      if (!session) return;
+      if (!session){
+        setRole(null);
+        setUserInfo(null);
+        return;
+      };
 
       const { data: userData, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("id", session.user.id);
+        .eq("id", session.user.id)
+        .single();
       
 
-      if(error) return
+      if(error){
+        setRole(null);
+        setUserInfo(null);
+        return;
+      }
 
-      if (userData) {
-        setRole(userData[0].role);
-        setUserInfo(userData[0])
-      } 
-
+      setRole(userData?.role || null);
+      setUserInfo(userData || null);
     }
 
     // session change
@@ -54,10 +60,13 @@ export const AuthProvider = ({ children }) => {
 
     if (logoutError) {
       addToast('Failed to log out.', 'error');
+      return
     }
     
-    addToast('Logged out successfully!', 'success');
     setUser(null);
+    setRole(null);
+    setUserInfo(null);
+    addToast('Logged out successfully!', 'success');
   };
 
   return (

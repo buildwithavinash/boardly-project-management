@@ -30,6 +30,15 @@ export const deleteTask = async (taskId) => {
     return {data, error}
 }
 
+export const deleteTasksByProjectId = async (projectId) => {
+  const { data, error } = await supabase
+    .from("tasks")
+    .delete()
+    .eq("project_id", projectId);
+
+  return { data, error };
+};
+
 export const updateTask = async (id, updatedData) => {
     const {data, error} = await supabase.from('tasks').update({...updatedData}).eq('id', id).select().single();
     return {data, error}

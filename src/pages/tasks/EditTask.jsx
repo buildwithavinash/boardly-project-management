@@ -5,10 +5,12 @@ import { getTaskById, updateTask } from "../../services/taskService";
 import { getMembers } from "../../services/profileService";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useToast } from "../../context/ToastContext";
+import { useTasks } from "../../context/TasksContext";
 const EditTask = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToast } = useToast();
+  const { setTasks } = useTasks();
   const [taskToEdit, setTaskToEdit] = useState(null);
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,7 +63,6 @@ const EditTask = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -86,12 +87,13 @@ const EditTask = () => {
         due_date: formData.due_date || null,
         assigned_to: formData.assigned_to || null,
       };
-      const { error } = await updateTask(id, updatedTask);
+      const { data, error } = await updateTask(id, updatedTask);
       if (error) {
         setError(error.message);
         addToast("Failed to update task.", "error");
         return;
       }
+      setTasks((prev) => prev.map((task) => (task.id === id ? data : task)));
       addToast("Task updated successfully!", "success");
       navigate(`/projects/${taskToEdit.project_id}`);
     } catch (error) {

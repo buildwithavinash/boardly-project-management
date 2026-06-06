@@ -11,19 +11,26 @@ export const TasksProvider = ({children}) => {
     const [loading, setLoading] = useState(false);
     const {user} = useAuth();
     useEffect(()=> {
-        if(!user) return;
+        if(!user){
+            setTasks([]);
+            setError(null);
+            setLoading(false);
+            return;
+        };
+
         const getData = async () => {
             try{
                 setLoading(true);
+                setError(null);
                 const {data, error} = await getAllTasks();
                 if(error){
                     setError(error.message);
                     return
                 }
 
-                setTasks(data);
+                setTasks(data || []);
             }catch(error){
-                setError(error)
+                setError(error.message || 'Failed to load tasks.')
             }finally{
                 setLoading(false);
             }
@@ -32,7 +39,7 @@ export const TasksProvider = ({children}) => {
         getData();
     }, [user])
 
-    console.log("tasks: ",tasks);
+   
     return (
         <TasksContext.Provider value={{tasks, setTasks, error, loading}}>
             {children}

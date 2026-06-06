@@ -3,8 +3,10 @@ import { LuCalendarClock } from 'react-icons/lu';
 import { HiOutlineUser } from 'react-icons/hi';
 import { capitalize, formatDate } from '../utils/formatters';
 import { useNavigate } from 'react-router-dom';
+import {useAuth} from '../context/AuthContext'
 
 const TaskDetailModal = ({ task, onClose, priorityConfig, statusConfig, members }) => {
+    const {role} = useAuth();
     const navigate = useNavigate();
     
   if (!task) return null;
@@ -19,8 +21,8 @@ const TaskDetailModal = ({ task, onClose, priorityConfig, statusConfig, members 
         
         {/* Header */}
         <div className="flex justify-between items-start p-6 bg-slate-50">
-          <div className="flex items-center gap-4">
-            <h2 className="text-3xl font-bold text-primary">{capitalize(task.title)}</h2>
+          <div className="flex items-center justify-between w-full">
+            <h2 className="text-2xl flex-1 font-bold text-primary">{capitalize(task.title)}</h2>
 
             <div className='flex items-center gap-2 mt-1'>
                 <span
@@ -56,7 +58,7 @@ const TaskDetailModal = ({ task, onClose, priorityConfig, statusConfig, members 
           <div>
             <h3 className="font-semibold text-slate-800 mb-2">Description</h3>
             <p className="text-slate-600 leading-relaxed text-sm">
-              {task.description || <span className="text-slate-400 italic">No description provided</span>}
+              {capitalize(task.description) || <span className="text-slate-400 italic">No description provided</span>}
             </p>
           </div>
 
@@ -109,12 +111,16 @@ const TaskDetailModal = ({ task, onClose, priorityConfig, statusConfig, members 
           >
             Close
           </button>
-          <button onClick={(e) => {
+
+          {role === 'admin' && (
+            <button onClick={(e) => {
             e.stopPropagation();
             navigate(`/task/${task.id}/edit`);
           }} className="flex-1 bg-primary text-white px-4 py-2 rounded-md hover:opacity-80 transition-opacity font-medium text-sm cursor-pointer">
             Edit Task
           </button>
+          )}
+          
         </div>
       </div>
     </div>
