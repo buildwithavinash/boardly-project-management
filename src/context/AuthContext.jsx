@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         .from("profiles")
         .select("*")
         .eq("id", session.user.id);
-      console.log("user data", userData);
+      
 
       if(error) return
 
@@ -60,9 +60,6 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  console.log("User: ", user);
-  console.log("User data: ", userInfo);
-  console.log(role);
   return (
     <AuthContext.Provider value={{ user, setUser, loading, logout, role, userInfo }}>
       {children}
