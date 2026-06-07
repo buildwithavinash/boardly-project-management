@@ -1,25 +1,27 @@
-import { useAuth } from "../context/AuthContext"
-import Loader from '../components/loaders/Loader'
+import { useAuth } from "../context/AuthContext";
+import Loader from "../components/loaders/Loader";
 import { Navigate } from "react-router-dom";
 
-const AdminRoute = ({children}) => {
-    const {user, role, loading} = useAuth();
+const AdminRoute = ({ children }) => {
+  const { user, role, loading } = useAuth();
 
-    if(loading){
-        return <div>
-            <Loader/>
-        </div>
-    }
+  if (loading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
 
-    if(!user){
-        return <Navigate to='/login' replace/>
-    }
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-    if(role !== "admin"){
-        return <Navigate to='/dashboard' replace/>
-    }
+  if (role !== "admin") {
+    return <Navigate to="/dashboard" replace />;
+  }
 
-  return children
-}
+  return children;
+};
 
-export default AdminRoute
+export default AdminRoute;

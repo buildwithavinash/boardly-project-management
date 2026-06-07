@@ -4,47 +4,45 @@ import { useAuth } from "./AuthContext";
 
 export const TasksContext = createContext(null);
 
-export const TasksProvider = ({children}) => {
+export const TasksProvider = ({ children }) => {
+  const [tasks, setTasks] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  useEffect(() => {
+    if (!user) {
+      setTasks([]);
+      setError(null);
+      setLoading(false);
+      return;
+    }
 
-    const [tasks, setTasks] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const {user} = useAuth();
-    useEffect(()=> {
-        if(!user){
-            setTasks([]);
-            setError(null);
-            setLoading(false);
-            return;
-        };
-
-        const getData = async () => {
-            try{
-                setLoading(true);
-                setError(null);
-                const {data, error} = await getAllTasks();
-                if(error){
-                    setError(error.message);
-                    return
-                }
-
-                setTasks(data || []);
-            }catch(error){
-                setError(error.message || 'Failed to load tasks.')
-            }finally{
-                setLoading(false);
-            }
+    const getData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const { data, error } = await getAllTasks();
+        if (error) {
+          setError(error.message);
+          return;
         }
 
-        getData();
-    }, [user])
+        setTasks(data || []);
+      } catch (error) {
+        setError(error.message || "Failed to load tasks.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-   
-    return (
-        <TasksContext.Provider value={{tasks, setTasks, error, loading}}>
-            {children}
-        </TasksContext.Provider>
-    )
-}
+    getData();
+  }, [user]);
 
-export const useTasks = () => useContext(TasksContext)
+  return (
+    <TasksContext.Provider value={{ tasks, setTasks, error, loading }}>
+      {children}
+    </TasksContext.Provider>
+  );
+};
+
+export const useTasks = () => useContext(TasksContext);

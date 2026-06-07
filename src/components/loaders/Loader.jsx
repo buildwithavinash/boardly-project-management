@@ -11,7 +11,7 @@ const Loader = () => {
         style={{ animationDelay: "300ms" }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

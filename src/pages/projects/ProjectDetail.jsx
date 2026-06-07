@@ -3,7 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { deleteProject, getProjectById } from "../../services/projectService";
 import ConfirmModal from "../../components/ConfirmModal";
 import { useAuth } from "../../context/AuthContext";
-import { deleteTasksByProjectId, getTasks, updateTask } from "../../services/taskService";
+import {
+  deleteTasksByProjectId,
+  getTasks,
+  updateTask,
+} from "../../services/taskService";
 import { getMembers } from "../../services/profileService";
 import { IoIosAdd, IoIosArrowRoundBack } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
@@ -31,14 +35,13 @@ const ProjectDetail = () => {
   const { id } = useParams();
   const { user, role } = useAuth();
   const { addToast } = useToast();
-  const {setProjects} = useProjects();
-  const {setTasks: setGlobalTasks} = useTasks();
+  const { setProjects } = useProjects();
+  const { setTasks: setGlobalTasks } = useTasks();
   const navigate = useNavigate();
 
   const onConfirm = async () => {
-  
     // first delete all the tasks, before deleting the projects..
-    const { error: taskError } = await deleteTasksByProjectId(projectData.id)
+    const { error: taskError } = await deleteTasksByProjectId(projectData.id);
 
     if (taskError) {
       setError(taskError.message);
@@ -54,7 +57,9 @@ const ProjectDetail = () => {
     }
 
     setIsOpen(false);
-    setProjects(prev => prev.filter(project => project.id !== projectData.id))
+    setProjects((prev) =>
+      prev.filter((project) => project.id !== projectData.id),
+    );
     addToast("Project deleted successfully!", "success");
     navigate("/projects");
   };
@@ -78,6 +83,10 @@ const ProjectDetail = () => {
 
         if (error) {
           setError(error.message);
+          return;
+        }
+        if(!data){
+          setProjectData(null);
           return;
         }
         if (taskError) {
@@ -106,22 +115,16 @@ const ProjectDetail = () => {
   const handleStatusChange = async (taskId, newStatus) => {
     const { data, error } = await updateTask(taskId, { status: newStatus });
     if (error) {
-      addToast('Failed to update task status.', 'error');
+      addToast("Failed to update task status.", "error");
       return;
-    };
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === taskId ? data : task,
-      ),
-    );
+    }
+    setTasks((prev) => prev.map((task) => (task.id === taskId ? data : task)));
 
     setGlobalTasks((prev) =>
-      prev.map((task) =>
-        task.id === taskId ? data : task,
-      ),
+      prev.map((task) => (task.id === taskId ? data : task)),
     );
 
-    addToast('Task status updated!', 'success')
+    addToast("Task status updated!", "success");
   };
 
   const priorityConfig = {
@@ -148,6 +151,30 @@ const ProjectDetail = () => {
   const completedTasks = tasks.filter((task) => task.status === "done").length;
   const progress =
     totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+
+  if (!loading && !projectData) {
+    return (
+      <Container>
+        <div>
+          <button
+            onClick={() => navigate("/projects")}
+            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
+          >
+            <IoIosArrowRoundBack />
+          </button>
+
+          <div className="text-center mt-10">
+            <h2 className="text-xl font-semibold text-slate-800">
+              Project not found
+            </h2>
+            <p className="text-sm text-slate-500 mt-1">
+              This project may have been deleted or does not exist.
+            </p>
+          </div>
+        </div>
+      </Container>
+    );
+  }
   return (
     <Container>
       <div onClick={() => setOpenDropdown(null)} className="relative">

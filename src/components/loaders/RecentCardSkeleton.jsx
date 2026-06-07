@@ -1,4 +1,3 @@
-
 const RecentCardSkeleton = () => {
   return (
     <div className="bg-background border border-slate-300 rounded-md p-2 animate-pulse">
@@ -19,7 +18,7 @@ const RecentCardSkeleton = () => {
         <div className="size-5 rounded bg-slate-200 self-center" />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RecentCardSkeleton
+export default RecentCardSkeleton;

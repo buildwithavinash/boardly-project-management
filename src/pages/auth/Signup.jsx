@@ -16,7 +16,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const {addToast} = useToast();
+  const { addToast } = useToast();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,112 +24,140 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
+    if(!formData.name.trim()){
+      setError('Name is required.');
+      addToast('Name is required.','error');
+      return;
+    }
+
+    if(!formData.email.trim() || !formData.password.trim()){
+      setError('Email and password are required.');
+      addToast("Email and password are required.", 'error');
+      return;
+    }
+
+    if(formData.password.length < 6){
+      setError('Password must be at least 6 characters.');
+      addToast('Password must be at least 6 characters.', 'error');
+    }
     // supabase auth signup
 
-    const {data, error} = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password
-    })
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email.trim(),
+      password: formData.password,
+    });
 
-    if(error) {
-    addToast('Failed to create account. Email might already exist.', 'error');
-    setError(error.message)
-    setLoading(false)
-    return
-  }
+    if (error) {
+      addToast("Failed to create account. Email might already exist.", "error");
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
 
-  // Insert to the profiles table
-  const {error: profileError} = await supabase.from('profiles').insert({
-    id: data.user.id,
-    name: formData.name,
-    role: formData.role
-  })
+    // Insert to the profiles table
+    const { error: profileError } = await supabase.from("profiles").insert({
+      id: data.user.id,
+      name: formData.name.trim(),
+      role: formData.role,
+    });
 
-  if(profileError){
-    setError(profileError.message);
-    setLoading(false)
-    return
-  }
+    if (profileError) {
+      setError(profileError.message);
+      setLoading(false);
+      return;
+    }
 
-//   reset form
-setFormData({
-    name:'', email: '', password: '', role: 'admin'
-})
+    //   reset form
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      role: "admin",
+    });
 
-// redirect to login
-addToast('Account created successfully! Please log in.', 'success');
-navigate('/login')
-  }
+    // redirect to login
+    addToast("Account created successfully! Please log in.", "success");
+    navigate("/login");
+  };
 
   return (
     <Container>
-
- 
-    <div className="">
       <div className="">
-        {error && <p>{error}</p>}
-        <h2 className="text-3xl font-semibold text-slate-800">Create your account</h2>
+        <div className="">
+          {error && <p>{error}</p>}
+          <h2 className="text-3xl font-semibold text-slate-800">
+            Create your account
+          </h2>
 
-        <form
-          onSubmit={handleSubmit}
-          className="border border-slate-300 flex flex-col items-center justify-center gap-4 p-8 rounded-md mt-8 bg-card shadow-2xs"
-        >
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Name"
-            className="border border-slate-300 px-4 py-2 rounded-md focus:border-border focus:outline-none transition-all duration-150"
-          />
-
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            placeholder="Email"
-            onChange={handleChange}
-            className="border border-slate-300 px-4 py-2 rounded-md"
-          />
-
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            placeholder="Password"
-            onChange={handleChange}
-            className="border border-slate-300 px-4 py-2 rounded-md"
-          />
-
-          <div>
-            <label htmlFor="">Signup as : </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="border border-slate-300 rounded-md px-2 py-1"
-            >
-              <option value="admin">Admin</option>
-              <option value="member">Member</option>
-            </select>
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-primary text-white font-semibold cursor-pointer hover:opacity-80 transition-all duration-200 px-4 py-2 rounded-md"
+          <form
+            onSubmit={handleSubmit}
+            className="border border-slate-300 flex flex-col items-center justify-center gap-4 p-8 rounded-md mt-8 bg-card shadow-2xs"
           >
-            Signup
-          </button>
-        </form>
+            <input
+              type="text"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Name"
+              className="border border-slate-300 px-4 py-2 rounded-md focus:border-border focus:outline-none transition-all duration-150"
+            />
 
-        <p className="mt-4">Already have an account? <Link to='/login' className="text-primary underline"> Login </Link></p>
+            <input
+              type="email"
+              name="email"
+              required
+              value={formData.email}
+              placeholder="Email"
+              onChange={handleChange}
+              className="border border-slate-300 px-4 py-2 rounded-md"
+            />
+
+            <input
+              type="password"
+              name="password"
+              required
+              value={formData.password}
+              placeholder="Password"
+              onChange={handleChange}
+              className="border border-slate-300 px-4 py-2 rounded-md"
+            />
+
+            <div>
+              <label htmlFor="">Signup as : </label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="border border-slate-300 rounded-md px-2 py-1"
+              >
+                <option value="admin">Admin</option>
+                <option value="member">Member</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-primary text-white font-semibold cursor-pointer hover:opacity-80 transition-all duration-200 px-4 py-2 rounded-md"
+            >
+              Signup
+            </button>
+          </form>
+
+          <p className="mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-primary underline">
+              {" "}
+              Login{" "}
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-       </Container>
+    </Container>
   );
 };
 

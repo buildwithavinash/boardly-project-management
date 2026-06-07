@@ -8,8 +8,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
-  const [userInfo, setUserInfo] = useState(null)
-  const {addToast} = useToast();
+  const [userInfo, setUserInfo] = useState(null);
+  const { addToast } = useToast();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -19,20 +19,19 @@ export const AuthProvider = ({ children }) => {
     });
 
     async function getUserData(session) {
-      if (!session){
+      if (!session) {
         setRole(null);
         setUserInfo(null);
         return;
-      };
+      }
 
       const { data: userData, error } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", session.user.id)
         .single();
-      
 
-      if(error){
+      if (error) {
         setRole(null);
         setUserInfo(null);
         return;
@@ -48,7 +47,7 @@ export const AuthProvider = ({ children }) => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
-      getUserData(session)
+      getUserData(session);
       setLoading(false);
     });
 
@@ -59,18 +58,20 @@ export const AuthProvider = ({ children }) => {
     const { error: logoutError } = await supabase.auth.signOut();
 
     if (logoutError) {
-      addToast('Failed to log out.', 'error');
-      return
+      addToast("Failed to log out.", "error");
+      return;
     }
-    
+
     setUser(null);
     setRole(null);
     setUserInfo(null);
-    addToast('Logged out successfully!', 'success');
+    addToast("Logged out successfully!", "success");
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, logout, role, userInfo }}>
+    <AuthContext.Provider
+      value={{ user, setUser, loading, logout, role, userInfo }}
+    >
       {children}
     </AuthContext.Provider>
   );

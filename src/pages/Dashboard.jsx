@@ -5,18 +5,22 @@ import { MdChevronRight, MdPendingActions } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Container from "../components/Container";
-import {useAuth} from '../context/AuthContext'
+import { useAuth } from "../context/AuthContext";
 import { capitalize } from "../utils/formatters";
 import RecentCardSkeleton from "../components/loaders/RecentCardSkeleton";
 import { useProjects } from "../context/ProjectsContext";
 import { useTasks } from "../context/TasksContext";
 
 const Dashboard = () => {
-  const {projects, loading: projectsLoading, error: projectsError} = useProjects();
-  const {tasks, loading: tasksLoading, error: tasksError} = useTasks();
+  const {
+    projects,
+    loading: projectsLoading,
+    error: projectsError,
+  } = useProjects();
+  const { tasks, loading: tasksLoading, error: tasksError } = useTasks();
   const loading = projectsLoading || tasksLoading;
   const error = projectsError || tasksError;
-  const {userInfo, role} = useAuth();
+  const { userInfo, role } = useAuth();
   const navigate = useNavigate();
 
   const stats = [
@@ -65,11 +69,14 @@ const Dashboard = () => {
   return (
     <Container>
       <div className="">
-        <div className="text-center font-semibold text-slate-900 text-xl">Welcome, <span className="text-2xl text-primary">{capitalize(userInfo?.name)}</span> </div>
-
-        <div>
-          {error && <p>{error}</p>}
+        <div className="text-center font-semibold text-slate-900 text-xl">
+          Welcome,{" "}
+          <span className="text-2xl text-primary">
+            {capitalize(userInfo?.name)}
+          </span>{" "}
         </div>
+
+        <div>{error && <p>{error}</p>}</div>
 
         {/* stats */}
         <div className="grid grid-cols-2 gap-1 mt-2">
@@ -101,45 +108,51 @@ const Dashboard = () => {
           <div className="flex flex-col gap-2 mt-4">
             {!loading && projects.length === 0 && (
               <div>
-          <h3>No projects yet.</h3>
-          <p>Create your first project to get started</p>
-          {role === 'admin' && (
-             <button onClick={()=>navigate('/create')} className="bg-primary text-white px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all duration-200">
-            Create Project
-          </button>
-          )}
-        </div>
+                <h3>No projects yet.</h3>
+                <p>Create your first project to get started</p>
+                {role === "admin" && (
+                  <button
+                    onClick={() => navigate("/create")}
+                    className="bg-primary text-white px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all duration-200"
+                  >
+                    Create Project
+                  </button>
+                )}
+              </div>
             )}
 
             {loading ? (
               <div className="space-y-2">
-                {Array.from({length: 5}).map((_, i) => (
-                  <RecentCardSkeleton key={i}/>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <RecentCardSkeleton key={i} />
                 ))}
               </div>
             ) : (
-                projects.slice(0, 3).map((proj) => (
-              <Link
-                to={`/projects/${proj.id}`}
-                key={proj.id}
-                className="bg-background border p-1 border-slate-300 rounded-md"
-              >
-                <div className="flex justify-between px-1 py-1">
-                  <div className="flex gap-2 items-start">
-                    <IoFolderOpen className="mt-1.5 text-primary" />
+              projects.slice(0, 3).map((proj) => (
+                <Link
+                  to={`/projects/${proj.id}`}
+                  key={proj.id}
+                  className="bg-background border p-1 border-slate-300 rounded-md"
+                >
+                  <div className="flex justify-between px-1 py-1">
+                    <div className="flex gap-2 items-start">
+                      <IoFolderOpen className="mt-1.5 text-primary" />
 
-                    <div className="leading-tight">
-                      <h3 className="text-primary font-semibold text-lg">{capitalize(proj.name)}</h3>
-                      <p className="text-slate-800">{capitalize(proj.description)}</p>
+                      <div className="leading-tight">
+                        <h3 className="text-primary font-semibold text-lg">
+                          {capitalize(proj.name)}
+                        </h3>
+                        <p className="text-slate-800">
+                          {capitalize(proj.description)}
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  <MdChevronRight className="self-center" />
-                </div>
-              </Link>
-            ))
+                    <MdChevronRight className="self-center" />
+                  </div>
+                </Link>
+              ))
             )}
-            
           </div>
         </div>
 
@@ -150,33 +163,34 @@ const Dashboard = () => {
           <div className="flex flex-col gap-2 mt-4">
             {loading ? (
               <div className="space-y-2">
-                {Array.from({length: 5}).map((_, i) => (
-                  <RecentCardSkeleton key={i}/>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <RecentCardSkeleton key={i} />
                 ))}
               </div>
             ) : (
-                  tasks.slice(0, 6).map((task) => (
-              <div
-                key={task.id}
-                className="bg-background border px-2 py-2 border-slate-300 rounded-md"
-              >
-                <h3 className="text-primary font-semibold text-lg">{capitalize(task.title)}</h3>
-                <div className="flex gap-1 items-center mt-1">
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityConfig[task.priority]?.color}`}
-                  >
-                    {priorityConfig[task.priority]?.label}
-                  </span>
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusConfig[task.status]?.color}`}
-                  >
-                    {statusConfig[task.status]?.label}
-                  </span>
+              tasks.slice(0, 6).map((task) => (
+                <div
+                  key={task.id}
+                  className="bg-background border px-2 py-2 border-slate-300 rounded-md"
+                >
+                  <h3 className="text-primary font-semibold text-lg">
+                    {capitalize(task.title)}
+                  </h3>
+                  <div className="flex gap-1 items-center mt-1">
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full font-medium ${priorityConfig[task.priority]?.color}`}
+                    >
+                      {priorityConfig[task.priority]?.label}
+                    </span>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusConfig[task.status]?.color}`}
+                    >
+                      {statusConfig[task.status]?.label}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
             )}
-          
           </div>
         </div>
       </div>

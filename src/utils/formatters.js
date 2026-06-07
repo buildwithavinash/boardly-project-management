@@ -1,19 +1,23 @@
 export const formatDate = (dateString) => {
-    if(dateString === null) return 'No due date'
-    
-    const date = new Date(dateString);
-    
-    const formattedDate = date.toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-    });
+  if (!dateString) return "No due date";
 
-    return formattedDate
-}
+  const date = new Date(dateString);
 
-export const capitalize = (string = '') => {
-    if(!string) return '';
+  if(Number.isNaN(date.getTime())){
+    return 'Invalide date'
+  }
 
-    return string.charAt(0).toUpperCase() + string.slice(1); 
-}
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  
+};
+
+export const capitalize = (string = "") => {
+  if (!string) return "";
+
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};

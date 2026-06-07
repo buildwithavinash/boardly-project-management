@@ -17,22 +17,19 @@ const ProjectCard = ({ proj }) => {
             </p>
           </div>
 
-         <div>
-          <p className="text-xs flex items-center gap-1 text-slate-800">
-            <LuCalendarClock /> Due Date: <span>
-
-            {proj.due_date
-              ? formatDate(proj.due_date)
-              : " No due date"}
+          <div>
+            <p className="text-xs flex items-center gap-1 text-slate-800">
+              <LuCalendarClock /> Due Date:{" "}
+              <span>
+                {proj.due_date ? formatDate(proj.due_date) : " No due date"}
               </span>
-          </p>
-        </div>
+            </p>
+          </div>
         </div>
 
-         <div>
-            <MdChevronRight className="self-center" />
-          </div>
-        
+        <div>
+          <MdChevronRight className="self-center" />
+        </div>
       </div>
     </Link>
   );
