@@ -60,6 +60,7 @@ const ProjectDetail = () => {
     setProjects((prev) =>
       prev.filter((project) => project.id !== projectData.id),
     );
+    setGlobalTasks((prev) => prev.filter((task) => task.project_id !== projectData.id));
     addToast("Project deleted successfully!", "success");
     navigate("/projects");
   };

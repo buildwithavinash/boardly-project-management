@@ -25,7 +25,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+   
     setError(null);
 
     if(!formData.name.trim()){
@@ -43,9 +43,11 @@ const Signup = () => {
     if(formData.password.length < 6){
       setError('Password must be at least 6 characters.');
       addToast('Password must be at least 6 characters.', 'error');
+      return;
     }
     // supabase auth signup
 
+    setLoading(true);
     const { data, error } = await supabase.auth.signUp({
       email: formData.email.trim(),
       password: formData.password,

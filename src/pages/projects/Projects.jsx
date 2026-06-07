@@ -14,7 +14,7 @@ const Projects = () => {
   const [searchQuery, setSearhQuery] = useState("");
   const [currentFilter, setCurrentFilter] = useState("all");
 
-  const filteredProjects = projects
+  const filteredProjects = [...projects]
     .filter((proj) => {
       return (proj.name || "")
         .toLowerCase()

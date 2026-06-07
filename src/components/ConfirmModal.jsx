@@ -5,6 +5,7 @@ const ConfirmModal = ({
   onConfirm,
   onCancel,
   message = `This can't be undone`,
+  confirmText = 'Delete',
 }) => {
   return (
     <>
@@ -32,7 +33,7 @@ const ConfirmModal = ({
                 onClick={onConfirm}
                 className="border border-red-300 bg-red-500 font-semibold text-white px-4 py-1 rounded-sm cursor-pointer"
               >
-                Delete
+               {confirmText}
               </button>
             </div>
           </div>

@@ -22,6 +22,7 @@ const Profile = () => {
           onCancel={() => setShowLogoutModal(false)}
           onConfirm={logout}
           message="Sure want to logout?"
+          confirmText="Logout"
         />
       )}
       <div>

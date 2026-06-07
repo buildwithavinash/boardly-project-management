@@ -32,6 +32,7 @@ const Login = () => {
     if(!formData.email.trim() || !formData.password.trim()){
       setError('Email and password are required.');
       addToast('Email and password are required.', 'error')
+      return;
     }
     try {
       setLoading(true);

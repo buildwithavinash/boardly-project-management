@@ -104,7 +104,7 @@ const TaskDetailModal = ({
                     {capitalize(assignedMember.name)}
                   </p>
                   <p className="text-xs text-slate-500">
-                    {assignedMember.email}
+                    Team Member
                   </p>
                 </div>
               </div>

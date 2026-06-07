@@ -1,4 +1,4 @@
-import { capitalize, formatDate } from "../utils/formatters";
+import { capitalize, formatDate, isDueSoon, isOverdue } from "../utils/formatters";
 import { LuCalendarClock } from "react-icons/lu";
 import { CiEdit } from "react-icons/ci";
 import { deleteTask } from "../services/taskService";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
 import TaskDetailModal from "./TaskDetailModal";
 import { useToast } from "../context/ToastContext";
+import { FaRegUser } from "react-icons/fa";
 
 const TaskCard = ({
   task,
@@ -20,7 +21,7 @@ const TaskCard = ({
   onTaskDelete,
   members = [],
 }) => {
-  const { tasks, setTasks } = useTasks();
+  const { setTasks } = useTasks();
   const { addToast } = useToast();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -49,6 +50,8 @@ const TaskCard = ({
   };
 
   const assignedMember = members?.find((m) => m.id === task.assigned_to);
+  const overdue = task.status !== 'done' && isOverdue(task.due_date);
+  const dueSoon = task.status !== 'done' && isDueSoon(task.due_date)
   return (
     <>
       {showDeleteModal && (
@@ -62,7 +65,7 @@ const TaskCard = ({
         className="relative border border-border bg-background p-2 rounded-lg cursor-pointer hover:shadow-md hover:bg-slate-50 transition-all"
       >
         <div className="leading-tight">
-          <h2 className="font-semibold text-lg text-primary">
+          <h2 className="font-semibold text-xl text-primary">
             {capitalize(task.title)}
           </h2>
         </div>
@@ -101,17 +104,32 @@ const TaskCard = ({
               {statusConfig[task.status]?.label}
             </span>
           )}
+
+          {overdue && (
+            <span className="text-xs border border-red-600 bg-red-100 text-red-600 px-2 py-0.5 rounded-full">
+              Overdue
+            </span>
+          )}
+
+          {!overdue && dueSoon && (
+            <span className="text-xs bg-amber-100 border border-amber-600 text-amber-600 px-2 py-0.5 rounded-full">
+              Due Soon
+            </span>
+          )}
         </div>
 
         <div className="flex justify-between items-center mt-2">
+         
+
           <p className="text-xs text-slate-700 flex items-center gap-1">
             <LuCalendarClock />
             <span>
               {task.due_date ? formatDate(task.due_date) : "No due date"}
             </span>
           </p>
-          <p className="text-xs text-slate-700">
-            Assigned to:{" "}
+
+          <p className="text-xs text-slate-700 flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-md">
+            <FaRegUser size={12}/>
             {assignedMember ? capitalize(assignedMember.name) : "Unassigned"}
           </p>
         </div>

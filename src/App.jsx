@@ -102,7 +102,7 @@ const App = () => {
           }
         />
       </Routes>
-      <BottomNav />
+     {user && <BottomNav />} 
     </div>
   );
 };
