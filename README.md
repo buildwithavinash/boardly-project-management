@@ -191,7 +191,7 @@ Through building Boardly, I gained practical experience with:
 ### Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/buildwithavinash/boardly-project-management
 ```
 
 ### Install Dependencies
