@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Container from "../components/Container";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 import ConfirmModal from "../components/ConfirmModal";
 import { capitalize } from "../utils/formatters";
 

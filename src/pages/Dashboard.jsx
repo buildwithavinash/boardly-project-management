@@ -5,11 +5,11 @@ import { MdChevronRight, MdPendingActions } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Container from "../components/Container";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 import { capitalize } from "../utils/formatters";
 import RecentCardSkeleton from "../components/loaders/RecentCardSkeleton";
-import { useProjects } from "../context/ProjectsContext";
-import { useTasks } from "../context/TasksContext";
+import { useProjects } from "../context/useProjects";
+import { useTasks } from "../context/useTasks";
 
 const Dashboard = () => {
   const {

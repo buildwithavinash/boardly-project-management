@@ -1,7 +1,7 @@
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import { useEffect, useState } from "react";
 import { getProjects } from "../services/projectService";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./useAuth";
 
 export const ProjectsContext = createContext(null);
 
@@ -13,9 +13,7 @@ export const ProjectsProvider = ({ children }) => {
 
   useEffect(() => {
     if (!user) {
-      setProjects([]);
-      setError(null);
-      setLoading(false);
+      
       return;
     }
 
@@ -39,11 +37,17 @@ export const ProjectsProvider = ({ children }) => {
     fetchProjects();
   }, [user]);
 
+
+  const value = {
+  projects: user ? projects : [],
+  setProjects,
+  loading,
+  error: user ? error : null,
+};
   return (
-    <ProjectsContext.Provider value={{ projects, setProjects, loading, error }}>
+    <ProjectsContext.Provider value={value}>
       {children}
     </ProjectsContext.Provider>
   );
 };
 
-export const useProjects = () => useContext(ProjectsContext);

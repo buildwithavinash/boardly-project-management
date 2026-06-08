@@ -1,7 +1,7 @@
 import { MdDashboard, MdOutlineDashboard } from "react-icons/md";
 import { RiAddBoxFill, RiAddBoxLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 import { IoFolderOpen, IoFolderOpenOutline } from "react-icons/io5";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 

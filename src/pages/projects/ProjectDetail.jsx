@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteProject, getProjectById } from "../../services/projectService";
 import ConfirmModal from "../../components/ConfirmModal";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/useAuth";
 import {
   deleteTasksByProjectId,
   getTasks,
@@ -17,9 +17,9 @@ import TaskCard from "../../components/TaskCard";
 import TaskFilters from "../../components/TaskFilters";
 import { capitalize, formatDate } from "../../utils/formatters";
 import { LuCalendar1, LuCalendarClock } from "react-icons/lu";
-import { useToast } from "../../context/ToastContext";
-import { useProjects } from "../../context/ProjectsContext";
-import { useTasks } from "../../context/TasksContext";
+import { useToast } from "../../context/useToast";
+import { useProjects } from "../../context/useProjects";
+import { useTasks } from "../../context/useTasks";
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);

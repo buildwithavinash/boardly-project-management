@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProjectById, updateProject } from "../../services/projectService";
 import Container from "../../components/Container";
-import { useToast } from "../../context/ToastContext";
+import { useToast } from "../../context/useToast";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
 const EditProject = () => {

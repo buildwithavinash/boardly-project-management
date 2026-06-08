@@ -1,4 +1,4 @@
-import { useToast } from "../context/ToastContext";
+import { useToast } from "../context/useToast";
 
 const Toast = () => {
   const { toasts } = useToast();

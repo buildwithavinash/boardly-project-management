@@ -3,7 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Container from "../../components/Container";
-import { useToast } from "../../context/ToastContext";
+import { useToast } from "../../context/useToast";
 
 const Signup = () => {
   const [formData, setFormData] = useState({

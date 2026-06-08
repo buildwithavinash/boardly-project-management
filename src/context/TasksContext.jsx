@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { getAllTasks } from "../services/taskService";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./useAuth";
 
 export const TasksContext = createContext(null);
 
@@ -11,9 +11,6 @@ export const TasksProvider = ({ children }) => {
   const { user } = useAuth();
   useEffect(() => {
     if (!user) {
-      setTasks([]);
-      setError(null);
-      setLoading(false);
       return;
     }
 
@@ -38,11 +35,15 @@ export const TasksProvider = ({ children }) => {
     getData();
   }, [user]);
 
+  const value = {
+  tasks: user ? tasks : [],
+  setTasks,
+  error: user ? error : null,
+  loading,
+};
   return (
-    <TasksContext.Provider value={{ tasks, setTasks, error, loading }}>
+    <TasksContext.Provider value={value}>
       {children}
     </TasksContext.Provider>
   );
 };
-
-export const useTasks = () => useContext(TasksContext);

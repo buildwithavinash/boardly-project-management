@@ -5,8 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Container from "../../components/Container";
 import { capitalize } from "../../utils/formatters";
-import { useToast } from "../../context/ToastContext";
-import { useTasks } from "../../context/TasksContext";
+import { useToast } from "../../context/useToast";
+import { useTasks } from "../../context/useTasks";
 
 const CreateTask = () => {
   const { id } = useParams();

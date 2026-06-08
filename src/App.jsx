@@ -8,7 +8,7 @@ import CreateProject from "./pages/projects/CreateProject";
 import ProjectDetail from "./pages/projects/ProjectDetail";
 import EditProject from "./pages/projects/EditProject";
 import CreateTask from "./pages/tasks/CreateTask";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "./context/useAuth";
 import BottomNav from "./components/BottomNav";
 import Profile from "./pages/Profile";
 import EditTask from "./pages/tasks/EditTask";

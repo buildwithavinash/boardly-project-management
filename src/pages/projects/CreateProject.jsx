@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/useAuth";
 import { createProject } from "../../services/projectService";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { useProjects } from "../../context/ProjectsContext";
+import { useProjects } from "../../context/useProjects";
 import Container from "../../components/Container";
-import { useToast } from "../../context/ToastContext";
+import { useToast } from "../../context/useToast";
 
 const CreateProject = () => {
   const [loading, setLoading] = useState(false);

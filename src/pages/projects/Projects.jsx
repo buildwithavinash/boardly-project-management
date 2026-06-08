@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/useAuth";
 import { useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
 import ProjectFilters from "./ProjectFilters";
 import ProjectsSkeleton from "../../components/loaders/ProjectsSkeleton";
 import ProjectCard from "./ProjectCard";
-import { useProjects } from "../../context/ProjectsContext";
+import { useProjects } from "../../context/useProjects";
 
 const Projects = () => {
   const { role } = useAuth();

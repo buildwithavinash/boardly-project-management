@@ -3,7 +3,7 @@ import { LuCalendarClock } from "react-icons/lu";
 import { HiOutlineUser } from "react-icons/hi";
 import { capitalize, formatDate } from "../utils/formatters";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 
 const TaskDetailModal = ({
   task,

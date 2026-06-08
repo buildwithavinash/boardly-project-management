@@ -3,11 +3,11 @@ import { LuCalendarClock } from "react-icons/lu";
 import { CiEdit } from "react-icons/ci";
 import { deleteTask } from "../services/taskService";
 import { MdOutlineDelete } from "react-icons/md";
-import { useTasks } from "../context/TasksContext";
+import { useTasks } from "../context/useTasks";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
 import TaskDetailModal from "./TaskDetailModal";
-import { useToast } from "../context/ToastContext";
+import { useToast } from "../context/useToast";
 import { FaRegUser } from "react-icons/fa";
 
 const TaskCard = ({

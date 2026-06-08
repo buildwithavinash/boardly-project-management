@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
-import { useToast } from "./ToastContext";
+import { useToast } from "./useToast";
 
 export const AuthContext = createContext(null);
 
@@ -77,4 +77,3 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);

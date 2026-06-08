@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { getTaskById, updateTask } from "../../services/taskService";
 import { getMembers } from "../../services/profileService";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { useToast } from "../../context/ToastContext";
-import { useTasks } from "../../context/TasksContext";
+import { useToast } from "../../context/useToast";
+import { useTasks } from "../../context/useTasks";
 const EditTask = () => {
   const { id } = useParams();
   const navigate = useNavigate();
