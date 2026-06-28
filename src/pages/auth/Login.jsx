@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../context/useAuth";
-import Container from "../../components/Container";
 import { useToast } from "../../context/useToast";
 
 const Login = () => {
@@ -29,9 +28,9 @@ const Login = () => {
     e.preventDefault();
     setError(null);
 
-    if(!formData.email.trim() || !formData.password.trim()){
-      setError('Email and password are required.');
-      addToast('Email and password are required.', 'error')
+    if (!formData.email.trim() || !formData.password.trim()) {
+      setError("Email and password are required.");
+      addToast("Email and password are required.", "error");
       return;
     }
     try {
@@ -58,52 +57,63 @@ const Login = () => {
   };
 
   return (
-    <Container>
-      <div className="text-center h-full w-full flex justify-center items-center">
-        <div>
-          <h2 className="text-3xl text-slate-800 font-semibold">Login</h2>
-          <form
-            onSubmit={handleSubmit}
-            className="border border-slate-300 flex flex-col items-center justify-center gap-4 p-8 rounded-md mt-8 bg-card shadow-2xs"
-          >
-            {error && <p className="text-red-500 text-sm">Error : {error}</p>}
-            <input
-              type="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              className="border border-slate-300 px-4 py-2 rounded-md focus:border-border focus:outline-none transition-all duration-150"
-            />
-            <input
-              type="password"
-              name="password"
-              required
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              className="border border-slate-300 px-4 py-2 rounded-md focus:border-border focus:outline-none transition-all duration-150"
-            />
-            <button
-              disabled={loading}
-              type="submit"
-              className="bg-primary text-white font-semibold cursor-pointer hover:opacity-80 transition-all duration-200 px-4 py-2 rounded-md"
-            >
-              {loading ? 'Logging in...' : 'Login'}
-            </button>
-          </form>
-
-          <p className="mt-4">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-primary underline">
-              {" "}
-              Signup{" "}
-            </Link>
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md">
+        <div className="text-center">
+          <h2 className="text-3xl text-center font-semibold text-slate-800">
+            Welcome back to{" "}
+            <span className="font-bold text-primary">Boardly</span>
+          </h2>
+          <p className="text-slate-700 mt-2">
+            Sign in to manage your projects, track progress, and collaborate
+            with your team.
           </p>
         </div>
+        <form
+          onSubmit={handleSubmit}
+          className="border border-slate-300 bg-card flex flex-col gap-4 p-8 rounded-md mt-4 shadow-xs"
+        >
+          <input
+            type="email"
+            name="email"
+            required
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
+          />
+          <input
+            type="password"
+            name="password"
+            required
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
+          />
+          {error && (
+            <p className="text-xs text-red-500 text-center">
+              Some error occured
+            </p>
+          )}
+          <button
+            disabled={loading}
+            type="submit"
+            className="bg-primary text-white font-semibold cursor-pointer hover:opacity-80 transition-all duration-200 px-4 py-2 rounded-md"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        <p className="mt-4 text-center text-slate-700">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-primary font-semibold">
+            {" "}
+            Sign up{" "}
+          </Link>
+        </p>
       </div>
-    </Container>
+    </div>
   );
 };
 

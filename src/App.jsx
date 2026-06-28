@@ -22,7 +22,7 @@ const App = () => {
     return <p>Loading...</p>;
   }
   return (
-    <div className="bg-background h-screen w-full p-2">
+    <div className="bg-background h-screen w-full">
       <Toast />
       <Routes>
         <Route
@@ -102,7 +102,7 @@ const App = () => {
           }
         />
       </Routes>
-     {user && <BottomNav />} 
+      {user && <BottomNav />}
     </div>
   );
 };
