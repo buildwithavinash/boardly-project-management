@@ -66,25 +66,28 @@ const CreateProject = () => {
 
   return (
     <Container>
-      <div className="">
+      <div className="min-h-screen flex flex-col">
         <div>
           <button
             onClick={() => navigate("/projects")}
-            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
+            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200 mt-3"
           >
             <IoIosArrowRoundBack />
           </button>
         </div>
 
-        <div>
-          <h2 className="mt-4 text-3xl text-center font-medium text-primary">
+        <div className='mx-auto px-2 flex-1 flex items-center justify-center'>
+
+        <div className="w-full max-w-md">
+          <div className=''>
+          <h2 className="text-2xl text-center font-medium text-primary">
             Create New Project
           </h2>
         </div>
         <form
           onSubmit={handleSubmit}
-          className="border border-border bg-card p-4 rounded-md flex flex-col gap-2 mt-8 justify-center"
-        >
+          className="border border-border bg-card p-4 rounded-md flex flex-col gap-4 mt-4 justify-center"
+          >
           <input
             type="text"
             name="name"
@@ -125,6 +128,9 @@ const CreateProject = () => {
 
           {error && <p className="mt-4">{error}</p>}
         </form>
+        </div>
+        
+        </div>
       </div>
     </Container>
   );

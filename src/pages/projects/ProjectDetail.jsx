@@ -20,6 +20,7 @@ import { LuCalendar1, LuCalendarClock } from "react-icons/lu";
 import { useToast } from "../../context/useToast";
 import { useProjects } from "../../context/useProjects";
 import { useTasks } from "../../context/useTasks";
+import Loader from '../../components/loaders/Loader'
 
 const ProjectDetail = () => {
   const [projectData, setProjectData] = useState(null);
@@ -177,16 +178,9 @@ const ProjectDetail = () => {
     );
   }
   return (
-    <Container>
-      <div onClick={() => setOpenDropdown(null)} className="relative">
-        {isOpen && (
-          <ConfirmModal
-            onCancel={onCancel}
-            onConfirm={onConfirm}
-            setIsOpen={setIsOpen}
-          />
-        )}
-        <div className="flex justify-between items-center">
+    <>
+   
+    <div className="flex justify-between items-center pt-3 px-2 pb-2 bg-background sticky top-0 z-30 border-b border-slate-100/20 w-full shadow-xs">
           <button
             onClick={() => navigate("/projects")}
             className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
@@ -211,11 +205,21 @@ const ProjectDetail = () => {
             </div>
           )}
         </div>
+    <Container classname="pb-20">
+      <div onClick={() => setOpenDropdown(null)} className="relative">
+        {isOpen && (
+          <ConfirmModal
+            onCancel={onCancel}
+            onConfirm={onConfirm}
+            setIsOpen={setIsOpen}
+          />
+        )}
+        
 
         {loading ? (
-          <p>Loading...</p>
+          <p className="text-center"><Loader/></p>
         ) : (
-          <div className="mt-6">
+          <div className="mt-2">
             <h1 className="text-3xl text-primary font-semibold mb-0.5 ">
               {capitalize(projectData?.name)}
             </h1>
@@ -298,7 +302,9 @@ const ProjectDetail = () => {
               )}
             </div>
           </div>
-
+          {loading && <p className="text-center">
+            <Loader/>
+            </p>}
           {!loading && filteredTasks.length === 0 && (
             <p className="text-center text-slate-700 mt-4">
               Nothing here yet
@@ -329,6 +335,7 @@ const ProjectDetail = () => {
         {error && <p>{error}</p>}
       </div>
     </Container>
+     </>
   );
 };
 

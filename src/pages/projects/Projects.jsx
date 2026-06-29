@@ -34,7 +34,7 @@ const Projects = () => {
       return 0;
     });
   return (
-    <Container>
+    <Container classname="py-3 pb-20">
       <div className="">
         {/* header */}
         <div className="flex justify-between items-center">

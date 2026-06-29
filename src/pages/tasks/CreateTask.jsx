@@ -87,24 +87,25 @@ const CreateTask = () => {
     navigate(`/projects/${id}`);
   };
   return (
-    <Container>
-      <div className="">
-        <div>
-          <div>
-            <button
-              onClick={() => navigate(-1)}
-              className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
-            >
-              <IoIosArrowRoundBack />
-            </button>
-          </div>
+    <Container classname="pb-20">
+      {/* handle height and flex */}
+      <div className="min-h-screen flex flex-col">
+        <div className="pt-3 pb-2 bg-background sticky top-0 z-30 border-b border-slate-200/20">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
+          >
+            <IoIosArrowRoundBack />
+          </button>
         </div>
 
-        <div>
+    {/* second element (wrapper) for flex-1 */}
+    <div className="flex-1 mx-auto px-2 flex items-center justify-center">
+        <div className="max-w-md w-full">
           <h2 className="mt-4 text-3xl text-center font-medium text-primary">
             Create a task
           </h2>
-        </div>
+        
         <form
           onSubmit={handleSubmit}
           className="border border-border bg-card rounded-md p-4 flex flex-col gap-2 mt-4 justify-center"
@@ -201,6 +202,11 @@ const CreateTask = () => {
             {loading ? <p>Creating...</p> : <p>Create Task</p>}
           </button>
         </form>
+        </div>
+    </div>
+
+        
+          
       </div>
     </Container>
   );

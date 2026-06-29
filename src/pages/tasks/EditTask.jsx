@@ -113,8 +113,12 @@ const EditTask = () => {
   };
 
   return (
-    <Container>
-      <div>
+    <Container classname="pb-20 px-0">
+
+<div className="min-h-screen flex flex-col">
+
+      {/* 1st ele */}
+      <div className="pt-3 pb-2 bg-background sticky top-0 z-30 border-b border-slate-200/20">
         <button
           onClick={() => navigate(-1)}
           className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
@@ -122,8 +126,11 @@ const EditTask = () => {
           <IoIosArrowRoundBack />
         </button>
       </div>
-      <div>
-        <h2 className="mt-4 text-3xl text-center font-medium text-primary">
+
+      {/* 2nd ele */}
+      <div className="flex-1 mx-auto px-2 flex items-center justify-center">
+      <div className="w-full max-w-md">
+        <h2 className=" text-2xl text-center font-medium text-primary">
           Edit Task
         </h2>
 
@@ -233,6 +240,9 @@ const EditTask = () => {
           </form>
         </div>
       </div>
+      </div>          
+        
+</div>
     </Container>
   );
 };

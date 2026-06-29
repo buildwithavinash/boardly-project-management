@@ -18,10 +18,10 @@ const ConfirmModal = ({
             <IoMdClose />
           </button>
           <div className="flex flex-col items-center pt-4">
-            <span className="text-2xl text-red-500 mb-1">
+            <span className="text-2xl text-red-500/80 mb-1">
               <CgDanger />
             </span>
-            <h3 className="text-lg font-semibold text-slate-800">{message}</h3>
+            <h3 className="text-lg font-semibold text-slate-700">{message}</h3>
             <div className="flex gap-2 items-center justify-center mt-4">
               <button
                 onClick={onCancel}

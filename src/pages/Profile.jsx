@@ -16,7 +16,7 @@ const Profile = () => {
     : "N/A";
 
   return (
-    <Container>
+    <Container classname="py-3 pb-20">
       {showLogoutModal && (
         <ConfirmModal
           onCancel={() => setShowLogoutModal(false)}

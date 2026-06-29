@@ -23,10 +23,10 @@ const TaskDetailModal = ({
   return (
     <div className="fixed inset-0 backdrop-blur-sm  flex items-center justify-center z-50 p-4">
       <div className="bg-white relative rounded-lg border border-border max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl scrollbar-thin scrollbar-thumb-primary/80">
-        {/* Header */}
+        {/* Header */}  
         <div className="flex justify-between items-start p-6 bg-slate-50">
           <div className="flex items-center justify-between w-full">
-            <h2 className="text-2xl flex-1 font-bold text-primary">
+            <h2 className="text-xl line-clamp-1 flex-1 font-bold text-primary">
               {capitalize(task.title)}
             </h2>
 
@@ -89,8 +89,8 @@ const TaskDetailModal = ({
           </div>
 
           {/* Assigned Member */}
-          <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-slate-800 flex items-center gap-2 text-sm">
+          <div className="flex items-center justify-between gap-2 flex-nowrap text-xs">
+            <h3 className="font-semibold text-slate-800 flex items-center flex-nowrap gap-2 text-sm">
               <HiOutlineUser size={16} />
               Assigned To:
             </h3>
@@ -102,9 +102,6 @@ const TaskDetailModal = ({
                 <div>
                   <p className="font-medium text-slate-800">
                     {capitalize(assignedMember.name)}
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    Team Member
                   </p>
                 </div>
               </div>

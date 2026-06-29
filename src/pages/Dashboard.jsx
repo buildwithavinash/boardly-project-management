@@ -10,6 +10,7 @@ import { capitalize } from "../utils/formatters";
 import RecentCardSkeleton from "../components/loaders/RecentCardSkeleton";
 import { useProjects } from "../context/useProjects";
 import { useTasks } from "../context/useTasks";
+import Loader from '../components/loaders/Loader'
 
 const Dashboard = () => {
   const {
@@ -66,8 +67,15 @@ const Dashboard = () => {
     done: { color: "bg-green-100 text-green-600", label: "Done" },
   };
 
+  if(loading){
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+      <Loader/>
+      </div>
+    )
+  }
   return (
-    <Container>
+    <Container classname="py-3 pb-20">
       <div className="">
         <div className="text-center font-semibold text-slate-900 text-xl">
           Welcome,{" "}
@@ -79,7 +87,7 @@ const Dashboard = () => {
         <div>{error && <p>{error}</p>}</div>
 
         {/* stats */}
-        <div className="grid grid-cols-2 gap-1 mt-2">
+        <div className="grid  grid-cols-2 gap-1 mt-2">
           {stats.map((stat) => (
             <div
               key={stat.label}
@@ -136,13 +144,13 @@ const Dashboard = () => {
                 >
                   <div className="flex justify-between px-1 py-1">
                     <div className="flex gap-2 items-start">
-                      <IoFolderOpen className="mt-1.5 text-primary" />
+                      <IoFolderOpen className="mt-0.5 text-primary" />
 
                       <div className="leading-tight">
-                        <h3 className="text-primary font-semibold text-lg">
+                        <h3 className="text-primary font-semibold">
                           {capitalize(proj.name)}
                         </h3>
-                        <p className="text-slate-800">
+                        <p className="text-slate-800 text-xs">
                           {capitalize(proj.description)}
                         </p>
                       </div>
@@ -173,7 +181,7 @@ const Dashboard = () => {
                   key={task.id}
                   className="bg-background border px-2 py-2 border-slate-300 rounded-md"
                 >
-                  <h3 className="text-primary font-semibold text-lg">
+                  <h3 className="text-primary font-semibold">
                     {capitalize(task.title)}
                   </h3>
                   <div className="flex gap-1 items-center mt-1">
