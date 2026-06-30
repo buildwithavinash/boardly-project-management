@@ -34,22 +34,23 @@ const Projects = () => {
       return 0;
     });
   return (
-    <Container classname="py-3 pb-20">
-      <div className="">
+    <>
+   
+     <div className="sticky top-0 z-30 py-3 bg-background border-b px-2 md:px-8 md:py-4 border-slate-200 shadow-[0px_4px_6px_-6px_rgba(0,0,0,0.1)]">
         {/* header */}
         <div className="flex justify-between items-center">
           <div>
-            {/* <h1>Projects</h1> */}
-            <h3 className="text-2xl font-semibold text-primary">
+            
+            <h3 className="text-2xl font-semibold md:text-3xl text-primary">
               Your Projects{" "}
-              <span className="text-sm"> ({projects.length}) </span>
+              <span className="text-sm md:text-base"> ({projects.length}) </span>
             </h3>
           </div>
 
           {role === "admin" && (
             <button
               onClick={() => navigate("/create")}
-              className="bg-primary text-white px-3 py-2 rounded-xl font-medium text-sm flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all duration-200"
+              className="bg-primary text-white px-3 py-2 rounded-xl font-medium text-sm flex items-center gap-2 cursor-pointer hover:opacity-80 transition-all duration-200 md:px-4 md:py-3"
             >
               + New
             </button>
@@ -63,7 +64,11 @@ const Projects = () => {
           searchQuery={searchQuery}
           setSearhQuery={setSearhQuery}
         />
+</div>
+    <Container classname="py-3 pb-20">
+      <div className="">
 
+       
         {/* states */}
         {loading && <ProjectsSkeleton />}
         {error && (
@@ -90,13 +95,14 @@ const Projects = () => {
 
         {/* projects list */}
 
-        <div className="flex flex-col gap-3 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
           {filteredProjects.map((proj) => (
             <ProjectCard key={proj.id} proj={proj} />
           ))}
         </div>
       </div>
     </Container>
+     </>
   );
 };
 

@@ -16,7 +16,10 @@ const Profile = () => {
     : "N/A";
 
   return (
-    <Container classname="py-3 pb-20">
+    <Container classname="">
+      <div className="min-h-screen pt-3">
+
+      
       {showLogoutModal && (
         <ConfirmModal
           onCancel={() => setShowLogoutModal(false)}
@@ -41,7 +44,7 @@ const Profile = () => {
 
         <div className="mt-4">
           {/* <h3 className="font-semibold text-slate-800">Account</h3> */}
-          <div className="flex flex-col bg-card border border-border/20 p-2 rounded-lg">
+          <div className="flex flex-col bg-card border border-border/80 p-2 rounded-lg">
             <div className="flex justify-between">
               <p>Name</p>
               <p className="text-slate-700">{capitalize(displayName)}</p>
@@ -68,7 +71,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="text-center mt-6">
+        <div className="text-center mt-4">
           <p className="text-sm mb-2 text-slate-700">
             Once you logout, you'll need to login again.
           </p>
@@ -79,6 +82,8 @@ const Profile = () => {
             Logout
           </button>
         </div>
+      </div>
+
       </div>
     </Container>
   );

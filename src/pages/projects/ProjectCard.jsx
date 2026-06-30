@@ -13,7 +13,7 @@ const ProjectCard = ({ proj }) => {
   const dueSoon = isDueSoon(proj.due_date);
   return (
     <Link to={`/projects/${proj.id}`}>
-      <div className="flex justify-between items-center border border-border bg-card rounded-2xl p-2">
+      <div className="flex justify-between items-center border border-border bg-card rounded-2xl p-2 hover:bg-slate-50 transition-all duration-150">
         <div className="flex flex-col">
           <div className="flex-1 mb-2">
             <h3 className="font-semibold text-primary text-lg line-clamp-1">

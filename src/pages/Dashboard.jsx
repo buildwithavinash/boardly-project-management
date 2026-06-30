@@ -1,12 +1,12 @@
 import { FaTasks } from "react-icons/fa";
 import { GoProjectRoadmap } from "react-icons/go";
-import { IoCheckmarkDoneCircleOutline, IoFolderOpen } from "react-icons/io5";
+import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { MdChevronRight, MdPendingActions } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Container from "../components/Container";
 import { useAuth } from "../context/useAuth";
-import { capitalize } from "../utils/formatters";
+import { capitalize, isOverdue } from "../utils/formatters";
 import RecentCardSkeleton from "../components/loaders/RecentCardSkeleton";
 import { useProjects } from "../context/useProjects";
 import { useTasks } from "../context/useTasks";
@@ -67,6 +67,25 @@ const Dashboard = () => {
     done: { color: "bg-green-100 text-green-600", label: "Done" },
   };
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+  };
+
+   const getStatusMessage = () => {
+    const pending = tasks.filter((t) => t.status !== "done").length;
+    const overdueCount = tasks.filter(
+      (t) => t.status !== "done" && isOverdue(t.due_date)
+    ).length;
+
+    if (overdueCount > 0)
+      return `You have ${overdueCount} overdue task${overdueCount > 1 ? "s" : ""}.`;
+    if (pending === 0) return "All caught up. Nice work.";
+    return `${pending} task${pending > 1 ? "s" : ""} left to wrap up.`;
+  };
+
   if(loading){
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -77,17 +96,21 @@ const Dashboard = () => {
   return (
     <Container classname="py-3 pb-20">
       <div className="">
-        <div className="text-center font-semibold text-slate-900 text-xl">
-          Welcome,{" "}
-          <span className="text-2xl text-primary">
-            {capitalize(userInfo?.name)}
-          </span>{" "}
+        <div className="text-center font-semibold text-slate-900">
+          <div className="flex text-center justify-center items-baseline gap-0.5">
+          <p className="text-slate-800 text-lg lg:text-xl">{getGreeting()},</p> 
+          <h2 className="text-xl lg:text-3xl font-semibold text-primary">{capitalize(userInfo?.name)}</h2>
+          </div>
+          {!loading && (
+            <p className="text-slate-800 text-sm lg:text-xl">{getStatusMessage()}</p>
+          )}
+        
         </div>
 
         <div>{error && <p>{error}</p>}</div>
 
         {/* stats */}
-        <div className="grid  grid-cols-2 gap-1 mt-2">
+        <div className="grid  grid-cols-2 lg:grid-cols-4 gap-1 mt-2 lg:mt-4">
           {stats.map((stat) => (
             <div
               key={stat.label}
@@ -104,19 +127,19 @@ const Dashboard = () => {
         {/* recent projects */}
         <div className="bg-card border border-border px-2 py-3 rounded-lg mt-4">
           <div className="flex justify-between">
-            <h2>Recent Projects</h2>
+            <h2 className="text-primary font-semibold">Recent Projects</h2>
             <Link
               to="/projects"
-              className="flex bg-background justify-between items-center px-2 py-0.5 text-xs rounded-lg gap-2 border border-border"
+              className="flex bg-background justify-between items-center px-2 py-0.5 text-xs rounded-lg gap-2 border border-border hover:bg-slate-50 transition-all duration-150"
             >
               See all <IoIosArrowRoundForward />
             </Link>
           </div>
 
-          <div className="flex flex-col gap-2 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4 ">
             {!loading && projects.length === 0 && (
               <div>
-                <h3>No projects yet.</h3>
+                <h3 className="text-slate-800 font-semibold">No projects yet.</h3>
                 <p>Create your first project to get started</p>
                 {role === "admin" && (
                   <button
@@ -140,23 +163,22 @@ const Dashboard = () => {
                 <Link
                   to={`/projects/${proj.id}`}
                   key={proj.id}
-                  className="bg-background border p-1 border-slate-300 rounded-md"
+                  className="bg-background border p-1 border-slate-300 rounded-md hover:bg-slate-50 transition-all duration-150"
                 >
-                  <div className="flex justify-between px-1 py-1">
+                  <div className="flex justify-between px-1">
                     <div className="flex gap-2 items-start">
-                      <IoFolderOpen className="mt-0.5 text-primary" />
-
+                      
                       <div className="leading-tight">
-                        <h3 className="text-primary font-semibold">
+                        <h3 className="text-primary font-semibold md:text-xl">
                           {capitalize(proj.name)}
                         </h3>
-                        <p className="text-slate-800 text-xs">
+                        <p className="text-slate-700 text-xs md:text-base">
                           {capitalize(proj.description)}
                         </p>
                       </div>
                     </div>
 
-                    <MdChevronRight className="self-center" />
+                    <MdChevronRight className="self-center text-slate-700" />
                   </div>
                 </Link>
               ))
@@ -166,9 +188,9 @@ const Dashboard = () => {
 
         {/* recent tasks */}
         <div className="bg-card border border-border px-2 py-3 rounded-lg mt-4">
-          <h3 className="">Recent Tasks</h3>
+          <h3 className="font-semibold text-primary">Recent Tasks</h3>
 
-          <div className="flex flex-col gap-2 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4">
             {loading ? (
               <div className="space-y-2">
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -177,11 +199,12 @@ const Dashboard = () => {
               </div>
             ) : (
               tasks.slice(0, 6).map((task) => (
-                <div
+                <Link
+                to={`/projects/${task.project_id}`}
                   key={task.id}
-                  className="bg-background border px-2 py-2 border-slate-300 rounded-md"
+                  className="bg-background border px-2 py-2 border-slate-300 rounded-md hover:bg-slate-50 transition-all duration-150"
                 >
-                  <h3 className="text-primary font-semibold">
+                  <h3 className="text-primary md:text-xl font-semibold">
                     {capitalize(task.title)}
                   </h3>
                   <div className="flex gap-1 items-center mt-1">
@@ -196,7 +219,7 @@ const Dashboard = () => {
                       {statusConfig[task.status]?.label}
                     </span>
                   </div>
-                </div>
+                </Link>
               ))
             )}
           </div>
