@@ -14,16 +14,23 @@ import Profile from "./pages/Profile";
 import EditTask from "./pages/tasks/EditTask";
 import Toast from "./components/Toast";
 import AdminRoute from "./components/AdminRoute";
+import Loader from "./components/loaders/Loader";
+import Sidebar from "./components/Sidebar";
 
 const App = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <div className="min-h-screen flex justify-center items-center"><Loader/></div>;
   }
   return (
     <div className="bg-background h-screen w-full">
       <Toast />
+      {user && <Sidebar/>}
+
+      <div className={user ? 'lg:pl-64' : ''}>
+        <div className="">
+         
       <Routes>
         <Route
           path="/"
@@ -102,7 +109,10 @@ const App = () => {
           }
         />
       </Routes>
+       </div> 
+      </div>
       {user && <BottomNav />}
+      
     </div>
   );
 };

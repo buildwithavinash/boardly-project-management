@@ -8,7 +8,7 @@ import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 const BottomNav = () => {
   const { role } = useAuth();
   return (
-    <div className="px-4 fixed bottom-0 left-0 right-0 h-14 bg-background/20 backdrop-blur-md border-t border-slate-300 z-100">
+    <div className="px-4 fixed bottom-0 left-0 right-0 h-14 bg-background/20 backdrop-blur-md border-t border-slate-300 z-100 md:hidden">
       <div className="flex justify-between text-2xl text-primary h-full w-full items-center">
         <NavLink
           to="/dashboard"
