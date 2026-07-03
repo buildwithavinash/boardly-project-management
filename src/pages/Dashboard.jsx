@@ -99,7 +99,7 @@ const Dashboard = () => {
         <div className="text-center font-semibold text-slate-900">
           <div className="flex text-center justify-center items-baseline gap-0.5">
           <p className="text-slate-800 text-lg lg:text-xl">{getGreeting()},</p> 
-          <h2 className="text-xl lg:text-3xl font-semibold text-primary">{capitalize(userInfo?.name)}</h2>
+          <h2 className="text-xl lg:text-2xl font-semibold text-primary">{capitalize(userInfo?.name)}</h2>
           </div>
           {!loading && (
             <p className="text-slate-800 text-sm lg:text-xl">{getStatusMessage()}</p>
@@ -110,11 +110,11 @@ const Dashboard = () => {
         <div>{error && <p>{error}</p>}</div>
 
         {/* stats */}
-        <div className="grid  grid-cols-2 lg:grid-cols-4 gap-1 mt-2 lg:mt-4">
+        <div className="grid  grid-cols-2 lg:grid-cols-4 gap-1 mt-2 lg:mt-6">
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className={`${stat.bg} ${stat.text} rounded-2xl p-2 text-center`}
+              className={`${stat.bg} ${stat.text} rounded-2xl p-2 text-center border border-slate-300`}
             >
               <p className="text-3xl font-bold mt-2">{stat.value}</p>
               <p className="text-sm font-medium mt-1 opacity-80">
@@ -125,18 +125,18 @@ const Dashboard = () => {
         </div>
 
         {/* recent projects */}
-        <div className="bg-card border border-border px-2 py-3 rounded-lg mt-4">
+        <div className="bg-card border border-slate-200 px-2 py-3 lg:p-4 rounded-lg mt-4 lg:mt-6">
           <div className="flex justify-between">
-            <h2 className="text-primary font-semibold">Recent Projects</h2>
+            <h2 className="text-primary font-semibold lg:text-xl">Recent Projects</h2>
             <Link
               to="/projects"
-              className="flex bg-background justify-between items-center px-2 py-0.5 text-xs rounded-lg gap-2 border border-border hover:bg-slate-50 transition-all duration-150"
+              className="flex bg-background justify-between items-center px-2 py-0.5 text-xs rounded-lg gap-2 border border-slate-200 hover:bg-slate-50 transition-all duration-150"
             >
               See all <IoIosArrowRoundForward />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4 ">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4">
             {!loading && projects.length === 0 && (
               <div>
                 <h3 className="text-slate-800 font-semibold">No projects yet.</h3>
@@ -163,7 +163,7 @@ const Dashboard = () => {
                 <Link
                   to={`/projects/${proj.id}`}
                   key={proj.id}
-                  className="bg-background border p-1 border-slate-300 rounded-md hover:bg-slate-50 transition-all duration-150"
+                  className="bg-background border p-1 lg:p-2 border-slate-200 rounded-md hover:bg-slate-50 transition-all duration-150"
                 >
                   <div className="flex justify-between px-1">
                     <div className="flex gap-2 items-start">
@@ -172,7 +172,7 @@ const Dashboard = () => {
                         <h3 className="text-primary font-semibold md:text-xl">
                           {capitalize(proj.name)}
                         </h3>
-                        <p className="text-slate-700 text-xs md:text-base">
+                        <p className="text-slate-600 text-xs md:text-base">
                           {capitalize(proj.description)}
                         </p>
                       </div>
@@ -187,8 +187,8 @@ const Dashboard = () => {
         </div>
 
         {/* recent tasks */}
-        <div className="bg-card border border-border px-2 py-3 rounded-lg mt-4">
-          <h3 className="font-semibold text-primary">Recent Tasks</h3>
+        <div className="bg-card border border-slate-200 px-2 py-3 lg:p-4 rounded-lg mt-4 lg:mt-6">
+          <h3 className="font-semibold text-primary lg:text-xl">Recent Tasks</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4">
             {loading ? (
@@ -202,7 +202,7 @@ const Dashboard = () => {
                 <Link
                 to={`/projects/${task.project_id}`}
                   key={task.id}
-                  className="bg-background border px-2 py-2 border-slate-300 rounded-md hover:bg-slate-50 transition-all duration-150"
+                  className="bg-background border px-2 py-2 border-slate-200 rounded-md hover:bg-slate-50 transition-all duration-150"
                 >
                   <h3 className="text-primary md:text-xl font-semibold">
                     {capitalize(task.title)}

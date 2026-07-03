@@ -192,7 +192,7 @@ const ProjectDetail = () => {
             <div className="flex items-center justify-between gap-2">
               <button
                 onClick={onEdit}
-                className="border border-slate-300 rounded-md px-3 py-2 cursor-pointer"
+                className="border border-slate-200 rounded-md px-3 py-2 cursor-pointer"
               >
                 <CiEdit />
               </button>
@@ -244,7 +244,7 @@ const ProjectDetail = () => {
               </div>
             </div>
             {/* progress bar */}
-            <div className="mt-4 border border-border bg-card p-4 rounded-xl flex items-center justify-center gap-4">
+            <div className="mt-4 border border-slate-200 bg-card p-4 rounded-xl flex items-center justify-center gap-4">
               <div
                 className="relative size-10 rounded-full flex items-center justify-center transition-all duration-200"
                 style={{
@@ -272,7 +272,7 @@ const ProjectDetail = () => {
         )}
 
         {/* tasks */}
-        <div className="border border-border bg-card rounded-md p-2 mt-4">
+        <div className="border border-slate-200 bg-card rounded-md p-2 mt-4">
           <div className="flex justify-between items-center">
             <h3 className="text-center text-primary font-medium text-2xl">
               Tasks
@@ -313,7 +313,7 @@ const ProjectDetail = () => {
             </p>
           )}
 
-          <div className="mt-4 flex flex-col gap-2">
+          <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
             {filteredTasks.map((task) => (
               <TaskCard
                 key={task.id}

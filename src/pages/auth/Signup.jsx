@@ -100,7 +100,7 @@ const Signup = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="border border-slate-300 bg-card flex flex-col gap-4 p-8 rounded-md mt-4 shadow-xs"
+          className="border border-slate-200 bg-card flex flex-col gap-4 p-8 rounded-md mt-4 shadow-xs"
         >
           <input
             type="text"
@@ -109,7 +109,7 @@ const Signup = () => {
             value={formData.name}
             onChange={handleChange}
             placeholder="Name"
-            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
+            className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
           />
 
           <input
@@ -119,7 +119,7 @@ const Signup = () => {
             value={formData.email}
             placeholder="Email"
             onChange={handleChange}
-            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
+            className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
           />
 
           <input
@@ -129,7 +129,7 @@ const Signup = () => {
             value={formData.password}
             placeholder="Password"
             onChange={handleChange}
-            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
+            className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
           />
 
           <div className="flex items-center gap-2 flex-nowrap">
@@ -140,7 +140,7 @@ const Signup = () => {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
+              className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/10 transition"
             >
               <option value="admin">Admin</option>
               <option value="member">Member</option>

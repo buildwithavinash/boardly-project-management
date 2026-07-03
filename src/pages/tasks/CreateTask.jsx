@@ -87,10 +87,9 @@ const CreateTask = () => {
     navigate(`/projects/${id}`);
   };
   return (
-    <Container classname="pb-20">
-      {/* handle height and flex */}
-      <div className="min-h-screen flex flex-col">
-        <div className="pt-3 pb-2 bg-background sticky top-0 z-30 border-b border-slate-200/20">
+    <div className="min-h-screen flex flex-col">
+
+    <div className="flex justify-between items-center pt-3 px-2 pb-2 bg-background sticky top-0 z-30 border-b border-slate-100/20 w-full shadow-xs">
           <button
             onClick={() => navigate(-1)}
             className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
@@ -99,16 +98,20 @@ const CreateTask = () => {
           </button>
         </div>
 
+    <Container classname=" flex-1 flex items-center justify-center">
+     
+        
+
     {/* second element (wrapper) for flex-1 */}
     <div className="flex-1 mx-auto px-2 flex items-center justify-center">
         <div className="max-w-md w-full">
-          <h2 className="mt-4 text-3xl text-center font-medium text-primary">
+          <h2 className="mt-4 text-2xl lg:text-3xl text-center font-medium text-primary">
             Create a task
           </h2>
         
         <form
           onSubmit={handleSubmit}
-          className="border border-border bg-card rounded-md p-4 flex flex-col gap-2 mt-4 justify-center"
+          className="border border-slate-200 bg-card rounded-md p-4 flex flex-col gap-2 mt-4 justify-center"
         >
           <input
             type="text"
@@ -116,14 +119,14 @@ const CreateTask = () => {
             value={formData.title}
             onChange={handleChange}
             placeholder="Task name"
-            className="border border-slate-300 bg-background focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
+            className="border border-slate-200 bg-background focus:border-slate-200 focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
           />
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
             placeholder="Description"
-            className="border border-slate-300 bg-background focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
+            className="border border-slate-200 bg-background focus:border-slate-200 focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
           />
 
           <div className="flex items-center gap-2">
@@ -136,7 +139,7 @@ const CreateTask = () => {
               placeholder="Pick a date"
               value={formData.due_date}
               onChange={handleChange}
-              className="flex-1 bg-background flex items-center justify-center border px-4 py-2 border-border rounded-md"
+              className="flex-1 bg-background flex items-center justify-center border px-4 py-2 border-slate-200 rounded-md"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -147,7 +150,7 @@ const CreateTask = () => {
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="border border-slate-300 focus:border-border bg-background focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1"
+              className="border border-slate-200 focus:border-slate-200 bg-background focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1"
             >
               <option value="pending">Pending</option>
               <option value="inProgress">In progress</option>
@@ -163,7 +166,7 @@ const CreateTask = () => {
               name="priority"
               value={formData.priority}
               onChange={handleChange}
-              className="border border-slate-300 focus:border-border bg-background focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1"
+              className="border border-slate-200 focus:border-slate-200 bg-background focus:outline-none transition-all duration-200 px-4 py-2 rounded-md flex-1"
             >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -182,7 +185,7 @@ const CreateTask = () => {
               name="assigned_to"
               value={formData.assigned_to}
               onChange={handleChange}
-              className="border border-slate-300 focus:border-border bg-background focus:outline-none transition-all duration-200 px-1 py-2 rounded-md flex-1"
+              className="border border-slate-200 focus:border-slate-200 bg-background focus:outline-none transition-all duration-200 px-1 py-2 rounded-md flex-1"
             >
               <option value="">Select member</option>
               {members.map((member) => (
@@ -207,8 +210,9 @@ const CreateTask = () => {
 
         
           
-      </div>
+      
     </Container>
+    </div>
   );
 };
 

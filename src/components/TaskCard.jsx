@@ -62,7 +62,7 @@ const TaskCard = ({
       )}
       <div
         onClick={() => setShowDetailModal(true)}
-        className="relative border border-border bg-background p-2 rounded-lg cursor-pointer hover:shadow-md hover:bg-slate-50 transition-all"
+        className="relative border border-slate-300 bg-background p-2 rounded-lg cursor-pointer hover:bg-slate-50 transition-all"
       >
         <div className="leading-tight">
           <h2 className="font-semibold text-xl text-primary">
@@ -141,7 +141,7 @@ const TaskCard = ({
                 e.stopPropagation();
                 navigate(`/task/${task.id}/edit`);
               }}
-              className="border border-slate-300 rounded-md p-1 cursor-pointer"
+              className="border border-slate-200 rounded-md p-1 cursor-pointer"
             >
               <CiEdit />
             </button>

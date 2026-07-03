@@ -65,28 +65,28 @@ const CreateProject = () => {
   };
 
   return (
-    <Container>
-      <div className="min-h-screen flex flex-col">
-        <div>
+    <div className="min-h-screen flex flex-col">
+   <div className="flex justify-between items-center pt-3 px-2 pb-2 bg-background sticky top-0 z-30 border-b border-slate-100/20 w-full shadow-xs"  >
           <button
             onClick={() => navigate("/projects")}
-            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200 mt-3"
+            className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
           >
             <IoIosArrowRoundBack />
           </button>
         </div>
-
-        <div className='mx-auto px-2 flex-1 flex items-center justify-center'>
+    <Container classname="flex-1 flex items-center justify-center">
+      <div className="flex justify-center items-center">
+        
 
         <div className="w-full max-w-md">
           <div className=''>
-          <h2 className="text-2xl text-center font-medium text-primary">
+          <h2 className="text-2xl lg:text-3xl text-center font-medium text-primary">
             Create New Project
           </h2>
         </div>
         <form
           onSubmit={handleSubmit}
-          className="border border-border bg-card p-4 rounded-md flex flex-col gap-4 mt-4 justify-center"
+          className="border border-slate-200 bg-card p-4 lg:p-6 rounded-md flex flex-col gap-4 mt-4 justify-center"
           >
           <input
             type="text"
@@ -95,14 +95,14 @@ const CreateProject = () => {
             onChange={handleChange}
             required
             placeholder="Project Name"
-            className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
+            className="border border-slate-200 focus:border-slate-200 focus:outline-none transition-all duration-200 px-4 py-2 lg:py-3 rounded-md bg-background"
           />
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
             placeholder="Project Description"
-            className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
+            className="border border-slate-200 focus:border-slate-200 focus:outline-none transition-all duration-200 px-4 py-2 lg:py-3 rounded-md bg-background"
           />
 
           <div className="flex gap-2 items-center">
@@ -114,7 +114,7 @@ const CreateProject = () => {
               name="due_date"
               value={formData.due_date}
               onChange={handleChange}
-              className="border border-slate-300 bg-background focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
+              className="border border-slate-200 bg-background focus:border-slate-200 focus:outline-none transition-all duration-200 px-4 py-2 lg:py-3 rounded-md"
             />
           </div>
 
@@ -130,9 +130,10 @@ const CreateProject = () => {
         </form>
         </div>
         
-        </div>
+        
       </div>
     </Container>
+     </div>
   );
 };
 

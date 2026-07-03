@@ -5,15 +5,16 @@ const ConfirmModal = ({
   onConfirm,
   onCancel,
   message = `This can't be undone`,
-  confirmText = 'Delete',
+  confirmText = 'Yes, Delete',
+  cancelText= 'No, Cancel',
 }) => {
   return (
     <>
       <div className="bg-slate-500/80 h-screen w-full fixed inset-0 flex justify-center items-center z-100">
-        <div className="border border-slate-300 bg-white rounded-md p-4 relative">
+        <div className="border border-slate-300 bg-slate-100 rounded-md p-4 relative">
           <button
             onClick={onCancel}
-            className="bg-slate-50 rounded-lg h-6 w-6 flex justify-center items-center text-sm text-slate-600 absolute top-2 right-2 cursor-pointer"
+            className=" rounded-lg h-6 w-6 flex justify-center items-center text-sm text-slate-800 absolute top-2 right-2 cursor-pointer"
           >
             <IoMdClose />
           </button>
@@ -25,13 +26,13 @@ const ConfirmModal = ({
             <div className="flex gap-2 items-center justify-center mt-4">
               <button
                 onClick={onCancel}
-                className="border border-slate-300 font-semibold bg-slate-50 text-slate-600 px-4 py-1 rounded-sm cursor-pointer"
+                className="border border-slate-300 font-semibold bg-slate-200 hover:opacity-70 transition-all duration-150 text-slate-600 px-4 py-1 rounded-sm cursor-pointer"
               >
-                Cancel
+                {cancelText}
               </button>
               <button
                 onClick={onConfirm}
-                className="border border-red-300 bg-red-500 font-semibold text-white px-4 py-1 rounded-sm cursor-pointer"
+                className="border border-red-300 bg-red-500 hover:opacity-70 transition-all duration-150 font-semibold text-white px-4 py-1 rounded-sm cursor-pointer"
               >
                {confirmText}
               </button>

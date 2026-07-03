@@ -101,8 +101,9 @@ const EditProject = () => {
   }
 
   return (
-    <Container>
-      <div>
+    <div className="min-h-screen flex flex-col">
+
+      <div className="flex justify-between items-center pt-3 px-2 pb-2 bg-background sticky top-0 z-30 border-b border-slate-100/20 w-full shadow-xs">
         <button
           onClick={() => navigate(-1)}
           className="flex gap-0.5 items-center font-medium bg-slate-200 rounded-md px-2 py-2 cursor-pointer hover:opacity-80 transition-all duration-200"
@@ -110,14 +111,16 @@ const EditProject = () => {
           <IoIosArrowRoundBack />
         </button>
       </div>
+    <Container classname="flex flex-1 justify-center items-center flex-col">
+      
 
-      <h2 className="mt-4 text-3xl text-center font-medium text-primary">
+      <h2 className="text-2xl lg:text-3xl text-center font-medium text-primary">
         Edit Project
       </h2>
 
       <form
         onSubmit={handleSubmit}
-        className="border border-border bg-card p-4 rounded-md flex flex-col gap-2 mt-8 justify-center"
+        className="border border-slate-200 bg-card p-4 rounded-md flex flex-col gap-2 mt-4 justify-center"
       >
         <input
           type="text"
@@ -126,7 +129,7 @@ const EditProject = () => {
           onChange={handleChange}
           placeholder="Project Name"
           required
-          className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
+          className="border border-slate-200 focus:border-slate-200 focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
         />
 
         <textarea
@@ -134,7 +137,7 @@ const EditProject = () => {
           value={formData.description}
           onChange={handleChange}
           placeholder="Project Description"
-          className="border border-slate-300 focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
+          className="border border-slate-200 focus:border-slate-200 focus:outline-none transition-all duration-200 px-4 py-2 rounded-md bg-background"
         />
 
         <div className="flex gap-2 items-center">
@@ -147,7 +150,7 @@ const EditProject = () => {
             name="due_date"
             value={formData.due_date}
             onChange={handleChange}
-            className="border border-slate-300 bg-background focus:border-border focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
+            className="border border-slate-200 bg-background focus:border-slate-200 focus:outline-none transition-all duration-200 px-4 py-2 rounded-md"
           />
         </div>
 
@@ -162,6 +165,7 @@ const EditProject = () => {
         </button>
       </form>
     </Container>
+    </div>
   );
 };
 

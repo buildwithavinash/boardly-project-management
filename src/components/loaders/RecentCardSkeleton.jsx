@@ -1,6 +1,6 @@
 const RecentCardSkeleton = () => {
   return (
-    <div className="bg-background border border-slate-300 rounded-md p-2 animate-pulse">
+    <div className="bg-background border border-slate-200 rounded-md p-2 animate-pulse">
       <div className="flex justify-between">
         <div className="flex gap-2 items-start flex-1">
           {/* Folder Icon */}

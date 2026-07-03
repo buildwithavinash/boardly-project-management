@@ -1,6 +1,20 @@
 import { BiSort } from "react-icons/bi";
 import { CiFilter } from "react-icons/ci";
 
+const statusOptions = {
+  all: "All Status",
+  pending: "Pending",
+  inProgress: "In Progress",
+  done: "Done",
+};
+
+const priorityOptions = {
+  all: "All Priority",
+  low: "Low",
+  medium: "Medium",
+  high: "High",
+};
+
 const TaskFilters = ({
   role,
   currentFilter,
@@ -56,7 +70,7 @@ const TaskFilters = ({
                   className={`w-full text-left px-3 py-2 text-sm hover:bg-slate-50
                             ${statusFilter === option ? "text-primary font-medium" : "text-slate-600"}`}
                 >
-                  {option === "all" ? "All Status" : option}
+                  {statusOptions[option]}
                 </button>
               ))}
             </div>
@@ -88,7 +102,7 @@ const TaskFilters = ({
                   className={`w-full text-left px-3 py-2 text-sm hover:bg-slate-50
                             ${priorityFilter === option ? "text-primary font-medium" : "text-slate-600"}`}
                 >
-                  {option === "all" ? "All" : option}
+                  {priorityOptions[option]}
                 </button>
               ))}
             </div>

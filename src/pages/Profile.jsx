@@ -44,7 +44,7 @@ const Profile = () => {
 
         <div className="mt-4">
           {/* <h3 className="font-semibold text-slate-800">Account</h3> */}
-          <div className="flex flex-col bg-card border border-border/80 p-2 rounded-lg">
+          <div className="flex flex-col bg-card border border-slate-200/80 p-2 lg:p-4 rounded-lg">
             <div className="flex justify-between">
               <p>Name</p>
               <p className="text-slate-700">{capitalize(displayName)}</p>
@@ -77,7 +77,7 @@ const Profile = () => {
           </p>
           <button
             onClick={() => setShowLogoutModal(true)}
-            className="bg-red-500 w-full px-4 py-1.5 rounded-md text-white font-semibold cursor-pointer hover:opacity-80 transition-all duration-200"
+            className="bg-red-500 w-full px-4 py-1.5 rounded-md lg:w-fit text-white font-semibold cursor-pointer hover:opacity-80 transition-all duration-200"
           >
             Logout
           </button>

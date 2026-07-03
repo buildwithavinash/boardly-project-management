@@ -22,7 +22,7 @@ const TaskDetailModal = ({
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm  flex items-center justify-center z-50 p-4">
-      <div className="bg-white relative rounded-lg border border-border max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl scrollbar-thin scrollbar-thumb-primary/80">
+      <div className="bg-white relative rounded-lg border border-slate-200 max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl scrollbar-thin scrollbar-thumb-primary/80">
         {/* Header */}  
         <div className="flex justify-between items-start p-6 bg-slate-50">
           <div className="flex items-center justify-between w-full">
@@ -122,10 +122,10 @@ const TaskDetailModal = ({
         </div>
 
         {/* Footer */}
-        <div className="flex sticky bottom-0 left-0 right-0 gap-2  border-t border-border px-2 py-4 bg-slate-50">
+        <div className="flex sticky bottom-0 left-0 right-0 gap-2  border-t border-slate-200 px-2 py-4 bg-slate-50">
           <button
             onClick={onClose}
-            className="flex-1 border border-slate-300 px-4 py-2 rounded-md hover:bg-slate-100 transition-colors font-medium text-sm cursor-pointer text-slate-700"
+            className="flex-1 border bg-slate-100 border-slate-400 px-4 py-2 rounded-md hover:bg-slate-100 transition-colors font-medium text-sm cursor-pointer text-slate-700"
           >
             Close
           </button>
